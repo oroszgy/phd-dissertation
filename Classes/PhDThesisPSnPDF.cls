@@ -306,6 +306,8 @@ supported!}
   \number\PHD@hour\fi:\ifnum\PHD@minute<10 0\fi\number\PHD@minute
 }
 
+\RequirePackage{todonotes}
+\newcommand\todoin[2][]{\todo[inline, caption={2do}, #1]{\begin{minipage}{\textwidth-4pt}#2\end{minipage}}}
 % ******************************* Draft Mode ***********************************
 % Initializing Draft Text
 \newcommand\SetDraftText[1]{}
