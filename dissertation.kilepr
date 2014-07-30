@@ -187,10 +187,10 @@ order=3
 
 [item:Chapter2/chapter2.tex]
 archive=true
-column=0
+column=50
 encoding=UTF-8
 highlight=LaTeX
-line=28
+line=44
 mode=LaTeX
 open=true
 order=2
@@ -356,10 +356,10 @@ JumpList=
 ViMarks=.,17,35,[,17,34,],17,35
 
 [view-settings,view=0,item:Chapter2/chapter2.tex]
-CursorColumn=0
-CursorLine=28
+CursorColumn=50
+CursorLine=44
 JumpList=
-ViMarks=.,28,0,[,28,0,],28,0
+ViMarks=.,44,49,[,44,33,],44,49
 
 [view-settings,view=0,item:Chapter3/chapter3.tex]
 CursorColumn=56
