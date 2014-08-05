@@ -1,76 +1,243 @@
-%*****************************************************************************************
-%*********************************** Second Chapter **************************************
-%*****************************************************************************************
-
-\chapter{Algorithms for Morphological Disambiguation}
+\chapter{Algorithms for full morphological disambiguation}
 
 \section{Introduction}
 
-\todoin{
-\begin{enumerate}
- \item Focused research aim: effective algorithms that can be easily domain adapted
- \item importance of the problems
- \begin{enumerate}
-  \item how does lemmatization relate to the full Disambiguation problem
-  \item importance of the combination 
- \end{enumerate}
+\subsection{Motivation}
 
- \item historical notes (?)
-\end{enumerate}
-}
+This chapter draws on research in morphological tagging of languages which are so-called less-resourced (those that lack linguistic resources e.g. manually annotated corpora).
+Although several attempts have been made on developing part-of-speech tagging algorithms since the 1960’s (e.g.~\cite{}), those were focusing mainly on English.
+Further on, in contrast to the consensus of NLP scientist that these studies resulted in methods that commonly accepted as solutions to the problem (~\cite{}), there are still many open questions.
+Most of the previous work is only concentrating on increasing the accuracy of taggers on news text, many other problems (such as tagging in less-resourced domains) are still barely touched.
+Further on there has been an increasing interest on processing texts in less-resourced languages recently.
+These are usually morphologically rich and are agglutinative or inflectional which pose new challenges to researchers.
 
-% \subsection{Background}
+First of all, in the case of a morphologically rich language, tagging words with only their part-of-speech is insufficient, since the complex morphosyntactic features carried by the inflectional morphemes could not be represented in such small tagsets that have less than a hundred different labels.
+Furthermore, morphosyntactic tagging is still just a subtask of the full morphological disambiguation.
+In addition to a full morphosyntactic tag, the lemma of each word also needs to be identified.
+On the contrary, most of the currently available taggers only concentrate on determining the morphological tag but not the lemma, thus doing just half of the job.
 
+Next, the data sparseness issue of the tagging task is remarkable for morphologically rich languages.
+If we compare (cf.~\cite{}) agglutinative languages like Hungarian or Finnish with English in terms of the coverage of vocabulary by a corpus of a given size, we find that although there are a lot more different word forms in the corpus, these still cover a much smaller percentage of possible word forms of the lemmata in the corpus than in the case of English.
+On the one hand, a 10 million word English corpus has less than 100,000 different word forms~\cite{}, a corpus of the same size for Finnish or Hungarian contains well over 800,000.
+On the other hand, while an open class English word has about 4--6 different word forms, it has several hundred or thousand different productively suffixed forms in agglutinative languages.
+Moreover, there are much more different possible morphosyntactic tags in the case of these languages (corresponding to the different possible inflected forms) than in English (several thousand vs. a few dozen).
+Thus the problem is threefold:
 
-
-% \section{Experiments}
-
-\section{Context Dependent Statistically Driven Lemmatization}
-
-\todoin{importance of the problem}
-
-\subsection{Background}
-
-\todoin{
-  \begin{itemize}
-    \item commonly used methods for Lemmatizing: CST, ...
-    \item Uses cases for other languages
-  \end{itemize}
-}
-
-\subsection{Methods}
-
-\todoin{
 \begin{itemize}
- \item suffixtree (ezerkől itt írjak vagy máshol?)
- \item TnT's theta
- \item mention n-gram methods
+  \item an overwhelming majority of possible word forms of lemmata occurring in the corpus is totally absent,
+  \item word forms that do occur in the corpus have much fewer occurrences, and
+  \item there are also much fewer examples of tag sequences, what is more, many tags may not occur in the corpus at all.
 \end{itemize}
-}
+Considering lemmatization, several studies have revealed that for morphologically not very rich languages like English, dictionary- or rule-based lemmatization/stemming methods yields acceptable results~\cite{}.
+In contrast, ambiguity is also present in lemmatization for highly inflectional and agglutinative languages~\cite{Hajic,Szlovénok,Morfette}, therefore the identification of the correct lemma is usually not trivial.
+It is even more complicated in the cases of words which are previously not seen by the tagger or unknown to the morphological analyzer~\cite{}.
+In Hungarian, for example, a wordform can be mapped to X possible lemmata in average (the same number for English is X).
+Furthermore, if we restrict the morphological analyses by their morphosyntactic label X\% of the tokens are ambiguous by their lemmata.
+An example for this is the class of verbs that end in -ik in their third person singular present tense indicative, which is the customary lexical form (i. e. the lemma) of verbs in Hungarian.
+Another class of verbs has no suffix in their lemma.
+The two paradigms differ only in the form of the lemma, so inflected forms can belong to the paradigm of either an -ik final or an non-ik final verb and many verbs (especially ones containing the productive derivational suffix -z/-zik) have an ambiguous lemma.
 
-\subsection{Evaluation}
+Morphological tagging is a fundamental task in NLP, which is almost always accomplished in the beginning of a processing chain.
+Accordingly effective algorithms are required to perform such tasks.
+Pursuing this further, to create a morphologically annotated corpus for a resource-scarce language, an iterative workflow is a feasible approach:
 
-\section{Hybrid Morphological Disambiguation}
+\begin{itemize}
+  \item first, a very small subset of the corpus is disambiguated manually,
+  \item then a tagger is trained on this subset,
+  \item after that, another subset of the corpus is tagged automatically and corrected manually, yielding a new, bigger training corpus and this process is repeated. 
+\end{itemize}
+For this process to be in fact feasible, a high accuracy tagger is needed which performs well even when just a small amount of training data is available. 
 
-\subsection{Background}
+In order to reach the highest accuracy in the tagging task, which is necessary in certain circumstances, beside bias variance should be considered as well.
+Therefore to reach a higher accuracy in certain circumstances combination of different machine learning algorithms is a viable approach.
+The observation that suggests this methodology is that systems based on different algorithms may result in different sort of errors.
+However, this idea is present both in the Machine Learning and NLP literature, there is not much work on the full morphological tagging task in the case of morphologically rich languages. 
 
-\todoin{
-  \begin{itemize}
-    \item Commonly used methods for Pos Tagging: Rules, Brill, Tnt, HunPos, Maxent modells, CRF modells, SVM modells
-    \item Uses cases for other languages
-  \end{itemize}
-}
+In this chapter, approaches on developing effective tagging algorithms is presented.
+First a lemmatization method is described that achieves state-of-the-art accuracy, then a complex morphological tagging algorithm is presented which is capable of disambiguating morphological analyses in the case of morphologically rich languages.
+Finally I present a combination method which is built on top of two morphological tagging system, to raise the ceiling of the tagging accuracy.
+Before describing the details of the algorithms created related work is reviewed in \ref{} section.
+Finally, the related theses sum up the new scientific results achieved.
 
-\subsection{Methods}
+\subsection{Background   }
 
-\subsection{Evaluation}
+\textbf{1.2.1 Part-of-speech tagging methods }
 
-\section{Combining Morphological Disambiguation Tools}
+Part-of-speech tagging is a well-known problem of natural language processing, that is first attempts date back to the early 60’s.
+While mostly linguistic approaches~\cite{} were successful in that time, recently data-driven methods dominate the literature.
+They became popular~\cite{} in the 70’s due to the growing amount of annotated corpora.
+During the past 50 years a huge amount of attempts have been published in the field of PoS tagging while this work has the limitation in describing all of them Therefore, I describe two important family of methods first, then highlight only the most important methods and their applications.
 
-\subsection{Background}
+\paragraph{Overview of general methods}
 
-\subsection{Methods}
+Most of the data-driven algorithms rely on supervised machine learning algorithms which usually observing the task as a classification problem where words need to be labeled by their part-of-speech class.
+Although there are attempts~\cite{} which classify words locally, most of the studies handling tagging as a sequence classification problem (e.g.~\cite{}), where the goal is to predict series of labels for sentences.
+As a result, the basic unit of PoS tagging is the sentence not the word.
+Further on, sequence tagging tasks are often solved using statistical modelling techniques, since having a huge amount of annotated data, a decent method can learn important regularities, and applying this knowledge can yield highly accurate results.
+Such algorithms can be further categorized as generative or discriminative learners.
+While generative classifiers model the joint probability $p(x,y)$ and predicts $y$ labels for $x$ inputs by estimating the $p(y|x)$ conditional probability using the Bayes rule, discriminative algorithms learn models for $p(x|y)$ directly.
 
-\subsection{Evaluation}
+Hidden Markov models are a notable part of generative models.
+From this point of view the tagging task can be formulated as it is in equation \eqref{}.
+One seeks a tag sequence for the words which maximize the joint probability.
+With the application of the Bayes-rule (see \eqref{}) the model is decomposed to a lexical model ($P(w_1^n|t_1^n)$) and a tag transition model ($P(t_1^n)$).
+
+\begin{equation}\argmax_{t_1^n} P(w_1^n, t_1^n)\end{equation}
+
+\begin{equation}\argmax_{t_1^n}  P(w_1^n|t_1^n) P(t_1^n)\end{equation}
+
+\begin{equation}P(w_1^n|t_1^n) \approx \prod_i P(w_i|t_i)\end{equation}
+
+\begin{equation}P(t_1^n) \approx \prod_i P(t_i|t_{i-1}, t_{i-2}, \dots, t_{i-k})\end{equation}
+
+Since the model cannot be directly estimated, markovian assumptions (see equations \eqref{} \eqref{}) are applied to simplify the problem.
+A special case of the model when $k=2$ in equation \eqref{}  is usually referred as trigram tagging methods.
+A successful application of such algorithms was first introduced by Brants~\cite{} in 2000.
+Since then it has been adapted numerous times for different scenarios (e.g.~\cite{IceNLP,Finntagger,Hunpos,Oravecz}).
+The tool is based on interpolated trigram transition estimates (see \eqref{}) which is combined with a case sensitive unigram lexical model.
+In order to give a better estimation for unknown words it incorporates a suffix based guessing algorithm as well.
+The author suggests to use the Viterbi algorithm for the decoding phase.
+Recently a polished and improved reimplementation of the system get published by Halácsy et al.
+
+There is also a large volume of published research describing the application of discriminative models.
+One of the most popular methods is the maximum entropy framework which was first successfully applied for NLP by Ratnaparkhi~\cite{}.
+In such systems the probability masses for possible tag sequences (cf. equation \eqref{}) are estimated directly to find the the proper annotation of the sentence.
+
+\begin{equation} \argmax_{t_1^n} P(t_1^n | w_1^n) \end{equation}
+
+To be able to calculate the parameters of the model the task is reformulated applying markovian assumptions (see equation \eqref{})\footnote{ $h$ denotes the context of a tag which may involve both words and tags. }.
+Hence, this can be calculated directly using logistic regression (cf.  equation \eqref{}).
+For the best performance studies suggest using diverse features\footnote{ A feature function $f_i$ extracts a relevant piece of information by being an indicator functions.} ($f_i$) depending on the task. ($\lambda_i$) parameters are usually iteratively, while the decoding is mostly carried out with beam search.
+
+\begin{equation} P(t_1^n | w_1^n) \approx \prod_i p(t_i|h_i) \end{equation}
+
+\begin{equation}P(t|h) = \frac{\exp{\sum_j{\lambda_j f_j(t,h)}}}{\sum_{t^\prime}\exp{\sum_j{\lambda_j f_j(t^\prime,h)}}}\end{equation}
+
+Over the years numerous applications and tools have grown out from the work of Ratnaparkhi.
+A popular and efficient successor of MXPOST is the Stanford tagger~\cite{}.
+It extends the original model increasing the context to the right thus resulting in a cyclic dependency network.
+Another related method is the so called conditional random field algorithm which overcomes some serious limitations of the model~\cite{Lafferty2001}.
+It uses a global exponential model to estimate the parameters of the features instead of the local ones, thus resulting in better probability estimates.
+
+Beside the sequence labeling approach, other generic machine learning methods were also successfully applied to solve the problem.
+There are applications using Support Vector Machines~\cite{SVMTAgger}, Decision list classifiers~\cite{}, Decision Tree learners~\cite{lengyel}, Instance Based algorithms [lengyel,mások], furthermore even perceptron learning~\cite{lengyel} and neural networks were applied recently [fromscratchcikk,Collins].
+Depending on the architecture, most of the models incorporates well-known features such neighbouring words, suffixes, neighbouring tags.
+These are essential indicators, which leads the way for a ML algorithm.
+
+Beside pure statistical algorithms, hybrid approaches successfully deal with the task as well.
+An example to this is Brill’s transformation based learning~\cite{} which is a mixture of data-driven and symbolic approaches.
+The algorithm needs transformation rule templates from the user before the training phase, but learns disambiguation rules from the training data automatically.
+Another sort of hybridization methods usually employ tag dictionaries or hand-written rules.
+Previous research findings (e.g.~\cite{Hajic,valamelyik_biomedical}) suggest using hand-crafted lexicons to achieve better accuracy.
+As we see below, these linguistic resources are even more important in the case of a morphologically.
+
+\paragraph{Application to morphologically rich languages}
+
+Recently more and more studies get published which successfully adopt one of the ML methods  described above for an inflectional or an agglutinative language.
+However, they share some things in common, namely all of them handle somehow the rich nature of the target language morphology.
+Consequently, these attempts usually target at least one of the two main problems: 
+
+\begin{itemize}
+  \item the increased number of out-of-vocabulary wordforms and
+  \item the large size and complexity of the tagset used.
+\end{itemize}
+Furthermore, such systems mostly rely on a morphological analyzer or lexicon to handle these issues.
+Moreover, guessing modules are also widely applied which usually relies on suffix analyses.
+
+However there are numerous studies describing tagging Polish texts~\cite{}, the accuracy values of the proposed tools are below the average.
+As regards handling morphological richness, they almost always use a morphological analyzer to get the possible morphosyntactic tag candidates.
+Moreover, the tiered tagging approach is popular amongst researchers~\cite{},  where the parts of the morphosyntactic labels are not calculated at the same time but one after another.
+Considering the ML algorithms used, beside an adaption of Brill’s tagger~\cite{} C4.5 decision trees~\cite{}, the memory-based learning principle~\cite{} and CRF models are employed as well. 
+
+Further on, morphological tagging methods for Czech are usually prototypes for other languages.
+The first successful attempt were published by Hajic and Hladká \cite{Hajic1998a} who based their algorithm on a discriminative model.
+The method  uses a symbolic morphological analyzer as well and builds individual prediction models for ambiguity classes.
+Actually, the best results for Czech were obtained using the combination of numerous systems  \cite{Hajic2007}.
+They used three three different statistical tagger (HMM, Maximum Entropy and Averaged perceptron), moreover a MA and a rule-based disambiguator tool was involved as well. 
+
+Amongst studies on tagging inflectional languages there are also adaptations of Stanford tagger (for Bulgarian~\cite{}) and applications of trigram tagging methods (for Danish~\cite{}, Croatian~\cite{}, Slovenian~\cite{}, Icelandic~\cite{}).
+
+In the case of agglutinating languages where thousands of different wordforms can exist for the same lemma, the usage of finite state methods is indispensable.
+Silferberg and Lindén construct a weighted finite state tagger for Finnish~\cite{} which is based on markov models.
+Next, Daybelge and Cicelki propose a rule-based finite-state disambiguator system for Turkish~\cite{}.
+However, there are other sort of attempts which simply combines a morphological analyzer with statistical learning methods.
+Examples are application of the perceptron learning principle~\cite{} by Sak et al and the approach of Dilek et al.~\cite{} who apply trigram tagging methods.
+
+As regards Hungarian, the list of previous studies is considerable.
+In 1998 Megyesi adapted Brill’s transformation based method, while four years later Oravecz and Dienes used TnT with a weighted finite-state lexical model~\cite{}.
+In 2006, Halácsy et al. presented an augmented maxent model~\cite{} in combination with a morphological analyzer and language specific morphological features.
+However, their best result was achieved by combining this model with a trigram based tagger.
+Later they published the HunPos tagger~\cite{} which reimplements and extends TnT showing that it performs well (with a morphological lexicon) on English and Hungarian as well.
+Kuba et al. experienced with boosting and bagging techniques for transformation based learning.
+Although they managed to reduce the error rate of the baseline tagger, they did not managed to reach the accuracy of previous approaches.
+Recently, Zsibrata et al published magyarlanc~\cite{} which is a natural language processing chain, involving a morphological tagger as well.
+They use the Stanford tagger and augments the chain with the analyses of a morphological analyzer based on Morphdb.hu~\cite{}.
+In sum, there are several successful approaches for Hungarian relying on either a discriminative or a generative model, but all of them using a high coverage morphological analyzer.
+
+\textbf{1.2.2 Morphological disambiguation}
+
+In contrast to PoS tagging, there have been insufficient discussion about full morphological tagging (which involves lemmatization) in recent studies of natural language technology.
+The reason behind this is that most of the work concentrate on morphologically not very rich languages (such as English), where PoS tagging is generally sufficient.
+Furthermore, for such languages the ambiguity of the lemmatization task is negligible.
+
+Nevertheless, studies published on morphological tagging can be grouped depending on their lemmatization approaches.
+
+\begin{itemize}
+  \item First of all, there are attempts (even for inflectional languages) which simply ignore the task of lemmatization (such as~\cite{Hajic,Tufis(román),FinnHunPosos}) and performs only the morphosyntactic tagging task. 
+  \item Next, numerous researchers propose a two stage model, where the first stage is responsible for finding the full morphosyntactic tag, while the second one is for identifying the lemma for a given word, tag pair.
+For example, Erjavec and Dzeroski decompose the problem~\cite{} by utilizing a trigram a tagger first, then using a decision list lemmatizer.
+Further on, Agic et al. build their system~\cite{} in top of HunPos, and calculates the lemmata with the CST data-driven rule-based lemmatizer~\cite{}.
+Other attempts involve rather simpler algorithms for the second phase: magyarlanc assigns the most common lemmata (depending on the morphosyntactic label) to known words and employs a rule based unknown word guesser.
+  \item Another feasible approach is to treat the tagging task as a disambiguation problem where a morphological analyzer generates the possible analyses (involving lemmata) for words, then the disambiguator method selects the correct analysis.
+This approach is typical for Turkish (cf.~\cite{török_cikkek}) studies, but similar studies are also published for Czech (such as~\cite{valamelyikHajic} as well.
+  \item Recently, Chrupala et al. suggested~\cite{} a unique approach on full morphological tagging.
+Their system has a joint architecture which tags words with their tag and lemma at the same time.
+The method builds on the maximum entropy approach employing separate models for both PoS tagging and lemmatization but performs the decoding jointly with beam search.
+\end{itemize}
+\subsubsection{Combination of tagging algorithms}
+
+The design process of a combined system of classification or annotation tools involves several steps.
+First, it needs to be examined whether the errors of each system to be combined are different enough for the aggregate system to be likely to outperform the best individual system significantly.
+Then an appropriate combining algorithm must be found.
+
+A basic combining scheme, which is often used as a baseline, is majority voting.
+Other, more advanced, combining schemes involve training a top-level classifier for the task of generating the output of the combined system based on outputs of the individual embedded systems.
+This class of combination schemes is commonly referred to as stacking learners.
+The top-level classifier may use various features of both the input and the outputs of the bottom-level classifiers when making its decision.
+The set of features used may have a significant impact on the performance of the combined system.
+
+Finally, decisions to be made by the top-level classifier can be of at least two sorts: it can either always select the output of one of the bottom-level systems, or it can generate an output of its own that may differ from the output of each individual embedded system.
+When applying the former solution, the errors of the embedded systems determine a theoretical upper limit on the accuracy of the combined system (it can never generate the expected output whenever neither of the embedded classifiers generate it), thus the latter solution seems more beneficial in theory.
+However, complexity of the annotation task to be performed and the available training data may have an influence on which of these options is feasible and how they perform in practice.
+If the cardinality of the output annotation and of the features involved in training the classifier is high, there may be either data sparseness or performance problems with the combining classifier.
+
+One of the first attempts of combining English PoS taggers was done by Brill and Wu~\cite{}.
+They propose a memory-based learning system for tagger combination that employs contextual and lexical clues.
+In their experiments, the solution where the top-level learner always selects the output of one of the embedded taggers outperformed the more general scheme that allowed the output differ from either of the proposed tags.
+
+A comprehensive study by van Halteren et al. presents~\cite{} a detailed overview of previous combination attempts using mainly machine learning techniques.
+Several combination methods are compared and evaluated systematically in the paper.
+The authors show that cross-validation can be used to train the top-level classifier for an optimal utilization of the training corpus.
+They found a scheme perform best in their experiments that they characterize as generalized voting, although it is a scheme that can output annotation that may differ from the output of either of the embedded taggers and thus can also be interpreted as a stacking method.
+However, the cardinality of the tag set and the dimensionality of the feature space was modest compared to morphologically rich languages.
+
+A system of different architecture is presented in e.g.
+Hajič et al.~\cite{}: in contrast to the parallel and hierarchical architecture of the systems above, it employs a serial combination of annotators starting with a rule-based morphological analyzer, followed by constraint-based filters feeding a statistical tagger at the end of the chain.
+
+\section{Proposed methods}
+
+\subsection{Hybrid morphological tagging algorithms}
+
+\subsubsection{Methods}
+
+\subsubsection{Evaluation}
+
+\subsection{Morphological tagger combination}
+
+\subsubsection{Methods}
+
+\subsubsection{Evaluation}
 
 \section{Summary}
+
+ 
