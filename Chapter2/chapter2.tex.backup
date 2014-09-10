@@ -233,11 +233,7 @@ Fast turnaround time is e.g. needed in the iterative corpus creation scenario de
 In order to achieve high accuracy and fast training time, PurePos builds on HMM-based methods introduced in TnT and HunPos.
 Unlike the latter ones, it relies on morphological analyses hence probability estimates are calculated for analyses only permitted by the MA.
 As regards the statistical model, PoS tagging is carried out by calculating
-
-\begin{equation}
-\argmax_{t_1^m} \prod_{i=1}^m P(t_i | t_{i-1}^{i-n}) P(w_i|t_{i-1}^{i-n})
-\end{equation}
-
+$$\argmax_{t_1^m} \prod_{i=1}^m P(t_i | t_{i-1}^{i-n}) P(w_i|t_{i-1}^{i-n})$$
 for $w_1 \dots w_n$ words. 
 
 The contextual model is an interpolated \emph{\emph{n}}-gram model (cf. equation \eqref{}), where each of its component is estimated with maximum likelihood estimation (see equation \eqref{}).
@@ -266,7 +262,7 @@ $\hat{P}(w_i|t_{i}^{i-k})$ is again computed relying on MLE and deleted interpol
 As regards tagging of unknown words, estimating their PoS label the distribution of rare token’s tags are used. Suffixes are strong predictors for PoS tags in the case of agglutinative languages (cf. []), therefore PurePos is built to exhaust such indicators. Algorithms applied are derived from Brants []. The algorithm uses $\{s_{n-l+1} \dots s_n\}$ $l$ long suffixes to build the recursive formula for estimation:
 \begin{align}
  P(t|s_{n-l+1}, \dots, l_n) 
- = \frac{ \hat{P}(t|s_{n-l+1}, \dots, s_n) + \theta_i \hat{P}(t|s_{n-l}, \dots, s_n)}{1+\theta_i}
+ = \frac{ \hat{P}(t|s_{n-l+1}, \dots, l_n) + \theta_i \hat{P}(t|s_{n-l}, \dots, l_n)}{1+\theta_i}
 \end{align}
 
 Brants propose successive abstraction~\cite{} for estimating $\theta_i$ parameters, which is also applied in PurePos as well.
@@ -289,208 +285,17 @@ However, in order to efficiently store \emph{(lemma, tag)} pairs, they are repre
 During its training phase, frequencies are collected for \emph{(word, tag, transformations)} triplets and a suffix model is built as described in section \ref{}.
 Calling the module returns the most 20 root candidates that are considered to be the most probable.
 
-\begin{table}[h]
-\begin{tabular}{l l l}
-  \textbf{Word} &  házaink ‘my houses’ &  baglyot ‘owl‘\\
-  \textbf{Tag} &  FN.PSt1i &  N.AC\\
-  \textbf{Lemma} &  ház &  bagol\\
+\begin{tabular}
+  Word &&  házaink my houses &&  baglyot owl\\
+  Tag &&  FN.PSt1i &&  N.ACC\\
+  Lemma &&  ház &&  bagoly\\
+  Transformation &&  -4 &&  -4+oly\\
 \end{tabular}
-\end{table}
 
 As for the probability estimation of lemmata, PurePos selects the lemma candidate that has the maximal probability according to following conditional model:
 
 \begin{equation}\label{lemma-max}
 \argmax_l P(l|t,w)
 \end{equation}
-
-I.e. the most probable lemma given the token and part-of-speech tag is selected. In practice, this is approximated in two ways. First, assuming that the lemmata are independent from words and tags, their probability are computed with unigram maximum likelihood estimates $\hat{P}(l)$, which are derived from relative frequencies. In addition, reformulating the core of \eqref{lemma-max}, we get
-
-\begin{equation}\label{lemma-guesser}
-P(l|t,w) = \frac{P(l,t|w)}{P(t|w)}
-\end{equation}
-
-As the task is to select an optimal lemma for a fixed word and label pair, $P(t|w)$ is constant and can be ignored. The rest is approximated by employing the previously described smoothed suffix model, which  is not only used for calculating probabilities but also employed for generating the lemma candidates.  To utilize the strengths of both models, we use log-linear interpolation: 
-
-\begin{equation}\label{lemma-interpolated}
-P(l|w,t) = P(l)^{\lambda_1} P(l,t|w)^{\lambda_2}
-\end{equation}
-
-The idea of estimating the $\lambda_{1,2}$ parameters is similar to that seen for PoS $n$-gram models (see \ref{pos-deleted-interpolation}), but instead of using positive weights, negative penalty scores are added to the parameter for that model which performs worse.  
-
-\begin{algorithm*}
-%\todoi{így is működjön!}
-\caption{Calculating parameters of the linear interpolated lemmatization model}\label{lemma-interpolation-algorithm}
-\begin{algorithmic}[1]
-    \ForAll{(word, tag, lemma)} 
-        \State candidates $\gets$ generateLemmaCandidates(word, tag)
-        \State maxUnigramProb $\gets$ getMaxProb(candidates, word, tag, unigramModel)
-        \State maxSuffixProb $\gets$ getMaxProb(candidates, word, tag, suffixModel)
-        \State actUnigramProb $\gets$ getProb(word, tag, lemma, unigramModel)
-        \State actSuffixProb $\gets$ getProb(word, tag, lemma, suffixModel)
-        \State unigramProbDistance $\gets$ maxUnigramProb $-$ actUnigramProb
-        \State suffixProbDistance $\gets$ maxSuffixProb $-$ actSuffixProb
-        \If {unigramProbDistance $>$ suffixProbDistance}
-            \State $\lambda_{2} \gets$ $\lambda_{2}$ $+$ unigramProbDistance $-$ suffixProbDistance
-        \Else%If{unigramProbDistance $<$ suffixProbDistance}
-            \State $\lambda_{1} \gets$ $\lambda_{1}$ $+$ suffixProbDistance $-$ unigramProbDistance
-        \EndIf
-        \State normalize$( \lambda_{1}, \lambda_{2} )$
-    \EndFor
-  \end{algorithmic}
-\end{algorithm*}
-
-Lambdas are estimated as follows (cf. algorithm \ref{lemma-interpolation-algorithm}).
-For each \emph{(word, tag)} pair both models are asked to return the best lemma according to their knowledge, then these scores got computed for the gold standard lemma as well.
-Next, (absolute) error rates are calculated for both models, then the weight of the model which gives the worst lemma estimates (see algorithm \ref{lemma-interpolation-algorithm}) gets decreased.
-Finally, $\lambda_i$  are normalized to sum up to 1.
-
-\subsubsection{Hybridization}
-
-Although the framework proposed is built on existing algorithms, it is extended and modified  to be able to handle agglutinative languages such as Hungarian.
-In this section the above mentioned adaptation steps are summarized. 
-\begin{description}
-  \item[Morphological analyzer] First of all, one of the most essential component of the chain is the morphological analyzer.
-Its analyses are utilized through the whole process.
-During tagging, probability estimates are only calculated for valid\footnote{ Valid analysis for a word are those which are proposed by the MA.} tags, while the statistical lemmatization scores lemmata given by the analyzer.
-  \item[Linguistic rules] Next, analyses of the MA can be processed by a rule-based component (similarly to~\cite{}).
-At his stage, one can employ algorithms that not just can filter the possible analyses of a word, but it can also overwrite their lexical probability scores.
-Furthermore the system handles these probability estimates locally by applying the prepared scores word by word.
-This facility can be used e.g. to provide domain-specific lexical distribution.
-This can be also used to filter out candidates which are agrammatical in the given context, e.g. long-distance agreement constraints can be handled despite of the simple trigram tagging model.
-  \item[Unseen tags] In contrast to previous studies (such as~\cite{}), our system is able to handle unseen tags as well.
-If a token has only one (unseen) candidate analysis, that one is selected, and the lexical probability of the word-tag pair is assumed to be 1, while the contextual probabilities of forthcoming tags are taken from a lower level (unigram) model.
-  \item[Mapping of tags] Further on, the system can be configured to calculate lexical and contextual scores even for previously not seen tags.
-In that case, such probability estimates are calculated through mapping the tag to a previously seen one.
-For this, PurePos relies on mapping rules which is formulated by regular expressions.
-  \item[\emph{k}-best output] Finally the tool provides both beam search and the Viterbi algorithm for decoding.
-Therefore employing the built-in \emph{\emph{k}}-best search algorithm and the variable beam size, it is possible to generate output that is apt for linguistic post-processing.
-Furthermore, advanced machine learning techniques and further parsing algorithms can also benefit from the \emph{\emph{k}}-best output format, since the disambiguation scores for sentences are also output.
-\end{description}
-
-\subsection{Experiments}
-
-\subsubsection{The case of Middle- Old-Hungarian}
-
-In this section, a tagging task is presented that is used as a test case to evaluate hybrid methods described above.
-In a project aiming at the creation of an annotated corpus of Middle Hungarian texts , an adapted version of Hungarian HuMor morphological analyzer was used.
-This tool was originally made to annotate contemporary Hungarian, but the grammar and lexicon were modified so that the tool can handle morphological constructions that existed in Middle Hungarian but have since disappeared from the language.
-In the experiments described here, we used a manually checked disambiguated portion of this corpus.
-The data was annotated using a rich variant of the HuMor tagset, the cardinality of which is over a thousand.
-
-\begin{table}[ht]
-\centering
-\caption{Characteristics of the used corpus}\label{tab:corpus}
-\begin{tabular}{l r r r}
-\hline
-& Training & Dev. & Test \\
-\hline
-Documents & 140 & 20 & 30 \\
-Clauses & 12355 & 2731 & 2484 \\
-Tokens & 59926 & 12656 &  11763\\
-\hline
-\end{tabular}
-\end{table}
-
-
-In order to simulate this annotation task, we split the corpus into three parts (see table \ref{}).
-The tagger was trained on the biggest part, hybridization and adaptation methods were developed on a separate development subcorpus, while final evaluation was done on a test set.
-We used accuracy as a metric, with unambiguous punctuation tokens \emph{not} taken into account (in contrast to how taggers are evaluated in general).
-The results were evaluated in a threefold way: PoS tagging accuracy and full morphological disambiguation accuracy were calculated for tokens, and the latter was also calculated to obtain a clause-level accuracy.
-
-As baselines, we used the enhanced trigram-based algorithm derived from HunPos and implemented in PurePos (PP), while its combination with the HuMor analyzer (PPM) was also evaluated.
-As a lemmatization baseline, we used the unigram-based (UL) and the suffix-based model (SL) described in section \ref{}.
-Performance of these systems is shown in Table \ref{}.
-As the accuracy values indicate, suffix-based probability estimation performs better when it is used in corporation with a morphological analyzer.
-However, when no dedicated morphological component is applied, the overall disambiguation accuracies are close to each other.
-
-\begin{table}[ht]
-\centering
-\caption{Baseline disambiguation accuracies on the development set}\label{tab:baselines}
-\begin{tabular}{l r r r}
-\hline
- & Tokens & Clauses \\
-\hline
-% PP+BL & 93.20\% & 88.99\% & 55.58\% \\
-PP+BL  & 88.99\% & 55.58\% \\
-% PP+SL & 93.20\% & 89.01\% & 51.78\% \\
-% PPM+BL & 97.77\% & 97.22\% & 84.85\% \\
-PPM+BL  & 97.22\% & 84.85\% \\
-% PPM+SL & 97.77\% & 97.50\% & 85.98\% \\
-\hline
-\end{tabular}
-\end{table}
-
-Comparing these basic lemmatization strategies with the model combination method described in Section \ref{}, results gathered are shown in Table~\cite{tab:pp}.
-The presented lemma computing algorithm yields an overall 3.2\% relative error rate reduction compared to the best baseline (PPM+SL).
-The improvement is even more significant for in the case when a dedicated morphological analyzer is not used: the relative error rate reduction is 28.42\% in this case (compared to PP+SL).
-
-To demonstrate the strengths of the hybrid tagging model, further extensions are presented which enhance the performance of the tool.
-To that end, the development set was used to analyze common error types and to test hypotheses.
-
-\begin{table}[ht]
-\centering
-\caption{Full disambiguation accuracies with the proposed lemmatization model measured on the development set}\label{tab:pp}
-\begin{tabular}{l r r r}
-\hline
-& Tokens & Clauses \\
-\hline
-PP + CL & 92.14\% & 65.40\% \\
-PPM + CL & 97.58\% & 86.48\% \\
-\hline
-\end{tabular}
-\end{table}
-
-\paragraph{Mapping of tags}
-
-In contrast to other Hungarian annotation projects, the tag set used for annotating the historical corpus distinguishes verb forms that have a verbal prefix from those that do not, because this is a distinction important for researchers interested in syntax.\footnote{ Hungarian verbal prefixes or particles behave similarly to separable verbal prefixes in most Germanic languages: they usually form a single orthographic word with the verb they modify, however, they are separated in certain syntactic constructions.} This practically doubles the number of verb tags\footnote{ 320 different verb tags occur in the corpus excluding verb prefix vs. no verb prefix distinction.
-This is just a fraction of the theoretically possible tags.}, which results in data sparseness problems for the tagger.
-In case of a never encountered tag including a verbal prefix marking, mapping it to one without verbal prefix is a sensible solution since the distribution of prefixed and non-prefixed verbs largely overlap.
-Applying only this verbal mapping (TM), we could increase the clause level annotation accuracy to 86.53\% that is 97.59\% precision at token level.
-
-\paragraph{Preprocessing}
-
-Another possible improvement is to employ rules that filter the input (FI).
-Exploiting the development set again, a preprocessing script was set up that employs five simple rules.
-Three of them catches frequent phrases such as \emph{az a} ‘that’ in which \emph{az} must be a pronoun.
-Another typical source of errors is the erroneous tagging or lemmatization of proper names that coincide with frequent common nouns or adjectives and the confusion of past participles as finite past verb forms.
-Using a set of lists aiming such tokens, 97.84\% token accuracy and 86.77\% clause accuracy were achieved on the development set.
-
-\paragraph{\emph{\emph{k}}-best output}
-
-The \emph{\emph{k}}-best output of the tagger can either be used as a representation to apply upstream grammatical filters to or as candidates for alternative input to higher levels of processing.
-Five-best output for our test corpus has yielded an upper limit for attainable clause accuracy of 94.32\%.
-While it is not directly comparable with the ones above, this feature could be successfully used also in self-training or in tagger combination schemes.
-
-Applying the given hybridization steps to the test set, we can validate the performance improvements (see results in Table~\cite{tab:test} 4).
-Furthermore, using k-best output from the tagger, 92.30\% of clauses and X\% of the tokens have the golden annotation among the top 5 output in the test set.
-
-\begin{table}[ht]
-\centering
-\caption{Disambiguation accuracies of the hybrid tool on the test set}
-\label{tab:test}
-
-\begin{tabular}{l r r r}
-\hline
- & Full & Clauses  \\
-\hline
-Baseline  & 89.47\% & 55.07\% \\
-PurePos  & 96.48\% & 80.95\% \\
-+TM  & 96.51\% & 81.17\% \\
-+FI  & 96.60\% & 81.55\% \\
-+ all  & 96.63\% & 81.77\% \\
-+ all with \emph{k}-best  & 98.66 \% & 92.30\% \\
-\hline
-\end{tabular}
-\end{table}
-
-
-
-
-
-
-\pagebreak
-
-
-\input{Chapter2/section3/section3}
 
  
