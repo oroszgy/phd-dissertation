@@ -1,0 +1,630 @@
+
+\section{Introduction}
+
+Hospitals produce a huge amount of clinical notes that have solely been used for archiving purposes and have generally been inaccessible to researchers. However, application of NLP tools could make available the hidden knowledge of archived records boosting medical research. 
+While developing text processing tools for medicians is an emerging field in many developed countries, this is not typical for less-resourced languages.
+
+To be able to extract information from such textual data, they must be preprocessed properly consisting several steps.
+First, adequate text segmentation methods\footnote{While the term \emph{text segmentation} is widely used for diverse tasks, in our work it is used as the process of dividing text into word tokens and sentences.} 
+are required for finding token and sentence boundaries. Next, morphological tagging is indispensable for information extraction tasks of morphologically rich languages. 
+
+Considering the case of Hungarian, there are only a few studies on processing medical records. First, Siklósi et al. \cite{Siklosi2012,Siklosi2013} presented a system that is able to correct spelling errors in clinical notes. They use a mixture of language models to generate correction candidates, however focusing only on correctly segmented words. 
+Although, a resolution method for clinical abbreviations has been presented by them \cite{Siklosi2013b}, morphosyntactic tagging is still untouched. 
+As far as we know, no study investigates method for segmenting nor tagging clinical Hungarian. 
+
+In this chapter, we present algorithms for preprocessing clinical texts in a less-resourced language effectively. Firstly, an accurate method is introduced detecting sentence and token boundaries. Secondly, tagging experiments are presented yielding a proper morphological tagger for clinical Hungarian. 
+
+\section{Text segmentation in clinical records}
+
+Error propagation in a text-processing chain is usually a notable problem, therefore accurate text segmentation methods are essential to process any sort of text properly.
+However, notes written by doctors are extremely noisy containing errors which inhibit applications of existing tools.
+
+Even though existing segmentation methods for Hungarian performing well on general domains, they have serious difficulties on clinical texts.
+These originate in special properties of the text involving
+\begin{inparaenum}[\itshape a\upshape)]
+ \item typing errors (i.e. mistyped tokens, nonexistent strings of falsely concatenated words) and
+ \item nonstandard usage of Hungarian.
+\end{inparaenum}
+While errors of the first type can generally be corrected with a rule-based tool, others need advanced methods. 
+
+In this section, a hybrid approach to normalization and segmentation of Hungarian clinical records is presented. 
+The method consists of three phases: first, a rule-based clean-up step is performed; then tokens are partially segmented; finally, sentence boundaries are determined. 
+We start by detailing the tool's architecture. 
+Then, key elements of the sentence boundary detection (SBD) algorithm are described. 
+Finally, the system presented is evaluated against a gold standard corpus, and is compared to other tools available.
+
+\subsection{Previous work on text segmentation}
+
+Even though, numerous approaches deal with English noisy texts, only a few attempts have been made (cf. \cite{Siklosi2012,Siklosi2013,Siklosi2013b}) for Hungarian. In addition, the latter studies completely ignores the segmentation problem. What is more, most of the attempt attempts for clinical English also ignores the description of the tokenization/SBD algorithm applied. Therefore, we start with reviewing general segmentation techniques then continue on describing which of them are used successfully for the biomedical domain.
+
+The task of text segmentation is often composed of several subtasks: normalization of noisy text (when necessary), segmentation of words, and sentence boundary detection.  
+Although, these subtasks are generally performed one after another, there are approaches (e.g. \cite{zhu2007unified}), where text segmentation and normalization are treated as a unified tagging problem. Further on, handling of abbreviations is often involved during the process, since their identification helps detecting sentence and token boundaries.
+
+As regards tokenization, it is generally treated as a simple engineering problem\footnote{In the case of alphabetic writing systems.} aiming to split punctuation marks from word forms. On the contrary, SBD is a rather researched topic. As Read et al. summarize \cite{read2012sentence}, sentence segmentation approaches fall into three classes: 
+\begin{inparaenum}[\itshape 1\upshape)]
+ \item rule-based methods employing domain- or language-specific knowledge (such as abbreviations); 
+ \item supervised machine learning approaches, which may not be robust amongst domains (being specialist on the training corpus); 
+ \item unsupervised learning methods, which extract their knowledge from raw unannotated data. 
+\end{inparaenum}
+
+As regards ML attempts, one of the first methods was presented by Riley \cite{riley1989some} applying decision-tree learners for disambiguating full stops. He utilized mainly lexical features, such as word length and case, and probabilities of a word being sentence-initial or sentence-final. 
+Next, the SATZ system of Palmer et al. \cite{palmer1997adaptive} employs machine learning algorithms employing contextual and PoS features as well. 
+Since it can be easily adapted adjusting the features, this system has been successfully applied \cite{palmer1997adaptive} to several European languages. 
+Further on, the maximum entropy learning approach was also utilized by Reynar and Ratnaparkhi \cite{reynar1997maximum}. 
+Their system classifies tokens containing `.', `?' or `!' by using contextual features and a prepared abbreviation list. A similar approach for English has been presented recently by
+Recently, Gillick \cite{gillick2009sentence}. Their system uses support vector machines resulting in a state-of-the-art performance.
+
+Beside machine learning, rule-based methods are commonly applied for the tasks. E.g. Mikheev presents \cite{mikheev2002periods} a small set of rules for detecting sentence boundaries (SB) with a high accuracy. 
+In another system presented by him \cite{mikheev2000tagging}, the latter method is integrated into a PoS-tagging framework. This enhancement enables the classification of punctuation marks labeling them either as a sentence boundary, an abbreviation or both. 
+Moving on, Kiss and Strunk have presented an unsupervised segmentation method recently. 
+Their system, Punkt \cite{kiss2006unsupervised} uses scaled log-likelihood ratio for deciding whether a \emph{(word, period)} pair is a collocation or not.
+
+Although tokenization and SBD tasks are well established fields in natural language processing, there are only a few attempts aiming medical texts. 
+Sentence segmentation attempts for clinical texts fall into two classes: some develop rule-based systems (e.g. \cite{XuSDJWD10}), while most of the studies employ supervised machine learning algorithms (such as \cite{apostolova2009automatic,cho2002text,Savova2010,taira2001automatic,tomanek2007sentence}).
+These approaches usually train maximum entropy or CRF learners, thus large handcrafted training corpora are essential. Training data used is either domain-specific or general. 
+In practice, training material from a related domain yields better performance. However Tomanek et al. argue \cite{tomanek2006reappraisal} argue on using general newswire texts,
+%TODO: newswire vajon igaz?
+showing that the domain of the training corpus is not critical.
+
+As regards Hungarian, there are two text segmentation tools available. Huntoken \cite{halacsy2004creating} is an open source tool based on Mikheev’s rule-based system, while \texttt{magyarlanc} \cite{zsibrata2013magyarlanc} has an adapted version of MorphAdorner’s rule-based tokenizer \cite{kumar2009monk} and sentence splitter. Both of them are general-purpose employing rules and dictionaries.
+
+
+Since we found that existing tools cannot process medical texts properly, this section present a study on segmenting texts of noisy clinical notes. First, we investigate special properties of the target by creating a manually segmented corpus. Considering the target data we present a method which combines high precision rules with an unsupervised SBD method with well established recall.
+
+\subsection{Clinical text used}
+
+A gold standard corpus is collected and manually corrected enabling the investigation and evaluation of segmentation approaches.
+This process involved several steps. First, input texts had to be normalized first, since the data collected is highly erroneous.
+We had to deal with the following errors\footnote{Text normalization is performed using regular expressions.}:
+\begin{enumerate}
+ \item doubly converted characters, such as `\&amp;gt;',
+ \item typewriter problems (e.g. `1' and `0' is written as `l' and `o'),
+ \item dates and date intervals that were in various formats with or without necessary whitespaces (e.g. `2009.11.11', `06.01.08'),
+ \item missing whitespaces between tokens that usually introduced various types of errors, such as:
+ \begin{enumerate}
+  \item measurements 
+  were erroneously attached to quantities (e.g. `0.12mg'),
+  \item lack of whitespace around punctuation marks (e.g. `töröközegek.Fundus:ép.'),
+ \end{enumerate}
+ \item various formulation of numerical expressions.
+\end{enumerate}
+ 
+In order to investigate possible pitfalls of the algorithm being developed, the gold standard data was split into two sets of equal sizes: a development and a test set containing 1320 and 1310 sentences respectively. 
+The first part is used to identify typical problems in the corpus and to develop the segmentation methods. The second part is used to verify our results. 
+
+The distribution of abbreviations, punctuation marks and capitalization in a certain text help to reveal the unique segmentation problems of that documents. Therefore a comparison of clinical texts and a corpus of general Hungarian (Szeged Corpus \cite{Csendes2004}) is carried out: 
+\begin{enumerate}
+ \item 2.68\% of tokens found in clinical corpus sample are abbreviations while the same ratio for general Hungarian is only 0.23\%; 
+ \item sentences taken from the Szeged Corpus almost always end in a sentence final punctuation mark (98.96\%), while these are totally missing from clinical statements in 48.28\% of the cases; 
+ \item sentence-initial capitalization is a general rule in Hungarian (99.58\% of the sentences are formulated properly in the Szeged Corpus), but its usage is not common in the case of clinicians (12.81\% of the sentences start with a word that is not capitalized); 
+ \item the amount of numerical data is significant in medical records (13.50\% of sentences consist exclusively of measurement data and abbreviations), while text taken from the general domain rarely contains statements that are full of measurements. 
+\end{enumerate}
+
+\subsection{Evaluation metrics}
+
+There are no unified metric being commonly used for text segmentation tasks.
+Researchers specializing in machine learning approaches prefer to calculate precision, recall and $F$-measure.
+Others, having a  background in speech recognition, prefer to compute NIST and Word Error Rate. 
+Recently, Read et al. have reviewed \cite{read2012sentence} the current state-of-the-art in sentence boundary detection proposing a unified metric for comparing the performance of different approaches. 
+Their method allows to measure sentence boundaries at any position, since characters are labeled as sentence-finals or non sentence-finals. In doing so, simple accuracy can be used as a metric. 
+
+Our work rely on the metric introduced by Read et al. generalizing it for our task. The text is considered as a sequence of characters and empty strings. Segmentation is treated as a single classification problem, where all of the entities (either characters or empty string between them) are labeled with the following tags: 
+\begin{description}
+ \item[$\langle$T$\rangle$] --  if the entity is a token boundary,
+ \item[$\langle$S$\rangle$] -- if it is a sentence boundary,
+ \item[$\langle$None$\rangle$] -- if the entity is neither.
+\end{description}
+In doing so, this classification scheme enables us to calculate accuracy for the unified task. 
+%Furthermore, we compute precision, recall and $F$-scores for each label as well enabling us to monitor the progress in each subtask.
+%Accuracy, is utilized to measure the progress of the whole segmentation task in tis study.  
+Further on, it is important to measure the subsystem's performance, thus precision and recall values are calculated for both word tokenization and SBD. 
+Precision becomes more important than recall for segmenting sentences. It is because
+an erroneously split sentence may cause information loss\label{sec:loss}, while statements might still be extracted from multi-sentence text. 
+Consequently, $F_{0.5}$ is computer for SBD, while word tokenization is evaluated with the standard $F_1$ measure. 
+
+\subsection{Segmentation Methods}
+
+Our system is built up from several components. 
+First, we introduce a baseline rule-based method which is used for marking word and sentence boundaries\footnote{Rules and heuristics used are formulated investigating the development corpus.}. 
+Next, we detail its extensions yielding better segmentation algorithms.
+
+\subsubsection{Baseline word tokenization and sentence segmentation}
+
+The baseline rule-based method is composed of two parts. First, it tokenizes words (BWT) by using regular expressions implemented in standard tokenizers. This module does not try disambiguate periods attached to the ends of words, since proper handling of such words would need to recognize abbreviations properly. 
+
+Sentence segmentation (BSBD) in a subsequent component being performed in a way to avoid information loss (as described in section \ref{sec:loss}.) 
+In doing so, the method minimizes the possibility of making false-positive errors by splitting sentences only if there is a high confidence of success. 
+These cases are when:
+\begin{enumerate} 
+ \item a period or exclamation mark directly follows another punctuation mark token\footnote{Question marks are not considered as sentence-final punctuation marks, since they generally indicate a questionable finding in clinical texts.};
+ \item a line starts with a full date, and is followed by other words (The last white-space character before the date is marked as SB.);
+ \item a line begins with the name of an examination followed by a semicolon and a sequence of measurements.
+\end{enumerate}
+
+Implementing these simple observation yields 100\% precision and 73.38\% recall for the token segmentation task on the development set. The corresponding values for the sentence boundary detection are 98.48\% and 42.60\% respectively. 
+Results on the development set indicate that less than half of the sentence boundaries are discovered, thus reveal the need of further improvement.
+Further on, an analysis of errors also unfolds that the tokenization module has difficulties only with sentence final periods. These sort of errors are the effects of the conservative tokenization algorithm, since words with punctuation mark attached are left ambiguous.
+Therefore, this investigation implies that an advanced sentence boundary detection algorithm is necessary for achieving higher recall scores.
+
+\subsubsection{Improvements on sentence boundary detection}\label{sec:improvements}
+
+To improve SBD results of the baseline method we investigate the applicability of common techniques. There are two sort of indicators generally used for detecting sentence boundaries: 
+\begin{description}
+ \item[period] when a period ($\bullet$) is attached to a word a sentence boundary is found for sure only if the token is not an abbreviation;
+ \item[capitalization] if a word starts with a capital letter and it is neither part of a proper name nor of an acronym.
+\end{description}
+
+Unfortunately, these are not directly applicable in our case. First of all, medical abbreviations are too diverse: clinicians usually introduce new ones not being part of the standard. 
+Further on, Latin words and abbreviations are sometimes capitalized by mistake. In addition, some subclauses begin with capitalized words as well. 
+Finally, as shown in Section \ref{}, several sentence boundaries lack both of these indicators.
+
+Even though these features are not proper indicators they can still be for used finding sentences. In addition, one does not need a full list of possible abbreviations neither. It is enough to find \emph{evidence} for the separateness of a word and the period attached to classify this position as a sentence boundary. 
+This idea was introduced by Kiss and Strunk \cite{kiss2006unsupervised} and is being adapted in this study.
+
+Scale-log likelihood ratio was originally used for identifying collocations by Dunning \cite{dunning1993accurate}, however it has been adapted for the sentence segmentation task in Punkt. The basic idea used is to handle abbreviations as collocations of words and periods. In practice, this is formulated via a null hypothesis \eqref{eq:h0} and an alternative one \eqref{eq:ha}. 
+
+\begin{equation} \label{eq:h0}
+H_0: P(\bullet|w) = p = P(\bullet|\neg w)
+\end{equation}
+\vspace{-0.5cm}
+\begin{equation} \label{eq:ha}
+H_A: P(\bullet|w) = p_1 \neq p_2 = P(\bullet|\neg w) 
+\end{equation}
+\vspace{-0.5cm}
+\begin{equation} \label{eq:loglambda}
+log \lambda = -2 log \frac{L(H_0)}{L(H_A)}
+\end{equation}
+
+
+\eqref{eq:h0} expresses the independence of a \emph{(word, $\bullet$)} pair, while \eqref{eq:ha} formulates that their co-occurrence is not just by chance. $log \lambda$ score  \eqref{eq:loglambda} computes their ratio in a way to be asymptotically $\chi^2$ distributed. 
+Therefore, it can be applied as a statistical test \cite{dunning1993accurate}. 
+Kiss and Strunk found that pure $log \lambda$ score performs poorly\footnote{In terms of precision.} in abbreviation detection scenarios, thus they introduced scaling factors \cite{kiss2006unsupervised}. 
+In doing so, their method loses the asymptotic relation to $\chi^2$ and becomes a simple filtering algorithm.
+
+Utilizing their ideas we improved the original method in numerous places. 
+First of all, the inverse of $\log\lambda$:$iscore=1/log\lambda$ is calculated as a base, since our goal is to find candidates co-occurring only by chance. In addition, we adapt existing scaling factors and introduce new ones to match the characteristics of the data.
+
+The first scaling factor found in the original work \cite{kiss2006unsupervised} cannot be directly applied, since counts and count ratios do not indicate properly whether a token and the period is related in a clinical record. The reason behind this is that several sort of abbreviations with relative low frequencies. 
+Next, length of words ($len$) has been shown to be a good indicator of abbreviations, since shorter tokens tend to be abbreviations, while longer ones do not. Thus, we reformulate the original function to penalize short words and reward longer ones. 
+Having a medical abbreviation list of almost 200 \label{sec:abbrev} elements\footnote{The list is gathered with an automatic algorithm on the development corpus using word shape properties and frequencies. The most frequent elements are manually verified and corrected.} 
+we found that that more than 90\% of the abbreviations are shorter than three characters. This fact led us to formulate the scaling factor in equation \eqref{eq:s_l}. 
+In doing so, this modification can also decrease a score of candidate in contrast with the original formula in \cite{}.
+
+
+\begin{equation} \label{eq:s_l}
+S_{length}(iscore)= iscore \cdot \exp{(len/3-1)}
+\end{equation}
+
+Recently, HuMor \cite{Proszeky1994,Proszeky2005}  has been extended with the content of a medical dictionary \cite{Orosz:mszny2013}, thus this tool is used to enhance the sentence segmentation algorithm.  
+Since the analyzer is able indicate whether an analyses refers to an abbreviation, its output is utilized by an indicator function \eqref{eq:sign}.
+Furthermore, morphological lexicons are usually well-established resources, therefore applications can rely on them without any doubt. Consequently, a more confident factor is formulated (Equation \eqref{eq:s_m}) using larger weights compared to others. In doing so, the score is raised in case of full words, it is decreased for abbreviations, while values of unknown words are left as they were.
+
+\begin{equation}\label{eq:sign}
+ indicator_{morph}(word) =
+  \begin{cases}
+   1  & \text{if $word$ has an analysis of a known full word} \\
+   -1 & \text{if $word$ has an analysis of a known abbreviation} \\
+   0  & \text{otherwise}
+  \end{cases}
+\end{equation}
+
+\begin{equation} \label{eq:s_m}
+S_{morph}(iscore)= iscore \cdot \exp{( indicator_{morph} \cdot len^2)}
+\end{equation}
+
+Besides, another indicator has been found to fit well to the development data. Since, hyphens are generally not present in abbreviations but rather occurs in full words, the overall score is modified involving this observation. Thus, Equation \eqref{eq:s_h} is used raise the score of tokens having hyphens. For this $indicator_{hyphen}$ is utilized outputting $1$ only if the word contains a hyphen. 
+
+
+\begin{equation} \label{eq:s_h}
+S_{hyphen}(iscore)= iscore \cdot \exp{(indicator_{hyphen} \cdot len)}
+\end{equation}
+
+\begin{equation}
+S = S_{length} \circ S_{morph} \circ S_{hyphen}
+\end{equation}
+
+Scaled $S(iscore)$ is calculated for all \emph{(word, $\bullet$)} pairs not followed by another punctuation mark. If this value is higher than a threshold, the period is regarded as a sentence boundary and it is detached.\footnote{Threshold value is empirically set to $1.5$.}
+Investigating the scaled $\log \lambda$ performance, it is pipelined after the BSBD module resulting in 77.14\% recall and 97.10\% precision on the development set. These values indicates significant improvement but shows that many sentence boundaries are still not found.
+
+To further improve the method word capitalization is utilized as well. A subsequent rule-based component is created dealing with capitalized words. 
+Good SB candidates of these are the ones not following a non sentence terminating\footnote{Sentence terminating punctuation marks are the period and the exclamation mark for this task.} punctuation, and are not part of a named entity. 
+Therefore, sequences of capitalized words are considered to be named entities and omitted as a first step. Then the rest of the candidates are processed with the morphological analyzer employing a simple heuristic for detecting sentence boundaries. If a word does not have a proper noun analysis but is capitalized it is marked as the beginning of a sentence.  
+Investigating the component enhancement over BSBD on the development set we found that this module results in an increased recall (65.46\%) while keeps precision high (96.37\%). 
+
+\subsection{Evaluation}
+
+% Our hybrid algorithm has been developed using the development set, thus it is evaluated against the rest of the data. 
+% %As the starting point of our comparison, we present the accuracy values of the preprocessed input text and the baseline tokenized one. 
+
+\begin{table}[h]
+\centering
+\caption{Accuracy of the input text and the baseline segmented one}
+\label{tab:base}
+\begin{tabular}{ l  r } 
+\hline
+& Accuracy \\ 
+\hline
+% Original & \% \\
+Raw corpus  & 97.55\% \\
+BSBD & 99.11\% \\
++ LLR & 99.72\% \\
++ CAP & 99.26\% \\
++ LLR + CAP & 99.74\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Accuracy values in Table \ref{tab:base} measures the tool's performance on the overall segmentation task. 
+All of the components are evaluated and compared to the baseline module and the raw preprocessed corpus.
+The unsupervised SBD algorithm is marked with \emph{LLR}\footnote{Referring to the term log-likelihood ratio.}, while the second component is indicated by the term \emph{CAP}.
+This metric is not a well balanced, since its values are relatively high even for the preprocessed text. Therefore we present individual improvement scores as well. 
+Relative error rate reduction scores are provided in Table \ref{tab:reduction}. These values are calculated over the baseline method (BSBD) for each component and their collaboration as well. 
+
+\begin{table}[h]
+\centering
+\caption{Error rate reduction over the accuracy of the baseline method}
+\label{tab:reduction}
+\begin{tabular}{ l  r } 
+\hline
+& Error rate reduction\\
+\hline
+LLR & 58.62\% \\
+CAP & 9.25\% \\
+LLR+CAP & 65.50\% \\
+\hline
+\end{tabular}
+\end{table}
+
+
+Considering sentence boundaries, a more detailed analysis is got by computing precision, recall and $F_{0.5}$ values in Table \ref{tab:prec_rec}. These results show that each component significantly increases the recall, while precision is just barely decreased. All in all, the combined hybrid algorithm\footnote{It is the composition of the BWT, BSBD, LLR and CAP components.} brings significant improvement over the well-established baseline.
+
+\begin{table}[h]
+\centering
+\caption{Evaluation of the proposed sentence segmentation algorithm compared with the baseline}
+\label{tab:prec_rec}
+\begin{tabular}{ l r r  r  } 
+\hline
+& Precision & Recall & $F_{0.5}$ \\
+\hline
+Baseline & 96.57\% & 50.26\% & 81.54\%  \\
+LLR & 95.19\% & 78.19\% & 91.22\% \\
+CAP & 94.60\% & 71.56\% & 88.88\% \\
+LLR+CAP & 93.28\% & 86.73\% & \underline{91.89\%} \\
+\hline
+\end{tabular}
+\end{table}
+
+Besides, we compare our method with freely available tools as well.
+There are only two application aiming Hungarian text segmentation: are \textt{magyarlanc} Huntoken.
+The latter can be slightly adapted to a new domain by providing a set of abbreviations, thus two versions of it are evaluated. 
+The first employs a set of general Hungarian abbreviations (\emph{HTG}), while the second utilizes an extended dictionary\footnote{As described in section \ref{sec:abbrev}.} containing medical ones as well(\emph{HTM}). 
+Further on, Punkt \cite{kiss2006unsupervised} is involved in our comparision as well as the OpenNLP \cite{Baldridge2002} toolkit. The latter tool is a general framework building on maximum entropy methods, thus it can be applied to detect sentence boundaries as it is presented in \cite{reynar1997maximum}. For this we used the general-purpose Szeged Corpus as a training material. 
+
+\begin{table}
+\centering
+\caption{Comparision of the proposed hybrid SBD method with competing ones}
+\label{tab:comparison}
+\begin{tabular}{ l r r r} 
+\hline
+& Precision & Recall & $F_{0.5}$ \\
+\hline
+magyarlanc & 72.59\% & 77.68\% & 73.55\% \\
+HTG & 44.73\% & 49.23\% & 45.56\% \\
+HTM & 43.19\% & 42.09\% & 42.97\% \\
+Punkt & 58.78\% & 45.66\% & 55.59\%  \\
+OpenNLP & 52.10\% & 96.30\% & 57.37\% \\
+Hybrid system & 93.28\% & 86.73\% & \underline{91.89\%} \\
+\hline
+\end{tabular}
+\end{table}
+
+First, results in Table \ref{tab:comparison} indicates that general segmentation methods fail on Hungarian clinical records in contrast to our new method. 
+Next, it has been found that the maxent approach has high recall, but boundaries marked by it are false positives in almost half of the cases. 
+Further on, rules of \texttt{magyarlanc} seem to be robust, but the overall low performance inhibits its application for clinical texts. 
+Finally, other tools do not just provide low recalls, but their precision values are around 50\% being too low for practical purposes. 
+
+Our approach mainly focuses on the sentence segmentation task, but an improvement of word tokenization is expected as well. Better recognition of words %that are not abbreviations 
+results in a higher recall (see Table \ref{tab:tok_eval}), while it does not significantly decrease precision. \label{sec:eval}
+
+\begin{table}
+\centering
+\caption{Comparing tokenization performance of the new tool with the baseline one}
+\label{tab:tok_eval}
+\begin{tabular}{ l r @{\hspace{0.3cm}} r @{\hspace{0.3cm}}  r} 
+\hline
+& Precision & Recall & $F_{1}$ \\
+\hline
+Baseline & 99.74\% & 74.94\% & 85.58\%  \\
+Hybrid system & 98.54\% & 95.32\% & \underline{96.90\%} \\
+\hline
+\end{tabular}
+\end{table}
+
+
+All in all, the segmentation method successfully deals with several sorts of imperfect sentence boundaries.
+As described in section \ref{sec:eval}, the given algorithm performs better in terms of precision and recall than competing ones. 
+Only \texttt{magyarlanc} reached an $F_{0.5}$-score above 60\%, which is still too low for practical applications. 
+The method presented in this study achieved a 92\% of $F_{0.5}$-score allowing its utilization for clinical Hungarian.
+
+%TODO: ITT
+
+\section{Tagging Clinical Notes}
+
+While tagging of general texts is well-known and considered to be solved, most of the commonly used methods fail on medical texts. Further on, English has been the main target of many NLP applications up to the present time, thus less-resourced languages, which are usually morphologically complex, often fell beyond the scope. Similarly, there are just a few studies attempting to annotate non-English medical texts. Further on, the processing of Hungarian clinical records has very little literature not containing any attempts on morphological tagging. This study investigates how existing techniques can be used for the morphological tagging of Hungarian clinical records.
+
+This section is structured as follows. The background of our research is described first. Then a corpus is presented which has been created for development and evaluation purposes. In Section \ref{sec:baseline}, we detail a baseline morphological disambiguation chain based on PurePos. Afterwards, we present the most frequent errors made by the baseline tagger. Finally enhancements that carried out on the text processing chain are described and evaluated.  
+
+\subsection{Background}
+
+\subsubsection{Biomedical tagging}\label{sec:biomed_tag}
+
+Processing of biomedical texts has an extensive literature, since there are numerous resources accessible. In contrast, much less manually annotated corpora of clinical texts are available. Most of the work in this field has been done for English, and  only a few attempts have been published for morphologically rich languages (e. g. \cite{oleynik2009performance,rost2008lessons}).
+
+A general approach for biomedical PoS tagging is to employ supervised learning algorithms, which require manually annotated data. 
+%However, these methods require manually disambiguated corpora. 
+In the case of tagging biomedical texts, domain-specific corpora are used either alone \cite{pakhomov2006developing,savova2010mayo,Smith2006} or in conjunction with a (sub)corpus of general English \cite{coden2005domain,ferraro2013improving,miller2007building} as training data. While using texts only from the target domain yields acceptable performance \cite{pakhomov2006developing,savova2010mayo,Smith2006}, 
+several experiments have shown that accuracy further increases with incorporating annotated sentences from the general domain as well \cite{barrett2011token,coden2005domain}. A general observation is that the more data is used from the reference domain, the higher accuracy can be achieved (e. g. \cite{pestian2004development}). On the contrary, Hahn and Wermter argue for training learners only on general corpora \cite{hahn2004tagging} (for German). Besides, there are studies on selecting training data (e. g. \cite{liu2007heuristic}) to increase accuracy. What is more, there are methods (such as \cite{choi2012fast}) which learn from several domains in a parallel fashion delaying the model selection decision to the decoding process. 
+
+Using target-specific lexicons is another way of adapting taggers, as they can improve tagging performance significantly \cite{coden2005domain,ruch2000minimal}.  Some of these studies extend existing PoS dictionaries \cite{divita2006dtagger}, while others build new ones specific to the target domain \cite{Smith2006}. In brief, all of the experiments using such resources yield significantly reduced error rates. 
+
+Concerning tagging algorithms, researchers tend to prefer already existing applications. Examples are the OpenNLP toolkit\footnote{\url{http://opennlp.apache.org/}}, which is the basis of the cTakes system \cite{savova2010mayo}; 
+while %TreeTagger \cite{Schmid1994}, 
+Brill’s method \cite{Brill1992} and TnT \cite{Brants2000} are widely used (e.g. \cite{hahn2004tagging,savova2010mayo,pestian2004development}) as well. 
+Beside these, other HMM-based solutions have been shown to perform well \cite{barrett2011token,coden2005domain,divita2006dtagger,hahn2004tagging,pakhomov2006developing,rost2008lessons,ruch2000minimal} on such texts. 
+
+Moving on, number of experiments have revealed \cite{ferraro2013improving,ruch2000minimal,Smith2006} that domain-specific OOV words are primarily responsible for a reduced tagging performance. Thus successful methods employ either guessing algorithms \cite{barrett2011token,divita2006dtagger,rost2008lessons,ruch2000minimal,Smith2006} or broad-coverage lexicons (as detailed above). Beyond supervised algorithms, other approaches were also shown to be effective: Miller et al. \cite{miller2007building} use semi-supervised methods;
+%\footnote{This algorithm needs raw data from the target domain, while an annotated general corpus is still used.}; 
+Dwinedi and Sukhadeve build a tagger system based only on rules \cite{dwivedi8rule}; while Ruch et al. propose a hybrid system \cite{ruch2000minimal}. Further on, domain adaptation methods (such as EasyAdapt \cite{daume2007frustratingly} or ClinAdapt \cite{ferraro2013improving} 
+%or reference distribution modelling  \cite{tateisi2006subdomain}
+) also perform well. However, they need an appropriate amount of manually annotated data from the target domain, which limits their applicability. 
+
+First we examine special properties of clinical notes, then a proper disambiguation methodology is being presented. The experiments described below rely on an error analysis of the baseline system (in Section \ref{sec:baseline}), while also incorporate ideas from previous studies (cf. Section  \ref{sec:biomed_tag}).
+
+\subsection{The clinical corpus}
+
+First of all, special properties of clinical texts need to be considered. Such records are created in a special environment, thus they differ from general Hungarian in several respects. These attributes are the following (cf. \cite{Orosz2013a,Siklosi2013b,Siklosi2012}):
+\begin{inparaenum}[\itshape a\upshape)]
+ \item notes contain a lot of erroneously spelled words,
+ \item sentences generally lack punctuation marks and sentence initial capitalization, 
+ \item measurements are frequent and have plenty of different (erroneous) forms,
+ \item a lot of (non-standard) abbreviations occur in such texts, 
+ \item and numerous medical terms are used that originate from Latin.
+\end{inparaenum}
+
+Since there is no corpus of clinical records available being manually annotated with morphological analyses, a new one have been created. This corpus contains about 600 sentences extracted from the notes of 24 different clinics. First, the textual parts of the records were identified (as described in \cite{Siklosi2012}), then the paragraphs to be processed were selected randomly. Then manual sentence boundary segmentation, tokenization and normalization was performed, which were aided by methods detailed in Section \ref{}. 
+%Manual spelling correction is carried out by using suggestions provided by the system of Siklósi et al. \cite{Siklosi2013}. 
+Finally, morphological disambiguation was performed: the initial annotation was provided by PurePos, then its output was checked manually. 
+
+%Similarly to clinical texts, 
+As regards the annotation of texts, clinical notes differ from general Hungarian that has been considered during the tagging. Beside characteristics described above, the corpus contains numerous \textit{x} tokens which denote multiplication thus being labeled as numerals. Latin words and abbreviations are analyzed regarding their meaning: e.g. \textit{o.} denotes \textit{szem} `eye’, thus it is tagged with \textsc{n.nom}. Further on, names of medicines are labeled as singular nouns. Finally, missing sentence final punctuation marks were not recovered in the test corpus, thus these are not tagged either. 
+
+\begin{table}
+\centering
+\caption{Size of the clinical corpus created}
+\label{tab:clin_corpus}
+\begin{tabular}{ l @{\hspace{0.3cm}} r @{\hspace{0.3cm}} r } 
+\hline
+& Sentences & Tokens \\
+\hline
+Development set & 240 & 2230 \\
+Test set & 333 & 3155 \\
+\hline
+\end{tabular}
+\end{table}
+
+The corpus is split into a development and a test set (see Table \ref{tab:clin_corpus}). The first part is employed for development purposes, while the methods detailed below are evaluated against the second part. Evaluation is carried out by calculating per-word accuracy omitting punctuation marks. 
+
+\subsection{The baseline settings}
+
+\label{sec:baseline}
+
+Starting with the baseline tagging chain, we describe its components, then the performance of the tagger is evaluated by detailing the most common error types. \emph{(morphosyntactic tag, lemma)} pairs represent the analyses of HuMor, which are then disambiguated by PurePos. However, the output of the MA is extended with the new analyses of \textit{x} in order to fit the corpus to be tagged. 
+
+This baseline text processing chain produced 86.61\% token accuracy on the development set, which is remarkably lower than tagging results for general Hungarian using the same components (96--98\% cf. \ref{}). Measuring precision on sentences revealed that less than the third (28.33\%) of the sentences were tagged correctly. This amount indicates that the models used by the baseline algorithm are weak for such a task. Therefore, errors made by the baseline algorithm are investigated first to reveal how the performance could be improved. 
+
+Table \ref{tab:error_types} shows that the top error class is the mistagged abbreviations and acronyms. 
+%These mistakes are mainly due to the complex tagging scheme of the corpus, since abbreviated terms are annotated regarding their meaning. 
+A reason for the high number of such errors is that most of these tokens are unknown to the tagger. Moreover, abbreviations usually refer to medical terms that originate from Latin.
+
+Another frequent mistake is caused by the out-of-vocabulary (OOV) which are specific to the clinical domain and often originate from Latin.
+This observation is in accordance with the PoS tagging results for medical English (as described above). 
+In contrast, inflected forms of OOV words are more frequent due to agglutination. This suggest that listing only medical terms and their analyses could not be a proper solution. 
+
+Furthermore, domain-specific usage of general words leads the tagger astray as well. Participles are mislabeled as verbs frequently, examples are \textit{javasolt} `suggested’ or  \textit{felírt} `written’. 
+In addition, numerous mistakes are due to the lexical ambiguity being present in Hungarian 
+%. Examples are: \textit{lép} that means either `spleen’ (organ) or 
+(such as \textit{szembe} which can refer to `into an eye’ or `toward/against’). 
+
+\begin{table}
+\centering
+\caption{Distribution of errors caused by the baseline algorithm -- dev. set}
+\label{tab:error_types}
+\begin{tabular}{ l r } 
+\hline
+Class & Frequency  \\
+\hline
+Abbreviations and acronyms & 49.17\% \\
+Out-of-vocabulary words & 27.27\% \\
+Domain-specific PoS of word forms & 14.88\% \\
+% Numbers & 0.02\% \\
+Other & 0.06\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Our investigation shows that most of the errors of the baseline system can be classified into the three categories shown in Table \ref{tab:error_types}. Admittedly we rely on this categorization to enhance the performance of the baseline system by eliminating its typical errors.
+
+\subsection{Domain adaptation experiments}
+
+Systematic changes were carried out to improve the tagging accuracy of the chain. First, the processes of lexicon extension and algorithmic modifications are described, then an investigation is presented aiming to find the optimal training data. Each enhancement is evaluated against the test corpus.
+
+\subsubsection{Extending the lexicon of the morphological analyzer}
+\label{sec:ma-extension}
+
+Supervised tagging algorithms commonly use augmented lexicons in order to reduce the number of out-of-vocabulary words (see Section \ref{sec:biomed_tag}). In the case of Hungarian, this must be performed at the level of the MA. This work has been carried out by Attila Novák \cite{}. He extended the lexicon of Humor with about 40000 entries using a spelling dictionary of medical terms \cite{Fabian1992} and a freely available list of medicines \cite{Foigazgatosag2012}.
+
+% The primary source for the extension process was a spelling dictionary of medical terms \cite{Fabian1992} that contained about 90000 entries. Beside this, a freely available list of medicines \cite{Foigazgatosag2012} of about 38000 items was used as well. Since neither of these resources contained any morphological information concerning these words, such analyses were created. For this, we followed an iterative process which included both human work and automatic algorithms. The steps of our workflow were the following: 1) a set of word forms was prepared and analyzed automatically (detailed below); 2) the analyses were checked and corrected manually; 3) the training sets of the supervised learning methods were extended with the results of step 2). Before each iteration, compounds of known items were selected to be processed first. This enhancement reduced the time spent on manual correction and granted the consistency of the database created. In the end, approximately 41000 new entries were added to the lexicon of the HuMor analyzer.
+% 
+% Since Latinate words can either be written as pronounced in Hungarian\footnote{An example is the Latin word \emph{dysplasia} \textipa{[displa\*:zia]}, which can be spelled as \emph{diszplázia} in Hungarian.} or can appear with the original Latin spelling, having both variants is necessary. Most of the entries in the dictionary had both the Hungarian and Latin spelling variants, but this was not always the case. Language identification of the words was carried out to distinguish Hungarian terms from the ones that have Greek, Latin, English or French spelling. For this, an adapted version of TextCat \cite{Cavnar1994} was involved in the iterative process to decide whether a word is Hungarian or not. If it was necessary, missing Hungarian spelling variants were produced using letter-to-sound rules of Latinate words as they are generally pronounced in Hungarian and were added semi-automatically to the lexicon.
+% 
+% As for the calculation of the morphological analyses, the guesser algorithm of PurePos was employed. Separate modules were employed for each language, thus language-specific training sets were maintained for them as well. 
+% %Beside the analyses, inflection paradigms of non-Hungarian words had to be determined as well. 
+% In Hungarian, the inflection paradigm depends on vowel harmony and the ending of the word as it is pronounced, thus the pronunciation of foreign words had to be calculated first. This could be carried out using the same simple hand-written rules implementing Latin grapheme-to-phoneme correspondences that were used to generate missing Hungarian spelling variants.
+% %, since Hungarian words are written as they are pronounced.
+
+Using an enhanced lexicon we could reduce the OOV word ratio from 34.57\% to 26.19\% (development set) which results in an accuracy of 92.41\% (test set). Since the medical dictionary \cite{Fabian1992} contained abbreviated words as well, this process could decrease the number of mistagged abbreviations as well.
+
+\subsubsection{Dealing with acronyms and abbreviations}
+
+% Results: https://docs.google.com/spreadsheet/ccc?key=0AuyL6SXy_ErGdFNUbTdRMlFPTGI2eUZDWmtEeENwV0E#gid=2
+
+Despite the changes in Section \ref{sec:ma-extension}, numerous errors made by the improved tagger are still connected to abbreviations. Thus we first examined erroneous tags of abbreviated terms, then developed methods aiming to improve the performance of the disambiguation chain. 
+
+A detailed error analysis revealed that some of the erroneous tags of abbreviated terms are due to the over-generating nature of HuMor. Such errors are reduced by a a simple filtering. 
+For words having attached full stops an analysis is considered to be false if its lemma is not an abbreviation. In doing so, we increased the overall accuracy significantly, reducing the number of errors by 9.20\% on the development set (cf. ``Filtering'' in Table \ref{tab:abbrev_fixes}).
+
+Another typical error type was the erroneous tagging of unknown acronyms. Since PurePos did not employ features that could deal with such cases, these tokens were left to the guesser producing various annotation. However, acronyms should have been tagged as singular nouns in most of the cases. Aiming this phenomena, a pattern matching component relying on surface features is employed to fix their tagging.% (see ``Acronyms'' in Table \ref{tab:abbrev_fixes}). 
+
+The rest of the errors were mainly connected to those abbreviations that were both unknown to the analyzer and had not been seen previously. For this, the distribution of the labels of abbreviations in the development data is compared to that of the Szeged Corpus (see Table \ref{tab:pos_distribution} below).
+While there are several common properties between the two columns (such as the ratio of adverbs), discrepancies occur even more often. One of them is the proportion of adjectives, which is significantly higher in the medical domain than in general Hungarian. Moreover, such differences become more important if we note that 10.85\% of the tokens are abbreviated in the development set, while the same ratio is only 0.37\% in the Szeged Corpus. 
+
+\begin{table}
+\centering
+\caption{Morphosyntactic tag frequencies of abbreviations -- dev. set}
+\label{tab:pos_distribution}
+\begin{tabular}{ l r r} 
+\hline
+Tag & Clinical texts & Szeged Corpus  \\ 
+\hline
+\scshape{n.nom} & 67.37\% & 78.18\% \\
+\scshape{a.nom} & 19.07\% & 3.96\% \\
+\scshape{conj} & 1.27\% & 0.50\% \\
+\scshape{adv} & 10.17\% & 11.86\% \\
+% \scshape{x} & 0.00\% & 5.42\% \\
+Other & 2.12\% & 5.50\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Since the noun tag was the most frequent amongst abbreviations, a plausible method  was to assign \textsc{n.nom} to all of these tokens (cf.  ``UnkN'' in Table \ref{tab:abbrev_fixes}) and to keep the original word forms as lemmata. This baseline method resulted in a surprisingly high error rate reduction of 31.54\%. 
+
+Another approach was to model the analyses of abbreviations with data observed in Table \ref{tab:pos_distribution}. The first experiment (``UnkUni'') employed a uniform distribution of labels for abbreviations present in the development set as an emission probability distribution. 
+Thus all the tags (\textsc{a.nom}, \textsc{a.pro}, \textsc{adv}, \textsc{conj}, \textsc{n.nom}, \textsc{v.3sg}, \textsc{v.pst\_ptcl}) were used with equal probability as a sort of guessing algorithm.
+
+Beside this, a better method was to use a maximum likelihood estimation for calculating a priori probabilities (``UnkMLE''). In this case,  relative frequency estimates were calculated for all the tags above.
+%Evaluation of the methodologies showed (cf. Table \ref{tab:abbrev_fixes}) that 
+While the latter approaches could increase the overall performance, none of them managed to reach the accuracy of the ``UnkN'' method (cf. Table \ref{tab:abbrev_fixes}). 
+
+\begin{table}
+\centering
+\caption{Comparison of the approaches aiming to handle acronyms and abbreviations --  dev. set}
+\label{tab:abbrev_fixes}
+\begin{tabular}{ l l r } 
+\hline
+ID & Method &  Precision \\
+\hline
+0 & Medical lexicon & 90.11\% \\
+1 & 0 + Filtering & 91.02\% \\
+2 & 1 + Acronyms & 91.41\% \\
+3 & 2 + UnkN & \underline{94.12\%} \\
+4 & 2 + UnkUni & 92.82\% \\
+5 & 2 + UnkMLE & 94.01\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Choosing the proper training data}
+
+Since many studies showed (cf. Section \ref{sec:biomed_tag}) that the training data used significantly affects the result of the annotation chain, we investigated sub-corpora of the Szeged Corpus. Several properties of the corpus were examined (cf. Table \ref{tab:subcorpora_attrib}) in order to find the training dataset that fits best for tagging clinical Hungarian. Measurements regarding the development set were calculated manually where it was necessary.
+
+\begin{table}
+\centering
+\caption{Properties of training corpora}
+\label{tab:subcorpora_attrib}
+\begin{tabular}{ l r r r r r } 
+\hline
+\multicolumn{1}{l}{\multirow{2}{*}{Corpus}} & Avg. sent. & Abbrev.  &  Unknown & Perplexity \\
+ & length & ratio &  ratio & Words & Tags \\
+\hline
+Szeged Corpus & 16.82 & 0.37\%\ \ \  & \underline{1.78\%} & \ \ 2318.02 & 22.56\\
+\hspace{0.2cm} Fiction & 12.30 & 0.10\% & 2.44\% & 995.57 & 32.57\\
+\hspace{0.2cm} Compositions & 13.22 & 0.14\% & 2.29\% & 1335.90 & 30.78\\
+\hspace{0.2cm} Computer & 20.75 & 0.14\% & 2.34\% & 854.11 & 22.89\\
+\hspace{0.2cm} Newspaper & 21.05 & 0.20\% & 2.10\% & 1284.89 & \underline{22.08}\\
+\hspace{0.2cm} Law & 23.64 & 1.43\% & 2.74\% & \underline{824.42} & 29.79\\
+\hspace{0.2cm} Short business news & 23.28 & 0.91\% & 2.50\% & 859.33 & 27.88\\
+% \hline
+Development set & 9.29 & 10.85\% & -- & -- & -- \\
+\hline
+\end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+First of all, an important attribute of a corpus is the length of its sentences. Texts having shorter sentences tend to have simpler grammatical structure, while longer sentences are grammatically more complex. Further on, clinical texts have a vast amount of abbreviations, thus the ratio of abbreviations is also relevant during the comparison. 
+
+Furthermore, the accuracy of a tagging system is strongly related to the ratio of unknown words, thus these proportions are calculated for the development set using the vocabulary of each training corpus (see Table \ref{tab:subcorpora_attrib}). This ratio could function as a similarity metric, but entropy-based measures work better \cite{kilgarriff1998measures} in such scenarios. We use perplexity, which is calculated here as follows: trigram models of word and tag sequences are trained on each corpus using Kneser-Ney smoothing, then all of them are evaluated against the development set\footnote{The SRILM toolkit \cite{stolcke2002srilm} was employed for the calculations.}.
+
+Measurements show that there is no such part of the Szeged Corpus which has as much abbreviated terms as clinical texts have. Likewise, sentences written by clinicians are significantly shorter than the ones in any of the genres present in the Szeged Corpus. Neither the calculations above, nor the ratio of unknown words suggest that we should use subcorpora for training. However, the perplexity scores contradict this: sentences from the law domain have the most phrases in common with clinical notes, while news texts have the most similar grammatical structures. 
+
+Therefore, all sub-corpora are evaluated as a training data on the development set using the improved tagger (cf. Section \ref{}). Results show that training on news texts resulted in high accuracy, using the whole data yields a more accurate tagger for clinical Hungarian.
+
+%TODO: dev.setes eredmények - nincs szignifikáns különbség, így maradunk a teljes anyagnál
+\begin{table}
+\centering
+\caption{Evaluation of the tagger using the subcorpora as training data -- dev. set}
+\label{tab:eval_subcorpora}
+\begin{tabular}{ l r } 
+\hline
+Corpus & Morph. disambiguation accuracy \\
+\hline
+Szeged Corpus & \underline{94.73\%} \\
+\hspace{0.2cm} Fiction & 92.01\% \\
+\hspace{0.2cm} Compositions & 91.97\% \\
+\hspace{0.2cm} Computer & 92.73\% \\
+\hspace{0.2cm} Newspaper & \underline{93.29\%} \\
+\hspace{0.2cm} Law & 92.17\% \\
+\hspace{0.2cm} Short business news & 92.69\% \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Evaluation}
+
+Table \ref{tab:improvements} contains the part-of-speech tagging, lemmatization and the whole morphological tagging performance of each system.
+
+%TODO: tábláaztok igazgatása, normális evaluation
+\begin{table}[h]
+\centering
+\caption{Evaluation of the improved tagger -- test set}
+\label{tab:improvements}
+\begin{tabular}{ l l r r r} 
+\hline
+ID & Method & PoS tagging & Lemmatization & Morph. disambig. \\
+\hline
+0 & Baseline system & 90.57\% & 93.54\% & 88.09\% \\
+1 & 0 + Lexicon extension & 93.89\% & 96.24\% & 92.41\% \\
+2 & 1 + Handling abbreviations & \underline{94.81\%} & \underline{97.60\%} & \underline{93.73\%} \\
+3 & 2 + Training data selection & 94.25\% & 97.36\% & 93.29\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Our enhancements raised the ceiling of the tagging accuracy to 93.73\% by eliminating almost half (47.36\%) of the mistakes. Deeper investigation revealed that this error rate reduction was mainly due to the usage of the extended lexicon, which significantly decreased the number of the out-of-vocabulary tokens. 
+Further on, we showed the using a uniform distribution for handling abbreviations improves the tagger used.
+While this research did not manage to find decent training data for tagging clinical Hungarian, it showed that neither part of the Szeged Corpus was able to outperform the whole as a training corpus. 
+
+In sum, commonly used methodologies alone fail to tag Hungarian clinical texts with a satisfactory accuracy. One of the main problems is that such algorithms are not able to deal with the tagging of abbreviations. However, methods presented yields a tagger which is a good base for annotation scenarios.
+
+%TODO az elejéről ide kellene hozni a táblázatot + néhány sor + konklúzió
+% 
+% In this study, resources and methodologies were introduced that enabled us to investigate morphological tagging of clinical Hungarian. First, a test corpus was created and was compared in detail with a general Hungarian corpus. This corpus also allowed for the evaluation of numerous tagging approaches. These experiments were based on the PurePos tagger tool and the HuMor morphological analyzer. Errors made by the baseline morphological disambiguation chain were investigated, then several enhancements were carried out aiming at correcting the most common mistakes of the baseline algorithm. Amongst others, we extended the lexicon of the morphological analyzer and introduced several methods to handle the errors caused by abbreviations. 
+% 
+% The baseline setup labeled every eighth token erroneously. Although this tagging chain is commonly used for parsing general Hungarian, it resulted in mistagged medical sentences in two thirds of the cases. In contrast,
+% our enhancements raised the ceiling of the tagging accuracy to 93.73\% by eliminating almost half (47.36\%) of the mistakes. Deeper investigation revealed that this error rate reduction was mainly due to the usage of the extended lexicon, which significantly decreased the number of the out-of-vocabulary tokens. While this research did not manage to find decent training data for tagging clinical Hungarian, it showed that neither part of the Szeged Corpus was able to outperform the whole as a training corpus. Finally, results of tagging abbreviations suggest that abbreviated terms should not be tagged directly. They should be resolved first or should be labeled with a uniform tag.% The latter approach would let further practical applications to handle them. 
+
+% The main limitation of this research is the corpus used. It contains a few hundred sentences, which is only enough to reveal the main pitfalls of the tagging method. Furthermore, most of the domain adaptation methods rely on target-specific corpora that have several thousands of sentences. Taking these into consideration, further investigation should involve more manually annotated data from the medical domain. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

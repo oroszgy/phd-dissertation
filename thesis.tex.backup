@@ -11,7 +11,7 @@
 % ******************************* PhD Thesis Template **************************
 % Please have a look at the README.md file for info on how to use the template
 
-\documentclass[a4paper,11pt,oneside,times,numbered,custommargin,PageStyleII]{Classes/PhDThesisPSnPDF}
+\documentclass[a4paper,11pt,oneside,times,numbered,index,custommargin]{Classes/PhDThesisPSnPDF}
 
 % ******************************************************************************
 % ******************************* Class Options ********************************
@@ -125,48 +125,44 @@
 
 \end{titlepage}
 
-\include{Dedication/dedication}
-\include{Declaration/declaration}
-\include{Acknowledgement/acknowledgement}
-\include{Abstract/abstract}
+% \include{Dedication/dedication}
+% \include{Declaration/declaration}
+% \include{Acknowledgement/acknowledgement}
+% \include{Abstract/abstract}
 
 % *********************** Adding TOC and List of Figures ***********************
 
 \tableofcontents
 
-\listoffigures
+% \listoffigures
 
-\listoftables
+% \listoftables
 
 % \printnomenclature[space] space can be set as 2.5cm between symbol and
 % description
-\printnomencl
+% \printnomencl
 
 % ******************************** Main Matter *********************************
 \mainmatter
 
 \chapter{Introduction}
-\input{Introduction/introduction}
-
-\chapter{Background}
-
-\chapter{Full morphological tagging methods}
-\input{MorphTagging/chapter_tagging}
-
-\chapter{An application of the morphological tagging method}
-\input{MorphComplexity/chapter_complexity}
-
-\chapter{Methods for a less-resourced domain}
-\input{Clinical/chapter_clinical}
-
-\chapter{Summary -- new scientific results}
-\input{Summary/summary}
+\include{Chapter1/chapter1}
+\chapter{Algorithms for full morphological disambiguation}
+\include{Chapter2/chapter2}
+\chapter{Preprocessing clinical texts}
+\include{Chapter3/chapter3}
+% Tagging a speech transcripts
+\include{Chapter4/chapter4}
+% Conclusion Theses
+\include{Chapter5/chapter5}
+%\include{Chapter6/chapter6}
+%\include{Chapter7/chapter7}
 
 
 
 % ********************************** Back Matter *******************************
 % Backmatter should be commented out, if you are using appendices after References
-% \backmatter
+%\backmatter
 
 % ********************************** Bibliography ******************************
 % \begin{spacing}{0.9}
@@ -193,12 +189,12 @@
 
 % ********************************** Appendices ********************************
 
-\begin{appendices} % Using appendices environment for more functunality
+% \begin{appendices} % Using appendices environment for more functunality
 
 % \include{Appendix1/appendix1}
 % \include{Appendix2/appendix2}
 
-\end{appendices}
+% \end{appendices}
 
 % *************************************** Index ********************************
 % \printthesisindex % If index is present

@@ -1,0 +1,24 @@
+
+\section{Introduction}
+
+Hospitals produce a huge amount of clinical notes that have solely been used for archiving purposes and have generally been inaccessible to researchers. However, application of NLP tools could make available the hidden knowledge of archived records boosting medical research. 
+While developing text processing tools for medicians is an emerging field in many developed countries, this is not typical for less-resourced languages.
+
+To be able to extract information from such textual data, they must be preprocessed properly consisting several steps.
+First, adequate text segmentation methods\footnote{While the term \emph{text segmentation} is widely used for diverse tasks, in our work it is used as the process of dividing text into word tokens and sentences.} 
+are required for finding token and sentence boundaries. Next, morphological tagging is indispensable for information extraction tasks of morphologically rich languages. 
+
+Considering the case of Hungarian, there are only a few studies on processing medical records. First, Siklósi et al. \cite{Siklosi2012,Siklosi2013} presented a system that is able to correct spelling errors in clinical notes. They use a mixture of language models to generate correction candidates, however focusing only on correctly segmented words. 
+Although, a resolution method for clinical abbreviations has been presented by them \cite{Siklosi2013b}, morphosyntactic tagging is still untouched. 
+As far as we know, no study investigates method for segmenting nor tagging clinical Hungarian. 
+
+In this chapter, we present algorithms for preprocessing clinical texts in a less-resourced language effectively. Firstly, an accurate method is introduced detecting sentence and token boundaries. Secondly, tagging experiments are presented yielding a proper morphological tagger for clinical Hungarian. 
+
+\section{Text segmentation in clinical records}
+\input{Clinical/section_segmentation}
+
+\pagebreak
+
+\section{Tagging Clinical Notes}
+\input{Clinical/section_tagging}
+

@@ -1,52 +1,3 @@
-\chapter{Algorithms for full morphological disambiguation}
-\section{Motivation}
-
-This chapter draws on research in morphological tagging of languages which are so-called less-resourced (those that lack linguistic resources e.g. manually annotated corpora).
-Although several attempts have been made on developing part-of-speech tagging algorithms since the 1960’s (e.g.~\cite{}), those were focusing mainly on English.
-Further on, in contrast to the consensus of NLP scientist that these studies resulted in methods that commonly accepted as solutions to the problem (~\cite{}), there are still many open questions.
-Most of the previous work only concentrate on increasing the accuracy of taggers on news text, many other problems (such as domain adaptation of taggers) are still barely touched.
-However, there has been an increasing interest recently on processing texts in less-resourced languages, which are usually morphologically rich.
-Most of them are inflectional or agglutinative which pose new challenges to researchers.
-This work will give an account of agglutinating languages by investigating the case of Hungarian.
-
-The data sparseness issue of the tagging task is remarkable for morphologically rich languages.
-If we compare (cf.~\cite{Oravecz}) agglutinative languages like Hungarian or Finnish with English in terms of the coverage of vocabulary by a corpus of a given size, we find that although there are a lot more different word forms in the corpus, these still cover a much smaller percentage of possible word forms of the lemmata in the corpus than in the case of English.
-On the one hand, a 10 million word English corpus has less than 100,000 different word forms~\cite{}, a corpus of the same size for Finnish or Hungarian contains well over 800,000.
-On the other hand, while an open class English word has about 4--6 different inflected forms, it has several hundred or thousand different productively suffixed forms in agglutinative languages.
-Moreover, there are much more different possible morphosyntactic tags in the case of these languages (cf.~\cite{}) than in English (several thousand vs. a few dozen).
-Thus the problem is threefold:
-
-\begin{itemize}
-  \item an overwhelming majority of possible word forms of lemmata occurring in the corpus is totally absent,
-  \item word forms that do occur in the corpus have much fewer occurrences, and
-  \item there are also much fewer examples of tag sequences, what is more, many tags may not occur in the corpus at all.
-\end{itemize}
-Another issue for morphologically rich languages is that tagging words with only their part-of-speech is insufficient.
-On one hand, it is due to the fact that the complex morphosyntactic features carried by the inflectional morphemes could not be represented in such small tagsets that have less than a hundred different labels.
-On the other hand, morphosyntactic tagging is still just a subtask of the full morphological disambiguation.
-In addition to a full morphosyntactic tag, the lemma of each word also needs to be identified.
-Although several studies have revealed that dictionary- or rule-based lemmatization/stemming methods yields acceptable results~\cite{} for morphologically not very rich languages like English, ambiguity is present in lemmatization for highly inflectional and agglutinative languages~\cite{Hajic,Szlovénok,Morfette}.
-Therefore, the identification of the correct lemma is a challenging task.
-Yet, most of the currently available taggers only concentrate on determining the morphological tag but not the lemma, thus doing just half of the job.
-
-Another key point is the case of resource-scarce languages where the annotated corpora available is limited.
-Pursuing this further, to create a morphologically annotated corpus for such a language, an iterative workflow is a feasible approach:
-
-\begin{itemize}
-  \item first, a very small subset of the corpus is disambiguated manually,
-  \item then a tagger is trained on this subset,
-  \item after that, another subset of the corpus is tagged automatically and corrected manually, yielding a new, bigger training corpus and this process is repeated. 
-\end{itemize}
-For this process to be in fact feasible, a high accuracy tagger is needed which performs well even when just a small amount of training data is available. 
-
-In this chapter, approaches on developing effective morphological tagging algorithms is presented.
-First, I review common tagging and lemmatization methods, then introduce  a hybrid approach to the full.
-It is being show, that the methodology presented achieves state-of-the-art accuracy, even more performs well when only a limited training data is available.
-In section \ref{} a tagger combination method is presented which is built on top of two systems raising the ceiling of the tagging accuracy.
-Finally, new scientific results are summed up by declaring theses.
-
-\section{Hybrid morphological tagging}
-
 \subsection{Background}
 
 \subsubsection{PoS tagging}
@@ -482,15 +433,4 @@ PurePos  & 96.48\% & 80.95\% \\
 \hline
 \end{tabular}
 \end{table}
-
-
-
-
-
-
-\pagebreak
-
-
-\input{Chapter2/section3/section3}
-
  
