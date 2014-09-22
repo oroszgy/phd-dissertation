@@ -125,33 +125,33 @@
 
 \end{titlepage}
 
-\include{Dedication/dedication}
-\include{Declaration/declaration}
-\include{Acknowledgement/acknowledgement}
-\include{Abstract/abstract}
+% \include{Dedication/dedication}
+% \include{Declaration/declaration}
+% \include{Acknowledgement/acknowledgement}
+% \include{Abstract/abstract}
 
 % *********************** Adding TOC and List of Figures ***********************
 
 \tableofcontents
 
-\listoffigures
+% \listoffigures
 
-\listoftables
+% \listoftables
 
 % \printnomenclature[space] space can be set as 2.5cm between symbol and
 % description
-\printnomencl
+% \printnomencl
 
 % ******************************** Main Matter *********************************
 \mainmatter
 
-\chapter{Introduction}
-\input{Introduction/introduction}
+% \chapter{Introduction}
+% \input{Introduction/introduction}
 
-\chapter{Background}
+% \chapter{Background}
 
-\chapter{Full morphological tagging methods}
-\input{MorphTagging/chapter_tagging}
+% \chapter{Full morphological tagging methods}
+% \input{MorphTagging/chapter_tagging}
 
 \chapter{An application of the morphological tagging method}
 \input{MorphComplexity/chapter_complexity}
@@ -159,8 +159,8 @@
 \chapter{Methods for a less-resourced domain}
 \input{Clinical/chapter_clinical}
 
-\chapter{Summary -- new scientific results}
-\input{Summary/summary}
+% \chapter{Summary -- new scientific results}
+% \input{Summary/summary}
 
 
 
@@ -176,10 +176,9 @@
 % Reference styles: http://sites.stat.psu.edu/~surajit/present/bib.htm
 
 \bibliographystyle{ieeetr}
-%\bibliographystyle{plainnat} % use this to have URLs listed in References
-\cleardoublepage
-\bibliography{References/section3} % Path to your References.bib file
 
+\cleardoublepage
+\bibliography{References/section_combination,References/section_clinical_tagging,References/section_clinical_segmentation,References/chapter_mlu} 
 
 % If you would like to use BibLaTeX for your references, pass `custombib' as
 % an option in the document class. The location of 'reference.bib' should be

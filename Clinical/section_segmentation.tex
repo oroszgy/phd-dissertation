@@ -24,11 +24,11 @@ The task of text segmentation is often composed of several subtasks: normalizati
 Although, these subtasks are generally performed one after another, there are approaches (e.g. \cite{zhu2007unified}), where text segmentation and normalization are treated as a unified tagging problem. Further on, handling of abbreviations is often involved during the process, since their identification helps detecting sentence and token boundaries.
 
 As regards tokenization, it is generally treated as a simple engineering problem\footnote{In the case of alphabetic writing systems.} aiming to split punctuation marks from word forms. On the contrary, SBD is a rather researched topic. As Read et al. summarize \cite{read2012sentence}, sentence segmentation approaches fall into three classes: 
-\begin{inparaenum}[\itshape 1\upshape)]
+\begin{enumerate}
  \item rule-based methods employing domain- or language-specific knowledge (such as abbreviations); 
  \item supervised machine learning approaches, which may not be robust amongst domains (being specialist on the training corpus); 
  \item unsupervised learning methods, which extract their knowledge from raw unannotated data. 
-\end{inparaenum}
+\end{enumerate}
 
 As regards ML attempts, one of the first methods was presented by Riley \cite{riley1989some} applying decision-tree learners for disambiguating full stops. He utilized mainly lexical features, such as word length and case, and probabilities of a word being sentence-initial or sentence-final. 
 Next, the SATZ system of Palmer et al. \cite{palmer1997adaptive} employs machine learning algorithms employing contextual and PoS features as well. 
@@ -55,6 +55,7 @@ As regards Hungarian, there are two text segmentation tools available. Huntoken 
 Since we found that existing tools cannot process medical texts properly, this section present a study on segmenting texts of noisy clinical notes. First, we investigate special properties of the target by creating a manually segmented corpus. Considering the target data we present a method which combines high precision rules with an unsupervised SBD method with well established recall.
 
 \subsection{Clinical text used}
+\label{sec:clin_corpus}
 
 A gold standard corpus is collected and manually corrected enabling the investigation and evaluation of segmentation approaches.
 This process involved several steps. First, input texts had to be normalized first, since the data collected is highly erroneous.
@@ -104,6 +105,7 @@ an erroneously split sentence may cause information loss\label{sec:loss}, while 
 Consequently, $F_{0.5}$ is computer for SBD, while word tokenization is evaluated with the standard $F_1$ measure. 
 
 \subsection{Segmentation Methods}
+\label{sec:clinical_segmentation}
 
 Our system is built up from several components. 
 First, we introduce a baseline rule-based method which is used for marking word and sentence boundaries\footnote{Rules and heuristics used are formulated investigating the development corpus.}. 
@@ -137,7 +139,7 @@ To improve SBD results of the baseline method we investigate the applicability o
 
 Unfortunately, these are not directly applicable in our case. First of all, medical abbreviations are too diverse: clinicians usually introduce new ones not being part of the standard. 
 Further on, Latin words and abbreviations are sometimes capitalized by mistake. In addition, some subclauses begin with capitalized words as well. 
-Finally, as shown in Section \ref{}, several sentence boundaries lack both of these indicators.
+Finally, as shown in Section \ref{sec:clin_corpus}, several sentence boundaries lack both of these indicators.
 
 Even though these features are not proper indicators they can still be for used finding sentences. In addition, one does not need a full list of possible abbreviations neither. It is enough to find \emph{evidence} for the separateness of a word and the period attached to classify this position as a sentence boundary. 
 This idea was introduced by Kiss and Strunk \cite{kiss2006unsupervised} and is being adapted in this study.
