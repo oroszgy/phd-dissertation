@@ -1,0 +1,144 @@
+\documentclass[twoside]{article}
+
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{amsmath}
+
+\usepackage{hyperref}
+\usepackage[a5paper, vmargin={2cm,2cm}, hmargin={2cm,2cm}]{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{changepage}
+\usepackage{todonotes}
+% \usepackage{minipage}
+% \hypersetup{pdfstartview=FitH}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAGYAR %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{times}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+\usepackage[magyar]{babel}
+\usepackage{indentfirst}
+
+
+\onehalfspacing
+\frenchspacing 
+\sloppy 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathOperator{\argmax}{arg\,max}
+
+\newtheoremstyle{thesis}
+  {\parskip}   % ABOVESPACE
+  {\parskip}   % BELOWSPACE
+  {\bfseries}  % BODYFONT
+  {}       % INDENT (empty value is the same as 0pt)
+  {\bfseries\scshape} % HEADFONT
+  {.}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+  
+\newtheoremstyle{pub}
+  {\parskip}   % ABOVESPACE
+  {\parskip}   % BELOWSPACE
+  {}  % BODYFONT
+  {}       % INDENT (empty value is the same as 0pt)
+  {} % HEADFONT
+  {:}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+  
+\newtheoremstyle{app}
+  {\parskip}   % ABOVESPACE
+  {\parskip}   % BELOWSPACE
+  {}  % BODYFONT
+  {}       % INDENT (empty value is the same as 0pt)
+  {\bfseries} % HEADFONT
+  {}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+
+\newenvironment{core}
+% {\begin{minipage}{\textwidth}\begin{adjustwidth}{0.8cm}{0.8cm}}
+% {\end{adjustwidth}\end{minipage}}
+{\begin{adjustwidth}{0.8cm}{0.8cm}}
+{\end{adjustwidth}}
+
+\theoremstyle{thesis}
+\newtheorem{thesis}{Tézis}[subsection]
+
+\theoremstyle{pub}
+\newtheorem*{pub}{A tézishez kapcsolódó publikáció}
+
+\theoremstyle{app}
+\newtheorem*{app}{Alkalmazási területek}
+
+\theoremstyle{thesis}
+\newtheorem{innercustomthm}{Tézis}
+\newenvironment{cthesis}[1]
+  {\renewcommand\theinnercustomthm{#1}\innercustomthm}
+  {\endinnercustomthm}
+
+
+\newcommand{\thesisline}{%
+  \noindent
+  \begin{center}
+     \vspace{0.3cm}
+   --- $\bullet$ ---
+%      \vspace{0.3cm}
+  \end{center}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  TARTALOM  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author{Orosz György}
+\title{Hibrid előfeldolgozó algoritmusok morfológiailag komplex nyelvek hatékony feldolgozására}
+
+\begin{document}
+
+\maketitle
+
+\section{Bevezetés}
+% \input{Theses_hu/introduction}
+% 
+% \pagebreak
+\section{Felhasznált módszerek}
+% \input{Theses_hu/methods}
+
+\pagebreak
+\section{Új tudományos eredmények}
+\input{Theses_hu/theses}
+
+% \pagebreak
+\section{Alkalmazási területek}
+\input{Theses_hu/application}
+
+% \pagebreak
+\section{Köszönetnyilvánítás}
+% 
+% \pagebreak
+\section{A szerző publikációi}
+
+\subsection*{A szerző saját folyóirat publikációi}
+
+\subsection*{A szerző saját nemzetközi konferencia publikációi}
+
+\subsection*{A szerző saját egyéb publikációi}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{ieeetr}
+\nocite{*}
+\cleardoublepage
+\bibliography{References/my_pub} 
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

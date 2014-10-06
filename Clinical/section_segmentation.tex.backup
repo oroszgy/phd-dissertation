@@ -204,31 +204,29 @@ In doing so, their method loose the asymptotic relation to $\chi^2$ and became a
 
 Utilizing their ideas, we improved the original method in numerous ways. 
 First of all, the inverse score ($iscore=1/log\lambda$) is calculated as a base, since it helps to find candidates co-occurring only by chance. 
-Moving on, we present further scaling factors reviewing that of Punkt and adapting them to match the characteristics of the target domain.
+Furthermore, we present review scaling factors of Punkt, then adapt them to match the characteristics of the target domain.
 
-Several sorts of abbreviations occur with relative low frequencies. Therefore, counts and count ratios do not indicate properly alone whether a token and the period is related in a clinical record. 
-In that way, the first modification of Punkt \cite{kiss2006unsupervised} cannot be directly applied in our case, thus ignored. 
+Several sorts of abbreviations occur with relative low frequencies, therefore counts and count ratios do not indicate properly whether a token and the period is related in a clinical record. In that way, the first enhancement of Punkt \cite{kiss2006unsupervised} cannot be directly applied in our case thus ignored. 
 
 Next, length of words ($len$) has been shown to indicate abbreviations well. 
 This is even true for medical texts, since shorter tokens tend to be abbreviations, while longer ones do not. 
 Therefore, we reformulate the original function to penalize short words and reward longer ones. 
 Having a medical abbreviation list of almost 200 \label{sec:abbrev} elements\footnote{The list is gathered with an automatic algorithm on the development corpus using word shape properties and frequencies. The most frequent elements are manually verified and corrected.} 
 we found that that more than 90\% of the abbreviations are shorter than three characters. 
-This fact led us to formulate the scaling factor as in Equation \eqref{eq:s_l}. 
-In doing so, this enhancement can also decrease the score of a bad candidate, which distinguish it from the original formula of Kiss and Strunk.
+This fact led us to formulate the scaling factor in equation \eqref{eq:s_l}. 
+In doing so, this modification decreases the score of a candidate as well, which was not present in the original formula of Kiss and Strunk.
+
 
 \begin{equation} \label{eq:s_l}
 S_{length}(iscore)= iscore \cdot \exp{(len/3-1)}
 \end{equation}
 
 Recently, HuMor \cite{Proszeky1994,Proszeky2005}  has been extended with the content of a medical dictionary \cite{Orosz:mszny2013}. 
-What is more, the analyzer is able indicate whether analyses refers to abbreviations.
-Its output is used to enhance the sentence segmentation algorithm.  
-
-An indicator function (Equation \eqref{eq:sign}) is built on top of its output to denote whether a word can be an abbreviation or not.
+What is more, the analyzer is able indicate whether analyses refers to abbreviations, thus its output is used to enhance the sentence segmentation algorithm.  
+An indicator function (Equation \eqref{eq:sign}) is built on top of it to denote whether a word can be an abbreviation or not.
 Furthermore, the morphological lexicon used is a well-established resource, therefore applications can rely on them with high confidence.
-In that was, the factor formulated (cf. Equation \eqref{eq:s_m}) uses larger weights compared to others. 
-This method raises the score of a full word, decreases that of an abbreviation, while values of unknown words are left as they were.
+Consequently, a strong factor is formulated (Equation \eqref{eq:s_m}) which uses larger weights compared to others. 
+In doing so, this method raises the score of full words, decreases that if abbreviations, while values of unknown words are left as they were.
 
 \begin{equation}\label{eq:sign}
  indicator_{morph}(word) =
@@ -245,8 +243,8 @@ S_{morph}(iscore)= iscore \cdot \exp{( indicator_{morph} \cdot len^2)}
 
 Besides, an additional attribute can also boost the segmentation process.
 Hyphens are generally not present in abbreviations but rather occurs in full words. 
-Relying on this observation, $iscore$ is adjusted (see Equation \eqref{eq:s_h}) with another indicator function:
-$indicator_{hyphen}$ outputs $1$ only if the word contains a hyphen. 
+Therefore, $iscore$ is adjusted relying on this observation (see Equation \eqref{eq:s_h}). 
+$indicator_{hyphen}$ is utilized outputting $1$ only if the word contains a hyphen. 
 
 \begin{equation} \label{eq:s_h}
 S_{hyphen}(iscore)= iscore \cdot \exp{(indicator_{hyphen} \cdot len)}
@@ -257,11 +255,11 @@ S = S_{length} \circ S_{morph} \circ S_{hyphen}
 \end{equation}
 
 Scaled $\log \lambda$ (cf. $S(iscore)$ in Equation \eqref{eq:scaling}) is calculated for all \emph{(word, $\bullet$)} pairs not followed by any other punctuation mark. 
-If this value is found to be higher than a threshold, the period is regarded as a sentence boundary and it is detached.\footnote{Threshold value is empirically set to $1.5$.} 
-Otherwise, the joint token is treated as an abbreviation.
+If this value is found to be higher than a threshold, the period is regarded as a sentence boundary and it is detached.\footnote{Threshold value is empirically set to $1.5$.}
 
-To investigate the improvement of our method, our filtering method is pipelined with the BSBD module showing 77.14\% recall and 97.10\% precision on the development set. 
-Accuracy values indicate significant improvement but also mark that many sentence boundaries are still not found.
+To investigate the improvement of our method, $S(iscore)$ filter is pipelined with the BSBD module. 
+This joint method results in 77.14\% recall and 97.10\% precision on the development set. 
+Accuracy values show significant improvement but also indicate that many sentence boundaries are still not found.
 
 \paragraph{Filters on capitalization}
 
@@ -296,13 +294,13 @@ BSBD & 99.11\% \\
 \end{tabular}
 \end{table}
 
-Evaluation is presented for each components showing their accuracies in Table \ref{tab:base} ( being calculated as it described in Section \ref{sec:metric}).
-First, our improvements are compared to the baseline module to the raw preprocessed corpus as well.
+Accuracy values in Table \ref{tab:base} are calculated as it described in Section \ref{sec:metric}.
+First, the presented improvements are compared to the baseline module to the raw preprocessed corpus as well.
 The unsupervised SBD algorithm is marked with \emph{LLR}\footnote{Referring to the term log-likelihood ratio.}, while the second component is indicated by the term \emph{CAP}.
 Results show really high accuracies for the overall segmentation task, however the metric applied is not well balanced. 
-As raw corpus accuracy indicates, relatively high scores exist even for the preprocessed text. 
+As raw corpus accuracy indicates it gives relatively high scores even for the preprocessed text. 
 
-Next, we investigate overall improvements by calculating relative error rate reduction scores (in Table \ref{tab:reduction}). 
+Next, we show the improvements of the described components as well by calculating relative error rate reduction scores (in Table \ref{tab:reduction}). 
 Comparison is carried out measuring enhancements over the baseline method (BSBD). 
 
 \begin{table}[h]
@@ -319,6 +317,7 @@ LLR + CAP & 65.50\% \\
 \hline
 \end{tabular}
 \end{table}
+
 
 Considering sentence boundaries, a more detailed analysis is got by computing precision, recall and $F_{0.5}$ values in Table \ref{tab:prec_rec}. 
 These results show that each component significantly increases the recall, while precision is just barely decreased. 
@@ -384,11 +383,11 @@ Hybrid system & 93.28\% & 86.73\% & \underline{91.89\%} \\
 \end{tabular}
 \end{table}
 
-Results in Table \ref{tab:comparison} show that general segmentation methods fail on Hungarian clinical notes in contrast to our new method. 
+Results in Table \ref{tab:comparison} show that general segmentation methods fail on Hungarian clinical records in contrast to our new method. 
 The hybrid approach presented bears with both high precision and recall, providing accurate sentence boundaries.
 It has been found that the maxent approach has high recall as well, but boundaries marked by it are false positives in almost half of the cases. 
 Further on, rules of \texttt{magyarlanc} seem to be robust, but the overall low performance inhibits its application for clinical texts. 
-Finally, other tools do provide not just low recalls, but their precision values are still around 50\% limiting their applicability. 
+Finally, other tools do not just provide low recalls, but their precision values are around 50\% being limited for practical purposes. 
 
 In sum, the presented segmentation method successfully deals with several sorts of imperfect sentence and word boundaries.
 It performs better in terms of precision and recall than competing ones, achieving 92\% of $F_{0.5}$-score. 

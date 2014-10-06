@@ -1,0 +1,118 @@
+\documentclass[twoside]{article}
+
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{amsmath}
+
+\usepackage{hyperref}
+\usepackage[a5paper, vmargin={2cm,2cm}, hmargin={2cm,2cm}]{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{changepage}
+\usepackage{todonotes}
+% \hypersetup{pdfstartview=FitH}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% MAGYAR %%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{times}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+\usepackage[magyar]{babel}
+\usepackage{indentfirst}
+
+
+\onehalfspacing
+\frenchspacing 
+\sloppy 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEF %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathOperator{\argmax}{arg\,max}
+
+\newtheoremstyle{thesis}
+  {0.5cm}   % ABOVESPACE
+  {0.5cm}   % BELOWSPACE
+  {\bfseries}  % BODYFONT
+  {}       % INDENT (empty value is the same as 0pt)
+  {\bfseries\scshape} % HEADFONT
+  {\newline}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+  
+\newtheoremstyle{pub}
+  {\par}   % ABOVESPACE
+  {}   % BELOWSPACE
+  {}  % BODYFONT
+  {}       % INDENT (empty value is the same as 0pt)
+  {} % HEADFONT
+  {:}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+  
+\newtheoremstyle{app}
+  {}   % ABOVESPACE
+  {}   % BELOWSPACE
+  {}  % BODYFONT
+  {}       % INDENT (empty value is the same as 0pt)
+  {\bfseries} % HEADFONT
+  {}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+
+\newenvironment{core}
+{\begin{adjustwidth}{1cm}{1cm}}
+{\end{adjustwidth}}
+
+\theoremstyle{thesis}
+\newtheorem{thesis}{Tézis}[subsection]
+
+\theoremstyle{pub}
+\newtheorem*{pub}{A tézishez kapcsolódó publikáció}
+
+\theoremstyle{app}
+\newtheorem*{app}{Alkalmazási területek}
+
+\newcommand{\thesisline}{%
+  \noindent
+  \begin{center}
+%     \vspace{0.3cm}
+   --- $\bullet$ ---
+%      \vspace{0.3cm}
+  \end{center}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\author{Orosz György}
+\title{Hibrid előfeldolgozó algoritmusok morfológiailag komplex nyelvek hatékony feldolgozására}
+
+\begin{document}
+
+\maketitle
+
+% \section{Bevezetés}
+% \input{Theses_hu/introduction}
+% 
+% \pagebreak
+% \section{Felhasznált módszerek}
+% \input{Theses_hu/methods}
+
+\pagebreak
+\section{Összefoglalás: új tudományos eredmények}
+\input{Theses_hu/theses}
+
+% \pagebreak
+% \section{Alkalmazási területek}
+% \input{Theses_hu/application}
+
+% \pagebreak
+% \section{Köszönetnyilvánítás}
+% 
+% \pagebreak
+% \section{A szerző publikációi}
+
+
+\end{document}
+

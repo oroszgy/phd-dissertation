@@ -1,4 +1,4 @@
- % arara: clean: { files: [thesis.aux, thesis.bbl, thesis.blg, thesis.dvi, thesis.fdb_latexmk, thesis.fls, thesis.idx, thesis.ilg, thesis.ind, thesis.lof, thesis.log, thesis.lot, thesis.nlo, thesis.nls, thesis.out, thesis.pdf, thesis.ps, thesis.toc]}
+% arara: clean: { files: [thesis.aux, thesis.bbl, thesis.blg, thesis.dvi, thesis.fdb_latexmk, thesis.fls, thesis.idx, thesis.ilg, thesis.ind, thesis.lof, thesis.log, thesis.lot, thesis.nlo, thesis.nls, thesis.out, thesis.pdf, thesis.ps, thesis.toc]}
 % arara: latex:  { shell: yes }
 % arara: bibtex
 % arara: nomencl
@@ -110,9 +110,9 @@
 % Useful option to review a particular chapter or to send it to supervisior.
 % To use choose `chapter' option in the document class
 
-\ifdefineChapter
- \includeonly{Chapter2/chapter2}
-\fi
+% \ifdefineChapter
+%  \includeonly{Chapter2/chapter2}
+% \fi
 
 % ******************************** Front Matter ********************************
 \begin{document}
@@ -127,16 +127,23 @@
 
 % \include{Dedication/dedication}
 % \include{Declaration/declaration}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PPCU FIT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \include{Acknowledgement/acknowledgement}
-% \include{Abstract/abstract}
+% \include{Abstract/abstract_en}
+% \include{Abstract/abstract_hu}
+% \listoffigures
+% \listoftables
+% \printnomenclature[2.5cm]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % *********************** Adding TOC and List of Figures ***********************
 
+
 \tableofcontents
 
-% \listoffigures
-
-% \listoftables
 
 % \printnomenclature[space] space can be set as 2.5cm between symbol and
 % description
@@ -145,61 +152,35 @@
 % ******************************** Main Matter *********************************
 \mainmatter
 
-% \chapter{Introduction}
+\chapter{Introduction}
 % \input{Introduction/introduction}
 
-% \chapter{Background}
+% \chapter{Methods}
 
-% \chapter{Full morphological tagging methods}
+\chapter{Full morphological tagging methods}
 % \input{MorphTagging/chapter_tagging}
 
-\chapter{An application of the morphological tagging method}
+\chapter{An application of the morphological tagger: estimating MLUm}
 \input{MorphComplexity/chapter_complexity}
 
 \chapter{Methods for a less-resourced domain}
 \input{Clinical/chapter_clinical}
 
-% \chapter{Summary -- new scientific results}
+\chapter{Summary -- new scientific results}
 % \input{Summary/summary}
 
+\chapter{The author's publications}
+% \input{References/my_publications}
 
-
-% ********************************** Back Matter *******************************
-% Backmatter should be commented out, if you are using appendices after References
-% \backmatter
 
 % ********************************** Bibliography ******************************
-% \begin{spacing}{0.9}
 
-% To use the conventional natbib style referencing
-% Bibliography style previews: http://nodonn.tipido.net/bibstyle.php
-% Reference styles: http://sites.stat.psu.edu/~surajit/present/bib.htm
 
 \bibliographystyle{ieeetr}
 
 \cleardoublepage
+
 \bibliography{References/section_combination,References/section_clinical_tagging,References/section_clinical_segmentation,References/chapter_mlu} 
 
-% If you would like to use BibLaTeX for your references, pass `custombib' as
-% an option in the document class. The location of 'reference.bib' should be
-% specified in the preamble.tex file in the custombib section.
-% Comment out the lines related to natbib above and uncomment the following line.
-
-% \printbibliography[heading=bibintoc, title={References}]
-
-
-% \end{spacing}
-
-% ********************************** Appendices ********************************
-
-\begin{appendices} % Using appendices environment for more functunality
-
-% \include{Appendix1/appendix1}
-% \include{Appendix2/appendix2}
-
-\end{appendices}
-
-% *************************************** Index ********************************
-% \printthesisindex % If index is present
 
 \end{document}

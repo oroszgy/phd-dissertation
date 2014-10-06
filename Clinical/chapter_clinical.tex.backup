@@ -17,9 +17,9 @@ They use a mixture of language models to generate correction candidates, however
 Further on, a resolution method for clinical abbreviations has been presented by them \cite{Siklosi2013b} as well, however, morphosyntactic tagging is still untouched. 
 As far as we know, no study investigates segmenting or tagging clinical Hungarian. 
 
-In this chapter, we present accurate preprocessing algorithms for noisy texts.
-Results are presented for only clinical Hungarian, but they are developed to perform well on other morphologically complex languages as well. 
-First, an effective method is introduced for detecting sentence and token boundaries in errorful notes.
+In this chapter, we present accurate algorithms for preprocessing noisy texts.
+Results are presented for only Hungarian clinical texts, however they are developed to perform well on other morphologically complex languages as well. 
+First, an effective method is introduced for detecting sentence and token boundaries.
 Then, tagging experiments are presented yielding a viable morphological tagger for clinical Hungarian. 
 
 %TODO: biomedical vs. clinical (???)
