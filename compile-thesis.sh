@@ -3,6 +3,7 @@
 # Distributed under GPLv2.0 License
 
 compile="compile";
+qcompile="quick";
 clean="clean";
 
 if test -z "$2"
@@ -69,8 +70,8 @@ if [ $1 = $clean ]; then
 elif [ $1 = $compile ]; then
 	echo "Compiling your PhD Thesis...please wait...!"
 	pdflatex -interaction=nonstopmode $filename.tex
-	bibtex $filename.aux
-	bibtex $filename.aux    
+	biber $filename
+	biber $filename
 	makeindex $filename.aux
 	makeindex $filename.idx
 	makeindex $filename.nlo -s nomencl.ist -o $filename.nls
@@ -79,6 +80,19 @@ elif [ $1 = $compile ]; then
 	pdflatex -interaction=nonstopmode $filename.tex
 	echo "Success!"
 	exit
+elif [ $1 = $qcompile ]; then
+    echo "Compiling your PhD Thesis...please wait...!"
+    pdflatex -interaction=nonstopmode $filename.tex
+    biber $filename
+    biber $filename
+#     makeindex $filename.aux
+#     makeindex $filename.idx
+#     makeindex $filename.nlo -s nomencl.ist -o $filename.nls
+#     pdflatex -interaction=nonstopmode $filename.tex
+#     makeindex $filename.nlo -s nomencl.ist -o $filename.nls
+    pdflatex -interaction=nonstopmode $filename.tex
+    echo "Success!"
+    exit
 fi
 
 

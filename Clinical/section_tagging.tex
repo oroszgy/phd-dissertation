@@ -19,8 +19,8 @@ Further on, most of the work in this field has been done for English, while only
 
 First of all, a common approach for tagging biomedical text is to train supervised sequence-classifiers. 
 However,a drawback of these methods that they require manually annotated texts which are hard to create.%labor-intense human work. 
-Considering the types of training material, domain-specific corpora are used either alone \cite{pakhomov2006developing,savova2010mayo,Smith2006} or in conjunction with a (sub)corpus of general English \cite{coden2005domain,ferraro2013improving,miller2007building}.% as training data. 
-While utilizing texts only from the target domain yields acceptable performance \cite{pakhomov2006developing,savova2010mayo,Smith2006}, 
+Considering the types of training material, domain-specific corpora are used either alone \cite{pakhomov2006developing,Savova2010,Smith2006} or in conjunction with a (sub)corpus of general English \cite{coden2005domain,ferraro2013improving,miller2007building}.% as training data. 
+While utilizing texts only from the target domain yields acceptable performance \cite{pakhomov2006developing,Savova2010,Smith2006}, 
 several experiments have shown that accuracy further increases with incorporating annotated sentences from the general domain as well \cite{barrett2011token,coden2005domain}. 
 A general observation is that the more data is used from the reference domain, the higher accuracy can be achieved (e. g. \cite{pestian2004development}). 
 On the contrary, Hahn and Wermter argue for training learners only on general corpora \cite{hahn2004tagging} (for German). 
@@ -32,8 +32,8 @@ Some studies extend existing PoS dictionaries \cite{divita2006dtagger}, while ot
 In brief, all such experiments yield significantly reduced error rates. 
 
 Concerning tagging algorithms, researchers tend to prefer already existing applications. 
-One of the most popular system is the OpenNLP toolkit\footnote{\url{http://opennlp.apache.org/}}, which is e.g. the basis of the cTakes system \cite{savova2010mayo}.
-Further on, Brill’s method \cite{Brill1992} and TnT \cite{Brants2000} are widely used (e.g. \cite{hahn2004tagging,savova2010mayo,pestian2004development}) as well. 
+One of the most popular system is the OpenNLP toolkit\footnote{\url{http://opennlp.apache.org/}}, which is e.g. the basis of the cTakes system \cite{Savova2010}.
+Further on, Brill’s method \cite{Brill1992} and TnT \cite{Brants2000} are widely used (e.g. \cite{hahn2004tagging,Savova2010,pestian2004development}) as well. 
 Besides, other HMM-based solutions have also been shown to perform well \cite{barrett2011token,coden2005domain,divita2006dtagger,hahn2004tagging,pakhomov2006developing,rost2008lessons,ruch2000minimal} on biomedical texts. 
 
 Moving on, number of experiments have revealed \cite{ferraro2013improving,ruch2000minimal,Smith2006} that domain-specific OOV words are behind the reduced performance of taggers. 

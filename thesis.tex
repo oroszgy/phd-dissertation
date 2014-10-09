@@ -11,7 +11,7 @@
 % ******************************* PhD Thesis Template **************************
 % Please have a look at the README.md file for info on how to use the template
 
-\documentclass[a4paper,11pt,oneside,times,numbered,custommargin,PageStyleII]{Classes/PhDThesisPSnPDF}
+\documentclass[a4paper,11pt,oneside,times,numbered,custommargin,custombib,PageStyleII]{Classes/PhDThesisPSnPDF}
 
 % ******************************************************************************
 % ******************************* Class Options ********************************
@@ -144,6 +144,15 @@
 
 \tableofcontents
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO LIST
+%TODO: számok 3-asűval tagolva vannak-e
+%TODO: magyarlanc formázása mindenhol legyen egyéges
+%TODO: példák `angol' fordításainak csekkolása
+%TODO: rövidítések bevezetése első helyen (ehhez először egységes rövidítéskezelés kell
+%TODO: P és \hat{P} -k ellenőrzése + a szimbólumok közé kell biggyeszteni
+%TODO: magyarlanc és Humor hivatkozások
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \printnomenclature[space] space can be set as 2.5cm between symbol and
 % description
@@ -158,7 +167,7 @@
 % \chapter{Methods}
 
 \chapter{Full morphological tagging methods}
-% \input{MorphTagging/chapter_tagging}
+\input{MorphTagging/chapter_tagging}
 
 \chapter{An application of the morphological tagger: estimating MLUm}
 \input{MorphComplexity/chapter_complexity}
@@ -169,18 +178,13 @@
 \chapter{Summary -- new scientific results}
 % \input{Summary/summary}
 
-\chapter{The author's publications}
-% \input{References/my_publications}
+\input{References/references}
 
 
 % ********************************** Bibliography ******************************
 
 
-\bibliographystyle{ieeetr}
 
-\cleardoublepage
-
-\bibliography{References/section_combination,References/section_clinical_tagging,References/section_clinical_segmentation,References/chapter_mlu} 
 
 
 \end{document}

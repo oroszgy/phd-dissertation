@@ -12,7 +12,7 @@ In addition, previous Hungarian tagging approaches are introduced as well, hence
 
 There has been insufficient discussion about full morphological tagging in recent studies of natural language technology. 
 The reason behind this is that most of the attempts concentrate on morphologically not very rich languages (such as English), where PoS tagging is generally sufficient and the ambiguity of the lemmatization task is negligible. 
-Furthermore, there are studies even for inflectional languages ignoring lemmatization (such as~\cite{Hajic1998a,Tufis1998,Silfverberg2011}), which follow English approaches. 
+Furthermore, there are studies even for inflectional languages ignoring lemmatization (such as~\cite{Hajic,Tufis(román),FinnHunPosos}), which follow English approaches. 
 
 Nevertheless, studies published on full morphological tagging can be grouped depending on their relationship to lemmatization.
 
@@ -31,14 +31,14 @@ Nevertheless, studies published on full morphological tagging can be grouped dep
   It employs a joint architecture for tagging words with their tags and lemmata considering lemmatization as a labeling problem.
   Thus a lemma class is a transformation sequence describing string modifications from the surface form to the root.
   This tool utilizes the maxent framework employing separate models for each of the subtasks but using a joint beam search decoder.
-  A similar method was presented by Laki and Orosz~\cite{Laki2013} recently.
+  A similar method was presented by Laki and Orosz~\cite{Laki2013c} recently.
   Their system (HuLaPos) merges PoS labels with lemmata transformation sequences to a unified tag, which is then learned by the Moses statistical machine translation framework.
   Therefore HuLaPos can \emph{translate} sentences to sequences of labels.
   Such joint approaches are usually language independent, however, they can either be slow or inaccurate due to increased search space.
 \end{enumerate}
 
 Considering lemmatization (as in \ref{part:general-lemmatization}), the task can be easily accomplished by using rules or lemma dictionaries, however their creation is time-consuming.
-A baseline method is to select the most frequent lemmata for each \emph{(word, tag)} relying on the training data (as in~\cite{zsibrata2013magyarlanc}). 
+A baseline method is to select the most frequent lemmata for each \emph{(word, tag)} relying on the training data (as in~\cite{Zsibrita2013a}). 
 Despite its simplicity this method usually result in a low precision system.
 Further on, employing advanced ML algorithms is also a viable approach.
 E.g. Plisson et al. apply Ripple Down Rule induction algorithms~\cite{Plisson2004} for learning suffix transformation.
@@ -74,10 +74,10 @@ Beside discriminative methods, applications of trigram tagging methods have been
 In contrast with former studies, accurate HMM based systems usually rely on large morphological lexicons and decent unknown word guessing algorithms.
 
 Considering agglutinative languages with a rich inflectional system, the usage of finite-state methods is indispensable.
-Silferberg and Lindén introduce an HMM-based tagger for Finnish~\cite{Silfverberg2011} relying on a weighted finite-state model.
+Silferberg and Lindén introduce an HMM-based tagger for Finnish~\cite{Silfverberg2010,Silfverberg2011} relying on a weighted finite-state model.
 As regards Turkish, Daybelge and Cicelki describe a system~\cite{Daybelge2007} employing also a finite-state rule-based method.
 Most taggers for agglutinative languages use hybrid architectures incorporating morphological analyzers into stochastic learning methods.
-Examples are the perceptron based application of Sak et al.~\cite{Sak2007} and the trigram tagging approach of Dilek et al.~\cite{Hakkani-Tur2002}.
+Examples are the perceptron based application of Sak et al.~\cite{Sak2007} and the trigram tagging approach of Dilek et al.~\cite{Hakkani-Tur2002a}.
 
 To summarize, effective methods for morphologically complex languages rely on either a discriminative or a generative model.
 Such taggers generally use morphological lexicons or analyzers to handle the large vocabulary of the target language.
@@ -89,19 +89,19 @@ As regards Hungarian PoS tagging, the first attempt was performed by Megyesi~\ci
 Since she did not use any morphological lexicon, her approach resulted in moderate success.
 Similarly, Horváth et al. investigated \cite{Horvath1999} only pure machine learning algorithms (such as C4.5 or instance based learning) thus resulting in low accuracy systems.
 Three years later, the first promising approach was presented by Oravecz and Dienes~\cite{Oravecz2002a} utilizing TnT with a weighted finite-state lexical model.
-In 2006, Halácsy et al. investigated an augmented maxent model~\cite{Halacsy2006} in combination with language specific morphological features and a MA.
+In 2006, Halácsy et al. investigated an augmented maxent model~\cite{Halacsy2006b} in combination with language specific morphological features and a MA.
 In that study, their best result was achieved by combining the latter model with a trigram based tagger.
 Later, they created the HunPos system~\cite{Halacsy2007} which reimplements and extends TnT~\cite{Brants2000}.
 Their results (with a morphological lexicon) has been shown to be as efficient as the one of Oravecz and Dienes.
 Next, Kuba et al. investigated boosting and bagging techniques for transformation based learning.
 Although they managed to reduce the error rate of the baseline tagger, their results lag behind previous approaches.
-Recently, Zsibrita et al. published \texttt{magyarlanc}~\cite{zsibrata2013magyarlanc}, a natural language processing chain for Hungarian.
+Recently, Zsibrita et al. published magyarlanc~\cite{Zsibrita2013a}, a natural language processing chain for Hungarian.
 They adapted the Stanford PoS tagger by filtering its suggestions with a morphological analyzer. 
 
 Concerning full tagging involving lemmatization, there are only two methods available for Hungarian.
 Although magyarlanc is designed for Hungarian, its lemmatization subsystem is rather simple.
 The tool assigns the most common lemmata (depending on the morphosyntactic label) to known words, and employs a rule based unknown word guesser.
-Moving on, HuLaPos is applied to Hungarian as well~\cite{Laki2013}, but its performance shown to be dissatisfactory in numerous scenarios. 
+Moving on, HuLaPos is applied to Hungarian as well~\cite{Laki2013c}, but its performance shown to be dissatisfactory in numerous scenarios. 
 
 This study introduces an accurate morphological tagging method.
 We utilize trigram-based PoS tagging, since it has superior performance for Hungarian and other agglutinative languages.
@@ -199,13 +199,13 @@ Lemmatization is performed in two steps (cf. Figure \ref{fig:lemma-arch}).
 First, candidates are generated for \emph{(word, morphosyntactic tag)} pairs. 
 If morphological analyses are available for the word, their lemmata are used as candidates, otherwise suffix-based guessing is carried out. 
 For this, the guesser (described in Section \ref{sec:purepos-guesser}) has been extended to represent lemma transformations as well. 
-In doing so, combined labels represent both the morphosyntactic tag and suffix-transformations for lemmata (for an example see Table \ref{tab:lemma-example}).
+In doing so, combined labels represent both the morphosyntactic tag and suffix-transformations for lemmata (for an example see table \ref{tab:lemma-example}).
 
 
 \begin{table}[ht]
 \centering
-\caption{Examples for the combined representation of the tag and lemma}
 \label{tab:lemma-example}
+\caption{Examples for the combined representation of the tag and lemma}
 \begin{tabular}{l | l l}
    \textbf{Word} &  \emph{házam} `my houses’ &  \emph{baglyot} `owl’ \\
    \textbf{Tag} &  \textsc{n.1}s\textsc{pos} &  \textsc{n.acc} \\
@@ -451,14 +451,15 @@ Furthermore, its lemmatization method outperforms all other systems available fo
 \subsubsection{The case of Middle- Old-Hungarian}
 \label{sec:oldhungarian}
 
-Next, we present a tagging task showing the effectiveness of all the hybrid components of PurePos. 
-In a project~\cite{Novak2013} aiming at the creation of an annotated corpus of Middle Hungarian texts, an adapted version of the Hungarian HuMor morphological analyzer was used. 
-This tool was originally made to annotate contemporary Hungarian, but the grammar and lexicon were modified to handle morphological constructions existed in Middle Hungarian but have since disappeared from the language. 
-In the experiments described here, we used a manually checked disambiguated portion of this corpus. The data was labeled using a rich variant of the HuMor tagset having cardinality over a thousand.
+In this section, a tagging task is presented that is used as a test case to evaluate hybrid methods described above.
+In a project aiming at the creation of an annotated corpus of Middle Hungarian texts , an adapted version of Hungarian HuMor morphological analyzer was used.
+This tool was originally made to annotate contemporary Hungarian, but the grammar and lexicon were modified so that the tool can handle morphological constructions that existed in Middle Hungarian but have since disappeared from the language.
+In the experiments described here, we used a manually checked disambiguated portion of this corpus.
+The data was annotated using a rich variant of the HuMor tagset, the cardinality of which is over a thousand.
 
 \begin{table}[ht]
 \centering
-\caption{Characteristics of the used corpus}\label{tab:oldhun-corpus}
+\caption{Characteristics of the used corpus}\label{tab:corpus}
 \begin{tabular}{l r r r}
 \hline
 & Training & Dev. & Test \\
@@ -470,18 +471,21 @@ Tokens & 59926 & 12656 &  11763\\
 \end{tabular}
 \end{table}
 
-We split the corpus into three parts (see Table \ref{tab:oldhun-corpus}). 
-The tagger was trained on the biggest one, hybridization and adaptation methods were developed on a separate development subcorpus, while final evaluation was done on the test set.
-We used again precision as an evaluation metric, but unambiguous punctuation tokens were \emph{not} taken into account (in contrast to how taggers are evaluated in general). 
-They are ignored because the corpus contains a relatively large amount of punctuation markers which would distort the comparison.
-Methods were evaluated in a twofold way: full morphological disambiguation accuracies were calculated for tokens and they were also computed to obtain clause-level precision values.
 
-We used the enhanced trigram-based algorithm derived from HunPos and implemented in PurePos (PP) as a baseline PoS tagger. 
-Further on, its enhancement relying on the HuMor analyzer (PPM) was also evaluated. As regards lemmatization, the simple unigram-based (BL) method (cf. Section \ref{sec:purepos-guesser}) was compared to the proposed one. 
+In order to simulate this annotation task, we split the corpus into three parts (see table \ref{}).
+The tagger was trained on the biggest part, hybridization and adaptation methods were developed on a separate development subcorpus, while final evaluation was done on a test set.
+We used accuracy as a metric, with unambiguous punctuation tokens \emph{not} taken into account (in contrast to how taggers are evaluated in general).
+The results were evaluated in a threefold way: PoS tagging accuracy and full morphological disambiguation accuracy were calculated for tokens, and the latter was also calculated to obtain a clause-level accuracy.
+
+As baselines, we used the enhanced trigram-based algorithm derived from HunPos and implemented in PurePos (PP), while its combination with the HuMor analyzer (PPM) was also evaluated.
+As a lemmatization baseline, we used the unigram-based (UL) and the suffix-based model (SL) described in section \ref{}.
+Performance of these systems is shown in Table \ref{}.
+As the accuracy values indicate, suffix-based probability estimation performs better when it is used in corporation with a morphological analyzer.
+However, when no dedicated morphological component is applied, the overall disambiguation accuracies are close to each other.
 
 \begin{table}[ht]
 \centering
-\caption{Baseline disambiguation accuracies on the development set}\label{tab:oldhun-baselines}
+\caption{Baseline disambiguation accuracies on the development set}\label{tab:baselines}
 \begin{tabular}{l r r r}
 \hline
  & Tokens & Clauses \\
@@ -492,55 +496,59 @@ PP+BL  & 88.99\% & 55.58\% \\
 % PPM+BL & 97.77\% & 97.22\% & 84.85\% \\
 PPM+BL  & 97.22\% & 84.85\% \\
 % PPM+SL & 97.77\% & 97.50\% & 85.98\% \\
+\hline
+\end{tabular}
+\end{table}
+
+Comparing these basic lemmatization strategies with the model combination method described in Section \ref{}, results gathered are shown in Table~\cite{tab:pp}.
+The presented lemma computing algorithm yields an overall 3.2\% relative error rate reduction compared to the best baseline (PPM+SL).
+The improvement is even more significant for in the case when a dedicated morphological analyzer is not used: the relative error rate reduction is 28.42\% in this case (compared to PP+SL).
+
+To demonstrate the strengths of the hybrid tagging model, further extensions are presented which enhance the performance of the tool.
+To that end, the development set was used to analyze common error types and to test hypotheses.
+
+\begin{table}[ht]
+\centering
+\caption{Full disambiguation accuracies with the proposed lemmatization model measured on the development set}\label{tab:pp}
+\begin{tabular}{l r r r}
+\hline
+& Tokens & Clauses \\
+\hline
 PP + CL & 92.14\% & 65.40\% \\
 PPM + CL & 97.58\% & 86.48\% \\
 \hline
 \end{tabular}
 \end{table}
 
-
-
-First of all, me investigate the impact of the MA and the new lemmatization method. 
-Performance of systems are presented in Table \ref{tab:oldhun-baselines}. 
-It was found that the usage of a morphological component is indispensable. 
-Comparing the baseline lemmatization with the combined method (CL) shows that the new the proposed algorithm yields a significant error rate reduction compared to the baseline. 
-This improvement is even more notable on the development set when a dedicated morphological analyzer is not used (28.42\%).
-
-We present further experiments in the next exhausting hybrid facilities of PurePos yielding a more accurate tagger. To that end, the development set was utilized to analyze common error types and to develop hypotheses.
-
-
 \paragraph{Mapping of tags}
 
-In contrast to other Hungarian annotation projects, the tag set of the historical corpus distinguishes verb forms that have a verbal prefix from those that do not, because this is a distinction important for researchers interested in syntax.\footnote{Hungarian verbal prefixes or particles behave similarly to separable verbal prefixes in most Germanic languages: they usually form a single orthographic word with the verb they modify, however, they are separated in certain syntactic constructions.} 
-This practically doubles the number of verb tags\footnote{320 different verb tags occur in the corpus excluding verb prefix vs. no verb prefix distinction. This is just a fraction of the theoretically possible tags.}, which results in data sparseness problems for the tagger. 
-In case of a never encountered tag having a verbal prefix marking, one can calculate probability estimates for that label by mapping it to one without a verbal prefix. 
-This solution is viable, since the distribution of prefixed and non-prefixed verbs largely overlap. 
-Applying this enhancement (TM), we could increase the accuracy of the system on the development set.
+In contrast to other Hungarian annotation projects, the tag set used for annotating the historical corpus distinguishes verb forms that have a verbal prefix from those that do not, because this is a distinction important for researchers interested in syntax.\footnote{ Hungarian verbal prefixes or particles behave similarly to separable verbal prefixes in most Germanic languages: they usually form a single orthographic word with the verb they modify, however, they are separated in certain syntactic constructions.} This practically doubles the number of verb tags\footnote{ 320 different verb tags occur in the corpus excluding verb prefix vs. no verb prefix distinction.
+This is just a fraction of the theoretically possible tags.}, which results in data sparseness problems for the tagger.
+In case of a never encountered tag including a verbal prefix marking, mapping it to one without verbal prefix is a sensible solution since the distribution of prefixed and non-prefixed verbs largely overlap.
+Applying only this verbal mapping (TM), we could increase the clause level annotation accuracy to 86.53\% that is 97.59\% precision at token level.
 
 \paragraph{Preprocessing}
 
-Another point of improvement is to filter analyses of Humor (FI). 
-Exploiting the development set, a preprocessing script was set up which has five simple rules. 
-Three of them catches the tagging of frequent phrases such as \emph{az a} `that' in which \emph{az} must be a pronoun. 
-Further on two domain specific lexicons were employed to correct the erroneous annotation of proper names that coincide with frequent common nouns or adjectives. 
-Using these correction rules the overall performance on the development set was further raised to 97.84\% token accuracy.
+Another possible improvement is to employ rules that filter the input (FI).
+Exploiting the development set again, a preprocessing script was set up that employs five simple rules.
+Three of them catches frequent phrases such as \emph{az a} ‘that’ in which \emph{az} must be a pronoun.
+Another typical source of errors is the erroneous tagging or lemmatization of proper names that coincide with frequent common nouns or adjectives and the confusion of past participles as finite past verb forms.
+Using a set of lists aiming such tokens, 97.84\% token accuracy and 86.77\% clause accuracy were achieved on the development set.
 
+\paragraph{\emph{\emph{k}}-best output}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The \emph{\emph{k}}-best output of the tagger can either be used as a representation to apply upstream grammatical filters to or as candidates for alternative input to higher levels of processing.
+Five-best output for our test corpus has yielded an upper limit for attainable clause accuracy of 94.32\%.
+While it is not directly comparable with the ones above, this feature could be successfully used also in self-training or in tagger combination schemes.
 
-\paragraph{$k$-best output}
-The $k$-best output of the tagger can either be used as a representation to apply upstream grammatical filters to or as candidates for alternative input to higher levels of processing. 
-Five-best output for our test corpus has yielded an upper limit for attainable clause accuracy of 94.32\% (on the development set). 
-While it is not directly comparable with the ones above, this feature could e.g. be used by syntactic parsers.
-
-Measuring improvements on the test set, we validate their performance (see Table \ref{tab:oldhun-test}). 
-Similarly to the development set, using the $5$-best output sequence of the tagger provide us much more golden annotations. 
-These are available for 92.30\% of the clauses and for 98.66\% of the tokens.
+Applying the given hybridization steps to the test set, we can validate the performance improvements (see results in Table~\cite{tab:test} 4).
+Furthermore, using k-best output from the tagger, 92.30\% of clauses and X\% of the tokens have the golden annotation among the top 5 output in the test set.
 
 \begin{table}[ht]
 \centering
 \caption{Disambiguation accuracies of the hybrid tool on the test set}
-\label{tab:oldhun-test}
+\label{tab:test}
+
 \begin{tabular}{l r r r}
 \hline
  & Full & Clauses  \\
@@ -555,18 +563,3 @@ PurePos  & 96.48\% & 80.95\% \\
 \end{tabular}
 \end{table}
  
-
-All in all, we have shown that one can further increase the tagging accuracy by employing hybrid facilities of PurePos. 
-Rules has been employed to preprocess analyses candidates while unseen tags could be successfully mapped to previously seen ones. 
-Finally, we have shown that $k$-best candidates contain significantly more golden annotations.
-
-
-
-The $k$-best output of the tagger can either be used as a representation to apply upstream grammatical filters to or as candidates for alternative input to higher levels of processing.
-Five-best output for our test corpus has yielded an upper limit for attainable clause accuracy of 94.32\%.
-While it is not directly comparable with the ones above, this feature could be successfully used also in self-training or in tagger combination schemes.
-
-Applying the given hybridization steps to the test set, we can validate the performance improvements (see results in Table \ref{tab:oldhun-test}).
-Furthermore, using $k$-best output from the tagger, 92.30\% of clauses and 98.66\% of the tokens have the golden annotation among the top 5 output in the test set. 
-
-

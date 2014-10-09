@@ -96,16 +96,57 @@
 % Add `custombib' in the document class option to use this section
 % \usepackage{bibtopic}
 
-\ifuseCustomBib
-   \RequirePackage[square, sort, numbers, authoryear]{natbib} % CustomBib
+
+% \ifuseCustomBib
+%     \RequirePackage[square, sort, numbers, authoryear]{natbib} % CustomBib
 
 % If you would like to use biblatex for your reference management, as opposed to the default `natbibpackage` pass the option `custombib` in the document class. Comment out the previous line to make sure you don't load the natbib package. Uncomment the following lines and specify the location of references.bib file
 
-% \RequirePackage[backend=biber, style=numeric-comp, citestyle=numeric, sorting=nty, natbib=true]{biblatex}
+\RequirePackage[backend=biber,defernumbers=true, style=trad-plain, sorting=none]{biblatex}
 % \bibliography{References/references} %Location of references.bib only for biblatex
 
-\fi
+% \fi
 
+% \usepackage[normalem]{ulem} %for \uline
+
+\renewbibmacro*{name:first-last}[4]{%
+  \usebibmacro{name:delim}{#2#3#1}%
+  \usebibmacro{name:hook}{#2#3#1}%
+  \ifthenelse{\equal{#1}{Orosz}}% matches last name against YourLastName
+    {
+      \textbf{% wrapped with \uline
+      \ifblank{#2}{}{\mkbibnamefirst{#2}\isdot\bibnamedelimd}%
+      \ifblank{#3}{}{%
+        \mkbibnameprefix{#3}\isdot%
+        \ifpunctmark{'}%
+          {}%
+          {\ifuseprefix{\bibnamedelimc}{\bibnamedelimd}}}%
+      \mkbibnamelast{#1}\isdot%
+      \ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}\isdot}}}%
+    {% original
+      \ifblank{#2}{}{\mkbibnamefirst{#2}\isdot\bibnamedelimd}%
+      \ifblank{#3}{}{%
+        \mkbibnameprefix{#3}\isdot%
+        \ifpunctmark{'}%
+          {}%
+          {\ifuseprefix{\bibnamedelimc}{\bibnamedelimd}}}%
+      \mkbibnamelast{#1}\isdot%
+      \ifblank{#4}{}{\bibnamedelimd\mkbibnameaffix{#4}\isdot}}}
+
+\bibliography{References/my_pub,References/section_purepos,References/section_combination,References/section_clinical_tagging,References/section_clinical_segmentation,References/chapter_mlu}
+
+%JOURNAL
+\nocite{Orosz2014b,Matyus2014,Tamas2011}
+%MYBOOK
+\nocite{Orosz2014c,Orosz2013d,Orosz2013b}
+%OTHERBOOK
+\nocite{Laki2013}
+%CONFERENCE
+\nocite{Orosz2013a,Orosz2013c,Orosz2012a}
+\nocite{Laki2014a,Novak2013,Siklosi2012}
+%HUN-OTHER
+\nocite{Orosz2014a,Orosz2014,Orosz2013,Orosz2012,Orosz2011}
+\nocite{Laki2014,Laki2013a,Siklosi2011}
 
 % changes the default name `Bibliography` -> `References'
 \renewcommand{\bibname}{References}
@@ -134,6 +175,9 @@
 % ************************* User Defined Commands ******************************
 % ******************************************************************************
 
+\usepackage{float}
+\DeclareMathOperator{\argmax}{arg\,max}
+\DeclareMathOperator{\oer}{OER}
 % *********** To change the name of Table of Contents / LOF and LOT ************
 
 %\renewcommand{\contentsname}{My Table of Contents}
@@ -181,7 +225,7 @@
 % Default value is 0.75
 %\SetDraftGrayScale{0.8}
 
-\DeclareMathOperator{\argmax}{arg\,max}
+
 
 
 \usepackage{algorithm}

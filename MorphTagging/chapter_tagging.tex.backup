@@ -17,17 +17,18 @@ Thus, the problem is threefold:
 Another issue for morphologically rich languages is that labeling words with only their part-of-speech tag is usually insufficient. 
 Firstly, complex morphosyntactic features carried by the inflectional morphemes can not be represented by tagsets having only a hundred different labels. 
 Secondly, morphosyntactic tagging is still just a subtask of full morphological disambiguation. 
-In addition to a full morphosyntactic tag, the lemma of each word also needs to be identified. Although several studies have revealed that dictionary- or rule-based lemmatization methods yield acceptable results~\cite{Porter1980,Plisson2004} for morphologically not very rich languages like English, ambiguity is present in lemmatization for highly inflectional and agglutinative languages~\cite{Jursic2007,Sak2007,Chrupaa2008}. 
+In addition to a full morphosyntactic tag, the lemma of each word also needs to be identified. Although several studies have revealed that dictionary- or rule-based lemmatization methods yield acceptable results~\cite{Smirnov2008,Porter1980,Plisson2004} for morphologically not very rich languages like English, ambiguity is present in lemmatization for highly inflectional and agglutinative languages~\cite{Jursic2007,Sak2007,Chrupaa2008}. 
 Yet, most of the taggers available only concentrate on the morphological tag but not the lemma, thus doing just half of the job.
 
 As regards lemmatization in Hungarian, %TODO: átolvasni
-one can show that more than 16\% of words are ambiguous by their lemmata\footnote{Measurements are carried out using the  Szeged Corpus~\cite{} and Humor analyzer ~\cite{}.}. 
+one can show that more than 16 \% of words are ambiguous by their lemmata\footnote{Measurements are carried out using the  Szeged Corpus~\cite{} and Humor analyzer ~\cite{}.}. 
 Furthermore, if we aggregate morphological analyses by their morphosyntactic label, 4\% of the tokens still remain ambiguous. 
-An example is a class of verbs that end in -\emph{ik} in their third person singular present tense indicative, which is the customary lexical form (i. e. the lemma) of verbs in Hungarian. Further on, another class of verbs has no suffix in their lemma. 
+For example there is a class of verbs that end in -\emph{ik} in their third person singular present tense indicative, which is the customary lexical form (i. e. the lemma) of verbs in Hungarian. 
+Another class of verbs has no suffix in their lemma. 
 The two paradigms differ only in the form of the lemma, so inflected forms can belong to the paradigm of either an \emph{-ik} final or an non\emph{-ik} final verb and many verbs. 
-E.g. \emph{internetezem} `I am using the internet' have two lemmata for the same morphosyntactic tag: \emph{internetez} and \emph{internetezik} `to use the internet'.
-Another example is the class of verbs which third person singular past causative case overlap with the singular third person past form. E.g. \emph{festette} `he painted it/he made it to be painted' is tagged as a singular third person past tense verb with two possible roots: \emph{festet} `he makes someone to paint` and \emph{fest} `he paints'.  
-%These necessitate a sufficient lemmatization method for Hungarian.
+E.g. \emph{internetezem} `I am using the internet' can have two lemmata: \emph{internetez} and \emph{internetezik} `to use the internet'.
+Another example is the class of verbs which third person past causitive case overlap with the third person past form. For instance \emph{festette} `he painted it/he made it to be painted' is analyzed to be a third person past tense verb with two possible roots: \emph{festet} `he makes someone to paint` and \emph{fest} `he paints'.  
+These necessitate a sufficient lemmatization method for Hungarian.
 
 Besides, a further issue is that most of the tagging approaches perform well only when a satisfactory amount of training data is available. 
 In addition, several agglutinative languages and domains lack annotated corpora. E.g. even though the Hungarian Szeged Corpus contains well over 80000 sentences, these are mainly from general news. 
@@ -43,7 +44,7 @@ Finally, new scientific results are summed up.
 \section{Hybrid morphological tagging}
 \input{MorphTagging/section_purepos}
 
-% \pagebreak
+\pagebreak
 
 \section{Combination of morphological tagging methods}
 \input{MorphTagging/section_combination}

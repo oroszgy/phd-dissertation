@@ -75,7 +75,7 @@ For instance, \textit{o.} denotes \textit{szem} `eye’ thus it is tagged as a n
 Further on, medicines names are frequent found to be almost always singular nouns. 
 Finally, numerous sentences lack final punctuation marks that are not recovered in the test corpus, therefore these are not tagged either. 
 
-\begin{table}
+\begin{table}[h]
 \centering
 \caption{Size of the clinical corpus created}
 \label{tab:clin_corpus}
@@ -266,11 +266,7 @@ Likewise, sentences written by clinicians are significantly shorter than that of
 Neither the calculations above, nor the ratio of unknown words suggest using any subcorpora for training. 
 However, the perplexity scores contradict: sentences from the law domain share the most phrases with clinical notes, while news texts have the most similar grammatical structures. 
 
-Since similarity measurements are not in accordance with each other, all sub-corpora are verified as a training data for tagging clinical texts. 
-In doing so, we employed the previously enhanced tagger (cf. Section \ref{}). 
-Our results (in Table  \ref{tab:eval_subcorpora}) indicate that training on news texts results in high accuracy, however the whole data yields a better tagger.
-
-\begin{table}
+\begin{table}[h]
 \centering
 \caption{Evaluation of the tagger using the subcorpora as training data -- dev. set}
 \label{tab:eval_subcorpora}
@@ -289,10 +285,14 @@ Szeged Corpus & \underline{94.73\%} \\
 \end{tabular}
 \end{table}
 
+In doing so, we employed the previously enhanced tagger (cf. Section \ref{}). 
+Since similarity measurements are not in accordance with each other, all sub-corpora are verified as a training data for tagging clinical texts. 
+Our results (in Table  \ref{tab:eval_subcorpora}) on the development set indicate that training on a  subcorpus does not improve the performance. % , however the whole data yields a better tagger.
+This observation led us to use utilize the whole Szeged corpus to train the morphological tagger.
 
 \subsection{Evaluation}
 
-The improved tagging chain (cf. Table \ref{tab:improvements}) is evaluated by investigating part-of-speech tagging, lemmatization and the whole morphological tagging performance of each enhancement presented.
+The improved tagging chain (cf. Table \ref{tab:improvements}) is evaluated by investigating part-of-speech tagging, lemmatization and the whole morphological tagging performance.% of each enhancement presented.
 
 \begin{table}[h]
 \centering
@@ -310,9 +310,8 @@ ID & Method & PoS tagging & Lemmatization & Morph. disambig. \\
 \end{tabular}
 \end{table}
 
-First of all, 
-the baseline method annotated almost 12\% of the tokens erroneously while our enhancements raised the ceiling of the full morphological tagging accuracy to 93.73\% by eliminating almost half (47.36\%) of the errors. 
-Next, results show that the error rate reduction is mainly due to the extended lexicon and the proper handling of abbreviations. 
+First of all, results show that the baseline method annotated almost 12\% of the tokens erroneously while our enhancements raised the ceiling of the full morphological tagging accuracy to 93.73\% by eliminating almost half (47.36\%) of the errors. 
+Next, precision scores indicate that the error rate reduction is mainly due to the extended lexicon and the proper handling of abbreviations. 
 However, the small amount of the annotated data inhibited better modeling of abbreviated terms.
 Considering training data, we did not manage to find a better (sub)corpus for tagging clinical Hungarian than the whole Szeged Corpus.% was able to outperform the whole as a training corpus. 
-In sum, improvements presented resulted in a system having satisfactory performance for parsing morphologically clinical texts.
+In sum, our improvements yielded a system having satisfactory performance for parsing morphologically clinical texts.
