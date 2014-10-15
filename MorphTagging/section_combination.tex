@@ -117,7 +117,7 @@ Level-0 taggers (PurePos and HuLaPos) are trained 5 times using 4/5 of the corpu
 In doing so, the union of these automatically annotated parts are used to train the (level-1) metalearners.
 Furthermore, this technique allows us to utilize all the training data in each level, yet separating the two phases of the training process. 
 
-Concerning the question of choosing a level-1 learner we follow Wittel et al. \cite{Witten2011} for investigating only ``relatively global, smooth'' algorithms.
+Concerning the question of choosing a level-1 learner we follow Witten et al. \cite{Witten2011} for investigating only ``relatively global, smooth'' algorithms.
 We utilize\footnote{ C4.5 decision tree algorithm was involved in our experiments, but it was unable to handle the large amount of feature data used.} naïve Bayes (NB) classifier and instance-based (IB) learners \cite{Aha1991}.
 The latter in addition to be simple, have been previously shown to perform well in similar combination tasks.
 Another important decision was to apply metalearners only in cases of disagreement, since the tools’ agreement rate was high.

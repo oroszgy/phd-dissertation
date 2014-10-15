@@ -28,12 +28,12 @@ Besides, building domain-specific rules also lead to satisfactory taggers (e.g. 
 while combination of such systems with stochastic tools \cite{Bick2012} yields effective algorithms as well. 
 
 Previous studies implies that a proper morphological annotation system aiming to process transcripts must be able to handle the following types of difficulties:
-\begin{inparaenum}[\itshape i\upshape)]
+\begin{enumerate}
  \item existence of new morphosyntactic tags which are missing from the tagset of the training data,
  \item occurrence of tokens with non-standard orthography in texts,
  \item the number of words unknown to a statistical tagger are increased compared to written language corpora,
  \item if probability estimates are derived from a written language training corpus, the model of stochastic taggers can become non-representative (e.g. the distribution of PoS tags may significantly differ in written and spoken language).
-\end{inparaenum}
+\end{enumerate}
 
 Ever since the complexity of child language has been measured, several methods have been developed. While manual counting prevailed for decades, automatic counting tools have been sought for in the past years.
 
@@ -108,7 +108,7 @@ Thus, rules adapting its analyses -- based on regular expressions and domain-spe
 Their formulation could be done with high confidence, since most of the transcripts contained controlled conversation covering only a few topics. 
 
 As a first step, morphological analyses of about 40 words typical of spoken language were created manually. 
-These tokens were mostly interjections not used in written language (such as \textit{hűha} `wow’), while some adverbs were regarded as utterance words in the corpus (e. g. \textit{komolyan} `seriously’). 
+These tokens were mostly interjections not used in written language (such as \textit{hűha} `wow’), while some adverbs were regarded as utterance words in the corpus (e.g. \textit{komolyan} `seriously’). 
 Furthermore, those tokens that are written in one word in transcripts but are spelled as two words in formal texts were also added to the lexicon. 
 An example is \textit{légyszíves} `please’ which is written formally as \textit{légy szíves}. Finally, diminutive analyses were also provided where it was necessary. 
 E.g. \textit{kutyus} `doggy’ was also analysed as \textsc{n.dim} with the lemma \textit{kutya} `dog’ beside the old label \textsc{n} and the \textit{kutyus} `doggy’ root. This process was carried out by investigating the lemmata produced by Humor: if the deletion of the derivational affix resulted in a root enumerated in a domain-specific list, a new diminutive analysis was created as well. 

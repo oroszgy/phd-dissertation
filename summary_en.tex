@@ -1,38 +1,50 @@
-\documentclass[a5paper,11pt,twoside]{article} 
+% !TeX spellcheck = en_US
+\documentclass[twoside]{article}
 
-\usepackage[T1]{fontenc} 
-\usepackage[utf8]{inputenc}
-\usepackage{indentfirst}
-\linespread{1} % Másfeles sorköz 
-\frenchspacing 
+%\usepackage{citesort} 
 
-% ********************************** Preamble **********************************
-% Preamble: Contains packages and user-defined commands and settings
-% \input{Preamble/preamble}
 
-% ************************ Thesis Information & Meta-data **********************
-% Thesis title and author information, refernce file for biblatex
-% \input{thesis-info}
+
+\input{Preamble/pre_shared}
+\input{Preamble/pre_summ}
+\input{Preamble/pre_bib}
+\input{Preamble/pre_en}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  TARTALOM  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 \begin{document}
- 
-% \frontmatter
 
-% \begin{titlepage}
-% \maketitle
-% \end{titlepage}
-% 
-% \mainmatter
+\input{Summary_en/front}
 
 \section{Introduction}
-\input{Theses_en/introduction}
-
+% \input{Summary_en/introduction}
+% 
+% \pagebreak
 \section{Methods}
-\input{Theses_en/methods}
+\input{Summary_en/methods}
 
-\section{Theses}
-\input{Theses_en/theses}
+%\pagebreak
+\section{New scientific results}
+\input{Summary_en/theses}
+
+% \pagebreak
+\section{Applications}
+\input{Summary_en/application}
+
+% \pagebreak
+\section{Acknowledgement}
+%\input{Summary_en/acknowledgement}
+
+\pagebreak
+%\cleardoublepage
+\section{Bibliography}
+\input{References/references}
 
 
 \end{document}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

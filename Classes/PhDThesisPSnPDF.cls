@@ -769,6 +769,9 @@ wish to left align your text}
 \newcommand{\@degree}{}
 \newcommand{\degree}[1]{\renewcommand{\@degree}{#1}}
 
+\newcommand{\@supervisor}{}
+\newcommand{\supervisor}[1]{\renewcommand{\@supervisor}{#1}}
+
 % The name of your department(eg. Engineering, Maths, Physics)
 \newcommand{\@dept}{}
 \newcommand{\dept}[1]{\renewcommand{\@dept}{#1}}
@@ -830,7 +833,10 @@ wish to left align your text}
 \begin{center}
 % Title
 {\Huge \bfseries{\@title} \par}
-\vspace{.25\PHD@titlepagespacing}
+\vspace{.1\PHD@titlepagespacing}
+
+{\large \textit {\@degree} \par}
+\vspace{.2\PHD@titlepagespacing}
 
 % Crest
 {\@crest \par}
@@ -847,9 +853,11 @@ wish to left align your text}
 \vspace{.2\PHD@titlepagespacing}
 
 % Submission Text
-{\large \submissiontext \par}
+%{\large \submissiontext \par}
 \vspace*{1ex}
-{\large \textit {\@degree} \par}
+{\large \@supervisor \par}
+
+
 
 
 \end{center}
