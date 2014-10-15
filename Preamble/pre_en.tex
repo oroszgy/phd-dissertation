@@ -1,0 +1,24 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAGYAR %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{times}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+%\usepackage{indentfirst}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEFINÍCIÓK %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\theoremstyle{thesis}
+\newtheorem{thesis}{Thesis}[subsection]
+
+\theoremstyle{pub}
+\newtheorem*{pub}{Publications}
+
+\theoremstyle{app}
+\newtheorem*{app}{Applications}
+
+\theoremstyle{thesis}
+\newtheorem{innercustomthm}{Thesis}
+\newenvironment{cthesis}[1]
+  {\renewcommand\theinnercustomthm{#1}\innercustomthm}
+  {\endinnercustomthm}

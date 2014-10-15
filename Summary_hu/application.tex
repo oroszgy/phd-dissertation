@@ -1,0 +1,21 @@
+A bemutatott eljárások nyelvtechnológiai alapfeladatokra adnak megoldást, így ezek komplex feldolgozóláncok alapját képezhetik.
+A morfológiai egyértelműsítő algoritmusok (ld. \ref{thes:morf} téziscsoport) széles körben használható információkinyerési és szövegbányászati alkalmazásokban úgy mint pl. névelemek azonosítása, kulcsszavak kinyerése vagy dokumentumok osztályozása.
+Ezeken túl, az alábbi gyakorlati alkalmazásokról van tudomásom:
+\begin{enumerate} %TODO: mik vannak még? András?
+\item Laki és tsai. átrendezés-alapú angol-magyar gépifordító-rendszert \cite{Laki2013} építettek a PurePos rendszer használatával,
+\item Endrédy és tsai. \cite{Endredy2014} magyar nyelvű főnévi csoport azonosítót készített, mely tartalmazza az ismertetett algoritmusokat,
+\item Novák és tsai. Ó- és Középmagyar szövegek morfológiai annotációjának elkészítéséhez használja \cite{Novak2013} az közreadott eszközt,
+\item Prószéky és tsai. egy pszicholingvisztikai indíttatású elemzőben hasznosítják \cite{Proszeky2014} a PurePos rendszer egyes komponenseit, míg
+\item Indig és Prószéky \cite{Indig2013} pedig egy kötegelt helyesírás-ellenőrző programban alkalmazza az egyértelműsítő eljárásokat.
+\end{enumerate}
+
+A \ref{thes:mlu} téziscsoport magyar beszédátiratok feldolgozásával foglalkozik. 
+Az itt bemutatott módszer egy olyan speciális alkalmazása a PurePos rendszernek, mellyel ennek a doménnek a további vizsgálatát tettem lehetővé.
+Ezen túl a \ref{thes:mlu-estimation} tézis morfémabecslő eljárása jól használható pl. morfoszintaktikai komplexitás automatikus mérésére kiváltva így az időigényes manuális kalkulációt.
+
+Az utolsó téziscsoportban ismertetett eredményeim zajos szövegek hatékony előfeldolgozását teszik lehetővé.
+A \ref{thes:clin-segment} tézisben bemutatott algoritmusok hatékonyan képesek szavakra és mondatokra bontani magyar nyelvű orvosi szövegeket, ezáltal lehetővé téve az azokban kódolt információ kinyerését. 
+Ezen kívül a \ref{thes:clin-pos} tézisben vázolt algoritmus megfelelő morfológiai annotációt készít a klinikai rekordokhoz, így azok mélyebb elemzését segíti.
+A fenti eredményeimet egy folyamatban lévő projekt hasznosítja \cite{Siklosi2014,Siklosi2014mszny}, mely klinikai dokumentumokban rejlő rejtett összefüggések feltárását célozza  meg.
+
+

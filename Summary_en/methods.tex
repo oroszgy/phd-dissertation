@@ -1,0 +1,30 @@
+In the course of our work diverse corpora have been used. 
+First, general tagging methods are developed employing the Szeged Corpus \cite{Csendes2004}, further on, they have been tested on Old and Middle Hungarian \cite{Novak2013} texts as well.
+Next, methods for speech transcripts are analyzed on the HUKILC corpus\cite{Matyus2014}.
+Besides, corpora have been also created from electronic health records to develop and evaluate algorithms for the domain.
+Depending on the task, texts were split into training, development and test sets.
+
+Concerning methods, most of our work result in hybrid solutions.
+On one hand, we build on symbolic morphological analyzers, rule-based or pattern matching components. 
+On the other hand, stochastic and machine learning algorithms are employed as well.
+
+Morphological analyzers play central role in this work, since their usage is inevitable for morphologically complex languages.
+In most of the cases we employed (adapted versions \cite{Novak2013,Orosz2013} of) Humor \cite{Novak2003,Proszeky1994} but the MA of \texttt{magyarlanc} \cite{zsibrata2013magyarlanc} has been used as well.
+
+As regards machine learning, tagging experiments are based on Hidden Markov models \cite{}. %TODO: TnT-s cikkben van egy hviatkozás
+Our approach builds on two well known tools: Brant's TnT \cite{Brants2000} and HunPos \cite{Halacsy2007} from Halácsy et al. 
+Besides, other well known methods such as $n$-gram modeling, suffix-tries and interpolation techniques are utilized as well.
+Further on, combination studies utilize generic machine learning algorithms such as instance based learners or the naïve Bayes classifiers.
+These experiments are carried out employing the Weka toolkit \cite{Hall2009}.
+
+Next, segmentation models utilize unsupervised methods as well.
+A collocation extractions measure of Dunning \cite{dunning1993accurate} is used for detecting sentence boundaries.
+However, we base on the study of Kiss and Strunk \cite{kiss2006unsupervised} thus employ scaling factors for the $\log\lambda$ measure.
+
+Finally, evaluation of algorithms are carried out employing standard metrics.
+Performance of taggers are measured using precision counting correct tokens or sentences.
+In fact, when the corpus investigated contained a considerable amount of punctuation marks they were not involved in the evaluation.
+Improvement of taggers are usually examined, for such cases error reduction rate is calculated. %TODO: képletek?
+Further on, numeric values are compared computing mean relative error \cite{Witten2011} ratio and Pearson's correlation coefficient \cite{Witten2011}.
+Finally, simple classification scenarios are evaluated with multiple metrics.
+We calculated overall accuracy, further on precision, recall and F is computed for each class.
