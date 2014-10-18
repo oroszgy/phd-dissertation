@@ -7,7 +7,7 @@ In this work, we investigate the tagging of clinical Hungarian by adapting exist
 This study is structured as follows. 
 Related studies are described first, then a corpus of clinical notes is presented.
 %Latter texts has been collected for developing and evaluating tagging algorithms. 
-In Section \ref{sec:baseline}, we introduce a baseline morphological disambiguation chain and a detailed error analysis. 
+%In Section \ref{sec:baseline}, we introduce a baseline morphological disambiguation chain and a detailed error analysis. 
 Finally, domain adaptation enhancements are presented which are being evaluated on the test corpus.
 
 \subsection{Background}
@@ -32,7 +32,7 @@ Some studies extend existing PoS dictionaries \cite{divita2006dtagger}, while ot
 In brief, all such experiments yield significantly reduced error rates. 
 
 Concerning tagging algorithms, researchers tend to prefer already existing applications. 
-One of the most popular system is the OpenNLP toolkit\footnote{\url{http://opennlp.apache.org/}}, which is e.g. the basis of the cTakes system \cite{Savova2010}.
+One of the most popular system is the OpenNLP toolkit \cite{Baldridge2002}, which is e.g. the basis of the cTakes system \cite{Savova2010}.
 Further on, Brill’s method \cite{Brill1992} and TnT \cite{Brants2000} are widely used (e.g. \cite{hahn2004tagging,Savova2010,pestian2004development}) as well. 
 Besides, other HMM-based solutions have also been shown to perform well \cite{barrett2011token,coden2005domain,divita2006dtagger,hahn2004tagging,pakhomov2006developing,rost2008lessons,ruch2000minimal} on biomedical texts. 
 
@@ -52,13 +52,14 @@ We rely on an error analysis of a baseline system (in Section \ref{sec:baseline}
 
 First of all, special properties of clinical texts need to be considered. 
 Such records are created in a special environment, thus they differ from general Hungarian in several aspects (cf. \cite{Orosz2013a,Siklosi2013b,Siklosi2012}):
-\begin{inparaenum}[\itshape a\upshape)]
+
+\begin{enumerate} %[\itshape a\upshape)]
  \item notes contain a lot of erroneously spelled words,
  \item sentences generally lack punctuation marks and sentence initial capitalization, 
  \item measurements are frequent and have plenty of different (erroneous) forms,
  \item a lot of (non-standard) abbreviations occur in such texts and
  \item numerous medical terms are used originating from Latin.
-\end{inparaenum}
+\end{enumerate}
 
 As there is no corpus of clinical records available being manually annotated with morphological analyses, a new one have been created. 
 These texts contain about 600 sentences extracted from notes of 24 different clinics. 
@@ -116,7 +117,7 @@ This is because the number of their inflected forms are much higher compared to 
 
 Finally, domain-specific usage of words leads the tagger astray as well. 
 Examples are participles being mislabeled as verbs. 
-E.g.\textit{javasolt} `suggested’  and  \textit{felírt} `written’ are common words having different PoS tag distributions in this domain. 
+E.g. \textit{javasolt} `suggested’  and  \textit{felírt} `written’ are common words having different PoS tag distributions in this domain. 
 Further on, some erroneous tags are due to the lexical ambiguity being present in Hungarian (such as \textit{szembe} which can refer to `into an eye’ or `toward/against’). 
 
 \begin{table}[h]
@@ -259,7 +260,7 @@ In addition, the accuracy of a tagging system depends heavily on the ratio of un
 For this, we measured OOV ratio of the development set compared to vocabularies of training corpora (see Table \ref{tab:subcorpora_attrib}). 
 
 Besides, we also compute perplexity, since it can measure the similarity of different texts \cite{kilgarriff1998measures}. 
-Calculation is carried out as follows: trigram models of word and tag sequences are trained on each corpus using Kneser-Ney smoothing, then all of them are evaluated on the development set\footnote{We used the SRILM toolkit \cite{stolcke2002srilm} for training models and measuring perplexity.}.
+Calculation is carried out as follows: trigram models of word and tag sequences are trained on each corpus using Kneser-Ney smoothing \cite{}, then all of them are evaluated on the development set\footnote{We used the SRILM toolkit \cite{stolcke2002srilm} for training models and measuring perplexity.}.
 
 Similarity scores show that neither parts of the Szeged Corpus contain as much abbreviated terms as clinical texts have. 
 Likewise, sentences written by clinicians are significantly shorter than that of the Szeged Corpus. 

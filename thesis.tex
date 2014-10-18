@@ -24,10 +24,10 @@
 % author name for submission to the Student Registry, use the `abstract' option in
 % the document class.
 
-\ifdefineAbstract
- \pagestyle{empty}
- \includeonly{Declaration/declaration, Abstract/abstract}
-\fi
+%\ifdefineAbstract
+% \pagestyle{empty}
+% \includeonly{Declaration/declaration, Abstract/abstract}
+%\fi
 
 % ***************************** Chapter Mode ***********************************
 % The chapter mode allows user to only print particular chapters with references
@@ -57,10 +57,13 @@
 % \include{Acknowledgement/acknowledgement}
 % \include{Abstract/abstract_en}
 % \include{Abstract/abstract_hu}
-% \listoffigures
-% \listoftables
-% \printnomenclature[2.5cm]
+\listoffigures
+\listoftables
+%\printnomenclature[2.5cm]
 
+\printglossary[type=\acronymtype,title=Abbreviations]
+
+\printglossary[title=Nomenclature]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -78,8 +81,10 @@
 %TODO: P és \hat{P} -k ellenőrzése + a szimbólumok közé kell biggyeszteni
 %TODO: magyarlanc és Humor hivatkozások
 %TODO: Fig vs. Figure
-%TODO: lemmatizálás kombinációja
+%TODO: lemmatizálás kombinációjának átgondolása
 %TODO: appendixnek mehetne a végére az annotálási útmutató illetve hogy mit hogy számoljunk
+%TODO: Humor egységes írásmód, hivatkozás
+%TODO: error rate reduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \printnomenclature[space] space can be set as 2.5cm between symbol and
@@ -89,8 +94,10 @@
 % ******************************** Main Matter *********************************
 \mainmatter
 
+
+
 \chapter{Introduction}
-% \input{Introduction/introduction}
+\input{Introduction/introduction}
 
 % \chapter{Methods}
 

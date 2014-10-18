@@ -2,11 +2,12 @@
 
 Is morphological tagging really a solved task? 
 Although several attempts have been made to develop tagging algorithms since the 1960’s (e.g.~\cite{Stolz1965,Klein1963}), those were focusing mainly on English word classes. 
-Further on, these approaches usually concentrate only on increasing PoS taggers’ accuracy on news text, while many other problems (such as lemmatization) are still barely touched. In addition, there has recently been an increasing interest on processing texts in less-resourced languages recently, which are morphologically rich. 
+Further on, these approaches usually concentrate only on increasing \gls{pos} taggers’ accuracy on news text, while many other problems (such as lemmatization) are still barely touched. 
+In addition, there has been an increasing interest on processing texts in less-resourced languages recently, which are morphologically rich. 
 Most of them are highly inflectional or agglutinative, posing new challenges to researchers. This study gives an account of the morphological tagging of agglutinating languages by investigating the case of Hungarian. 
 
 One remarkable difficulty for tagging agglutinative languages is data sparseness. If we compare (cf.~\cite{Oravecz2002a}) languages like Hungarian or Finnish with English in terms of the coverage of vocabulary by a corpus of a given size, we find that although there are a lot more different word forms in the corpus, these still cover a much smaller percentage of possible word forms of the lemmata in the corpus than in the case of English. 
-On the one hand, a 10 million word English corpus has less than 100,000 different word forms, a corpus of the same size for Finnish or Hungarian contains well over 800,000. On the other hand, while an open class English word has about 4--6 different inflected forms, it has several hundred or thousand different productively suffixed forms in agglutinative languages. Moreover, there are much more different possible morphosyntactic tags for such languages than in English (several thousand vs. a few dozen). 
+On the one hand, a 10 million word English corpus has less than 100,000 different word forms, a corpus of the same size for Finnish or Hungarian contains well over 800,000. On the other hand, while an open class English word has about 4--6 different inflected forms, it has several hundred or thousand different productively suffixed forms in agglutinative languages. Moreover, there are much more disparate possible morphosyntactic tags for such languages than in English (several thousand vs. a few dozen). 
 Thus, the problem is threefold:
 \begin{enumerate}
   \item an overwhelming majority of possible word forms of lemmata occurring in the corpus is totally absent,
@@ -21,31 +22,33 @@ In addition to a full morphosyntactic tag, the lemma of each word also needs to 
 Yet, most of the taggers available only concentrate on the morphological tag but not the lemma, thus doing just half of the job.
 
 As regards lemmatization in Hungarian, %TODO: átolvasni
-one can show that more than 16\% of words are ambiguous by their lemmata\footnote{Measurements are carried out using the  Szeged Corpus~\cite{} and Humor analyzer ~\cite{}.}. 
+one can show that more than 16\% of words are ambiguous by their lemmata\footnote{Measurements are carried out using the  Szeged Corpus~\cite{Csendes2004} and Humor analyzer ~\cite{Proszeky1994,Novak2003}.}. 
 Furthermore, if we aggregate morphological analyses by their morphosyntactic label, 4\% of the tokens still remain ambiguous. 
 An example is a class of verbs that end in -\emph{ik} in their third person singular present tense indicative, which is the customary lexical form (i. e. the lemma) of verbs in Hungarian. Further on, another class of verbs has no suffix in their lemma. 
 The two paradigms differ only in the form of the lemma, so inflected forms can belong to the paradigm of either an \emph{-ik} final or an non\emph{-ik} final verb and many verbs. 
-E.g. \emph{internetezem} `I am using the internet' have two lemmata for the same morphosyntactic tag: \emph{internetez} and \emph{internetezik} `to use the internet'.
-Another example is the class of verbs which third person singular past causative case overlap with the singular third person past form. E.g. \emph{festette} `he painted it/he made it to be painted' is tagged as a singular third person past tense verb with two possible roots: \emph{festet} `he makes someone to paint` and \emph{fest} `he paints'.  
+E.g. \emph{internetezem} `I am using the internet' can have two roots for the same morphosyntactic tag: \emph{internetez} and \emph{internetezik} `to use the internet'.
+Another example is the class of verbs which third person singular past causative case overlap with the singular third person past form. 
+For example \emph{festette} `he painted it/he made it to be painted' is tagged as a singular third person past tense verb with two possible roots: \emph{festet} `he makes someone to paint` and \emph{fest} `he paints'.  
 %These necessitate a sufficient lemmatization method for Hungarian.
 
 Besides, a further issue is that most of the tagging approaches perform well only when a satisfactory amount of training data is available. 
-In addition, several agglutinative languages and domains lack annotated corpora. E.g. even though the Hungarian Szeged Corpus contains well over 80000 sentences, these are mainly from general news. 
-Therefore pure stochastic methods trained on this corpus for tagging user generated texts would result in low quality annotation. 
+In addition, several agglutinative languages and domains lack annotated corpora. 
+Concerning Hungarian, even though the Szeged Corpus contains well over 80,000 sentences, these are mainly from general news. 
+Therefore, pure stochastic methods trained on this corpus for tagging user generated texts would result in low quality annotation. 
 
-In this chapter, we present an effective morphological tagging algorithm that has a language independent architecture being capable of annotating sentences with full morphosyntactic labels and lemmata. 
+In this chapter, we present first an effective morphological tagging algorithm that has a language independent architecture being capable of annotating sentences with full morphosyntactic labels and lemmata. 
 In addition, the method has state-of-the-art performance for tagging Hungarian and yields high accuracy even when limited training data is available. 
 Further on, tagger combination experiments are presented raising the ceiling of morphological tagging accuracy further. 
 Finally, new scientific results are summed up.
 
 
 
-\section{Hybrid morphological tagging}
+\section{Hybrid morphological tagging methods}
 \input{MorphTagging/section_purepos}
 
 % \pagebreak
 
-\section{Combination of morphological tagging methods}
+\section{Combination of morphological taggers}
 \input{MorphTagging/section_combination}
 
  

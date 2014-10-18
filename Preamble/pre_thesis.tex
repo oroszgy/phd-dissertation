@@ -1,5 +1,6 @@
 \usepackage[T1]{fontenc} 
 \usepackage[utf8]{inputenc}
+
 % ******************************************************************************
 % ****************************** Custom Margin *********************************
 
@@ -28,7 +29,8 @@
 
 \input{Preamble/pre_shared}
 \input{Preamble/pre_en.tex}
-
+%\usepackage{enumitem}
+%\setlist{nolistsep}
 
 
 % ******************************* Line Spacing *********************************
@@ -49,7 +51,7 @@
 % *****************************************************************************
 % *************************** Bibliography  and References ********************
 
-%\usepackage{cleveref} %Referencing without need to explicitly state fig /table
+%\usepackage{cleveref} %Referencing without need to explicitly state  /table
 
 
 \input{Preamble/pre_bib.tex}
@@ -88,9 +90,27 @@
 
 % To change the name of the Nomenclature section, uncomment the following line
 
-\renewcommand{\nomname}{List of Abbreviations}
-\makenomenclature
+%\renewcommand{\nomname}{List of Abbreviations}
+%\makenomenclature
+\usepackage[
+nonumberlist, %do not show page numbers
+acronym,      %generate acronym listing   -> Not used in this example (see line with %%% )
+toc,          %show listings as entries in table of contents
+nopostdot]
+{glossaries}
 
+\makeindex
+\input{Symbols/symbols}
+\makeglossaries
+
+
+%\renewcommand{\glossarysection}[2][\theglstoctitle]{%
+%  \def\theglstoctitle{#2}%
+%  \vspace{\cftbeforelottitleskip}%
+%  \par\noindent
+%  {\cftlottitlefont #2}{\cftafterlottitle}%
+%  \vskip\cftafterlottitleskip
+%}
 
 % ********************************* Appendix ***********************************
 
