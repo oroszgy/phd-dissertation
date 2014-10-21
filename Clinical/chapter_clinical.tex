@@ -2,7 +2,7 @@
 \section{Introduction}
 
 Hospitals produce a huge amount of clinical notes that have been solely used for archiving purposes and have generally been inaccessible to researchers. 
-However, application of recent NLP technology can make accessible the hidden knowledge of archived records, thus boosting medical research. 
+However, application of recent \acrshort{nlp} technology can make accessible the hidden knowledge of archived records, thus boosting medical research. 
 While developing text processing tools for medicians is an emerging field in many developed countries, this is not true for less-resourced languages.
 
 To be able to extract information from medical texts, they must be preprocessed properly. 
@@ -14,12 +14,12 @@ Secondly, morphological tagging is an indispensable step for information extract
 Considering the case of Hungarian, there are only a few studies on processing medical records. 
 Recently, Siklósi et al. \cite{Siklosi2012,Siklosi2013} have presented a system that is able to correct spelling errors in clinical notes. 
 They use a mixture of language models to generate correction candidates, however focusing only on correctly segmented words. 
-Further on, a resolution method for clinical abbreviations has been presented by them \cite{Siklosi2013b} as well, however, morphosyntactic tagging is still untouched. 
+Further on, an abbreviation resolution method has been presented by them \cite{Siklosi2013b} as well, however, morphosyntactic tagging is still untouched. 
 As far as we know, no study investigates segmenting or tagging clinical Hungarian. 
 
-In this chapter, we present accurate preprocessing algorithms for noisy texts.
-Results are presented for only clinical Hungarian, but they are developed to perform well on other morphologically complex languages as well. 
-First, an effective method is introduced for detecting sentence and token boundaries in errorful notes.
+This chapter presents accurate preprocessing algorithms for noisy texts.
+Results are presented for only clinical Hungarian, but they are designed to perform well on other morphologically complex languages as well. 
+First, an effective method is introduced for detecting sentence and token boundaries.
 Then, tagging experiments are presented yielding a viable morphological tagger for clinical Hungarian. 
 
 %TODO: biomedical vs. clinical (???)

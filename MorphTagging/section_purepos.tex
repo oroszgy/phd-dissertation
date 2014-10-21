@@ -59,13 +59,13 @@ While numerous attempts have been published for tagging Polish recently~\cite{Pi
 Most of these solutions (e.g. \cite{Radziszewski2013}) use morphological analyzers to get possible morphosyntactic tag candidates, thus reducing the search space of the decoder.
 Further on, tiered tagging is a widely utilized technique~\cite{Radziszewski2013}.
 This method resolves complex tags by computing its parts one after another.
-Considering ML algorithms used, the range of applications is wide.
-Beside an adaptation of Brill’s tagger~\cite{Acedanski2010}, C4.5 decision trees~\cite{Piasecki2007}, memory-based learning principle~\cite{Radziszewski2011} and CRF models are employed~\cite{Radziszewski2013} as well. 
+Considering \acrshort{ml} algorithms used, the range of applications is wide.
+Beside an adaptation of Brill’s tagger~\cite{Acedanski2010}, C4.5 decision trees~\cite{Piasecki2007}, memory-based learning principle~\cite{Radziszewski2011} and \acrshort{crf} models are employed~\cite{Radziszewski2013} as well. 
 
 The first successful attempt to analyze Czech was published by Hajič and Hladká~\cite{Hajic1998a} basing on a discriminative model.
 Their approach uses a morphological analyzer and builds on individual prediction models for ambiguity classes.
 Actually, the best results for Czech are obtained using the combination of numerous systems~\cite{Hajic2007}.
-In their solution, three different stochastic taggers (HMM, Maximum Entropy and Averaged perceptron) and symbolic components are utilized as well.
+In their solution, three different stochastic taggers (\acrshort{hmm}, \acrlong{maxent} and averaged perceptron) and symbolic components are utilized as well.
 A MA computes the possible analyses, while the rule-based disambiguator tool removes agrammatical tag sequences. 
 
 Besides, the flexible architecture of the Stanford tagger \cite{Toutanova2003} allows the integration of various morphological features enabling its usage for morphologically rich languages.
@@ -112,7 +112,7 @@ In addition, short training time is also guaranteed due to the simple model used
 
 
 
-\subsection{The new model for full morphological tagging}
+\subsection{The full morphological tagging model}
 \label{sec:purepos}
 
 The architecture of PurePos (cf. Figure \ref{fig:purepos-arch}) contains multiple components. 
@@ -120,7 +120,7 @@ The data flow starts from a \gls{ma} providing word analyses as \emph{(lemma, ta
 Next, a trigram model is used to select morphosyntactic labels for words. 
 Then, lemmatization is carried out using both statistical and linguistic components. 
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{MorphTagging/architecture.png} 
   \caption{The architecture of the proposed method}
@@ -139,7 +139,7 @@ In that way,  underlying statistical models are introduced first, then we show h
   \label{fig:pos_arch}
 \end{figure}
 
-PurePos builds on methods introduced in TnT, allowing it to be fast, simple and effective at the same time. 
+PurePos builds on \acrshort{hmm}-based methods \cite{Rabiner1989,Samuelsson1993} introduced in TnT \cite{Brants2000}, allowing it to be fast, simple and effective at the same time. 
 Similarly to its predecessors, our model (see Figure \ref{fig:pos_arch}) selects the best $t_1 \dots t_m$ label sequence for $w_1 \dots w_n$ words by calculating:
 \begin{equation}
 \argmax_{t_1^m} \prod_{i=1}^m P(t_i | t_{i-1}^{i-n}) P(w_i|t_{i-1}^{i-n})
@@ -179,7 +179,7 @@ As regards tagging of unknown words, we use -- in accordance with Brants -- the 
  = \frac{ \hat{P}(t|s_{n-l+1}, \dots, s_n) + \theta_i \hat{P}(t|s_{n-l}, \dots, s_n)}{1+\theta_i}
 \end{align}
 
-In doing so, $\theta_i$ parameters are calculated applying successive abstraction, while \gls{mle} is utilized  again for computing $\hat{P}(t|\{s_{n-l+1}, \dots, s_n)$. 
+In doing so, $\theta_i$ parameters are calculated applying successive abstraction, while \gls{mle} is utilized  again for computing $\hat{P}(t|s_{n-l+1}, \dots, s_n)$. 
 
 Concerning decoding, beam search is utilized, since it can yield multiple tagging sequences at the same time. 
 In that way, the tool is able to produce tagging scores of sentences \eqref{eq:purepos-score} allowing us to incorporate linguistic rules building on partly disambiguated word sequences. 
@@ -414,7 +414,7 @@ Finally, sentence based accuracies on the Humor-tagged corpus reveals that most 
 
 Next, we show that our method, in contrast to others (see methods investigated in the previous section\footnote{Unfortunately, we could not measure the performance of \texttt{magyarlanc}, since the current release of the tool cannot be trained.}), can be used effectively when just a small amount of annotated corpora is available. 
 For this, we draw learning curves of systems, evaluating them on the same datasets. 
-However, data used for training is limited to 2000, 4000, 6000, 8000 and 10000 sentences. 
+However, data used for training is limited to 2,000, 4,000, 6,000, 8,000 and 10,000 sentences. 
 
 \begin{figure}[H]
   \centering
