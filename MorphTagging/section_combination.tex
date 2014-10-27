@@ -228,7 +228,7 @@ Consequently, the overall accuracy improvement measured in the development set (
 Finally, the best results are produced using two level-1 learners: one of them learns to choose the better lemmatizer while the other aims to select the optimal PoS tagger (cf. Figure \ref{fig:comb3}).
 In that  way, this architecture can incorporate the best lemma and tag candidates (as in Table \ref{tab:comb-reduction-rates}) yielding superior performance.
 However, a drawback of this configuration that it may result in incompatible tag-lemma pairs\footnote{ A lemma and a tag for a word is incompatible if the MA can analyze the word, but no analysis contains both the lemma and the morphosyntactic label.}.
-To overcome this problem, the combination is extended with the HuMor morphological analyzer which is used to discover and fix incompatibilities.
+To overcome this problem, the combination is extended with the Humor morphological analyzer which is used to discover and fix incompatibilities.
 With this enhancement, we achieved superior improvement scores (32.42\%) on the development set.
 
 \begin{figure}[H]
@@ -261,7 +261,7 @@ Multiple metalearners & 25.07\% & 29.89\% & \underline{28.90\%} \\
 As expected, the hybrid architecture using a morphological analyzer achieved the best performance.
 It resulted in 98.90\% of full disambiguation accuracy fixing 28.90\% of PurePos’ errors.
 These results show that our new combination architecture can be used in cases when very high disambiguation accuracy is crucial.
-Finally, we also confirmed that PurePos and HuLapos complement each other well resulting in an improved morphological tagger. 
+Finally, we also confirmed that PurePos and HuLaPos complement each other well resulting in an improved morphological tagger. 
 
 
 

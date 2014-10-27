@@ -74,17 +74,17 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO LIST
-%TODO: számok 3-asűval tagolva vannak-e
-%TODO: magyarlanc formázása mindenhol legyen egyéges
-%TODO: példák `angol' fordításainak csekkolása
-%TODO: rövidítések bevezetése első helyen (ehhez először egységes rövidítéskezelés kell
-%TODO: P és \hat{P} -k ellenőrzése + a szimbólumok közé kell biggyeszteni
-%TODO: magyarlanc és Humor hivatkozások
-%TODO: lemmatizálás kombinációjának átgondolása
+%TODO: számok 3-asűval tagolva vannak-e ✓
+%TODO: magyarlanc formázása mindenhol legyen egyéges ✓
+%TODO: példák `angol' fordításainak csekkolása ✓
+%TODO: rövidítések bevezetése első helyen (ehhez először egységes rövidítéskezelés kell ✓
+%TODO: P és \hat{P} -k ellenőrzése ✓
+%TODO:    + a szimbólumok közé kell biggyeszteni 
+%TODO: magyarlanc és Humor hivatkozások ✓
+%TODO: lemmatizálás kombinációjának átgondolása ✓
 %TODO: appendixnek mehetne a végére az annotálási útmutató illetve hogy mit hogy számoljunk
-%TODO: Humor egységes írásmód, hivatkozás
+%TODO: Humor egységes írásmód, ✓ hivatkozás (?)
 %TODO: error rate reduction: az első megjelnéskor kellene valamilyen képlet
-%TODO: hogy írjuk, hogy HuMor vs. Humor?
 
 %TODO: nagy introduction
 %TODO: tézisfüzet introduction
@@ -92,6 +92,7 @@
 %TODO: függelék (annotálási útmutató)
 %TODO: magyar tézisfüzet
 %TODO: köszönetnyilvánítás (angol/magyar)
+%TODO: kell-e mini summary minden fejezet végén?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \printnomenclature[space] space can be set as 2.5cm between symbol and
@@ -108,16 +109,16 @@
 
 % \chapter{Methods}
 
-\chapter{Full morphological tagging methods}
+\chapter{Full morphological tagging methods}\label{chap:tagging}
 \input{MorphTagging/chapter_tagging}
 
-\chapter{An application of the tagger: estimating morphosyntactic complexity}
+\chapter{An application of the tagger: estimating morphosyntactic complexity}\label{chap:mlu}
 \input{MorphComplexity/chapter_complexity}
 
-\chapter{Methods for a less-resourced domain}
+\chapter{Methods for a less-resourced domain}\label{chap:clin}
 \input{Clinical/chapter_clinical}
 
-\chapter{Summary -- new scientific results}
+\chapter{Summary -- new scientific results}\label{chap:sum}
 \input{Summary_en/summary}
 
 \chapter*{Bibliography}

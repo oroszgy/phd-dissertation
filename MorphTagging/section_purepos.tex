@@ -132,7 +132,7 @@ In that way,  underlying statistical models are introduced first, then we show h
 
 \subsubsection{The \gls{pos} tagging model}
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{MorphTagging/pos_arch.png} 
   \caption{The process of part-of-speech tagging in the proposed system}
@@ -190,7 +190,7 @@ Score(w_1^m,t_1^m) = \log \prod_{i=1}^m P(w_i|t_i,t_{i-1})P(t_i|t_{i-1},t_{i-2})
 
 \subsubsection{The lemmatization model}
 
-\begin{figure}[ht]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{MorphTagging/lemma_arch.png} %TODO: javítani az ábrán
   \caption{The data flow of the lemmatization component}
@@ -204,7 +204,7 @@ For this, the guesser (described in Section \ref{sec:purepos-guesser}) has been 
 In doing so, combined labels can represent both the morphosyntactic tag and suffix-transformations for lemmata (for an example see Table \ref{tab:lemma-example}).
 
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Examples for the combined representation of the tag and lemma}
 \label{tab:lemma-example}
@@ -239,8 +239,8 @@ In that way, we can estimate $P(l,t|w)$ using the lemma guesser. Finally, models
 S(l|w,t) = P(l)^{\lambda_1} P(l,t|w)^{\lambda_2}
 \end{equation}
 
-\begin{algorithm*}[h]
-\begin{algorithmic}[1]
+\begin{algorithm*}
+\begin{algorithmic}
     \ForAll{(word, tag, lemma)} 
         \State candidates $\gets$ generateLemmaCandidates(word, tag)
         \State maxUnigramProb $\gets$ getMaxProb(candidates, word, tag, unigramModel)
@@ -257,7 +257,7 @@ S(l|w,t) = P(l)^{\lambda_1} P(l,t|w)^{\lambda_2}
     \EndFor
     \State normalize$( \lambda_{1}, \lambda_{2} )$
   \end{algorithmic}
-  \caption{Calculating parameters of the linear interpolated lemmatization model}
+  \caption{Calculating parameters of the lemmatization model}
 \label{lemma-interpolation-algorithm}
 \end{algorithm*}
 
@@ -285,7 +285,8 @@ Hybridization steps listed below show differences between PurePos and its predec
   Next, the proposed architecture allows rule-based components to modify the analyses of the MA. In that way, bad candidates can be filtered out. Furthermore, local lexical probability scores can be also given to PurePos, which are then used as context dependent distribution functions. 
   \item[Unseen tags] \hfill \\ 
   In contrast to TnT or HunPos, our system is able to handle unseen tags\footnote{Morphosyntactic labels which are not seen in the training data.} properly. On the one hand, if a token has only one analysis not seen before, that one gets selected with 1 lexical probability. Further on, estimation of forthcoming tags are performed using a lower level (unigram) model in this case. On the other hand, the system can also calculate lexical and contextual scores for any tag previously not seen. This can be performed mapping latter tags to a known ones using regular expressions.\footnote{For a complete example see Section \ref{sec:oldhungarian}.}
-  \item[\emph{k}-best output] Finally, our method decodes tags using beam search. In doing so, one can generate partly disambiguated sentences being apt for linguistic post-processing. Further on, this facility allows the usage of advanced machine learning techniques resulting in more accurate parsing algorithms.
+  \item[$k$-best output] \hfill \\
+  Finally, our method decodes tags using beam search. In doing so, one can generate partly disambiguated sentences being apt for linguistic post-processing. Further on, this facility allows the usage of advanced machine learning techniques resulting in more accurate parsing algorithms.
 \end{description}
 
 
@@ -300,7 +301,7 @@ First, PurePos is evaluated on Hungarian using the Szeged Corpus\footnote{Versio
 This corpus contains general texts from seven genres being annotated with detailed (MSD) morphosyntactic tags~\cite{Erjavec2012} and lemmata.
 In addition, we used a variant of the same corpus tagged with the analyses of the Humor MA. These texts were split in 8:2 ratio for training and testing (as in Table \ref{tab:szeged-corpus}). 
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Dimensions of the corpora used}
 \begin{tabular}{l r r r r}
@@ -339,14 +340,14 @@ The latter one results on roots for \emph{(word, tag)} pairs being the most freq
 Beside these components, tag dictionaries have been prepared for HunPos. 
 (For this, morphological analyzers are fed with the 100 000 most frequent words of Hungarian\footnote{Frequencies are calculated relying on the results of the Szószablya project~\cite{Halacsy2004}.}.) %TODO: ez tuti az?
 
-\begin{table}[ht]
+\begin{table}[H]
  \centering
  \caption{Morphological tagging precision scores on the Szeged Corpus (annotated with MSD labels)}
 \begin{tabular}{l r r r}
   \hline
   Precision &  PoS tag &  Token &  Sentence \\
   \hline
-  magyarlanc &  96.50\% &  95.72\% &  54.52\% \\
+  \texttt{magyarlanc} &  96.50\% &  95.72\% &  54.52\% \\
   Morfette &  96.94\% &  92.24\% &  38.18\% \\
   HuLaPos &   &   &   \\
   PurePos &  \underline{96.99\%} &  \underline{96.27\%} &  \underline{58.06\%} \\
@@ -362,7 +363,7 @@ Beside these components, tag dictionaries have been prepared for HunPos.
 \end{table}
 
 
-\begin{table}[ht]
+\begin{table}[H]
  \centering
  \caption{Morphological tagging precision scores on the transcribed Szeged Corpus (annotated with Humor labels)}
 \begin{tabular}{l r r r}
@@ -456,11 +457,11 @@ All in all, the architecture of PurePos allows producing accurate annotations wh
 \label{sec:oldhungarian}
 
 Next, we present a tagging task showing the effectiveness of all hybrid components of PurePos. 
-In a project~\cite{Novak2013} aiming at the creation of an annotated corpus of Middle Hungarian texts, an adapted version of the Hungarian HuMor morphological analyzer was used. 
+In a project~\cite{Novak2013} aiming at the creation of an annotated corpus of Middle Hungarian texts, an adapted version of the Hungarian Humor morphological analyzer was used. 
 This tool was originally made to annotate contemporary Hungarian, but the grammar and lexicon were modified to handle morphological constructions existed in Middle Hungarian but have since disappeared from the language. 
-In the experiments described here, we used a manually checked disambiguated portion of this corpus. The data was labeled using a rich variant of the HuMor tagset having cardinality over a thousand.
+In the experiments described here, we used a manually checked disambiguated portion of this corpus. The data was labeled using a rich variant of the Humor tagset having cardinality over a thousand.
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Characteristics of the used corpus}\label{tab:oldhun-corpus}
 \begin{tabular}{l r r r}
@@ -484,7 +485,7 @@ We used the enhanced trigram-based algorithm derived from HunPos and implemented
 This basic chain is improved step-by-step investigating the impact of each component.
 First, the MA and the new lemmatization method is analyzed on the development set (cf. Table \ref{tab:oldhun-baselines}). 
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
 \caption{Baseline disambiguation accuracies on the development set}\label{tab:oldhun-baselines}
 \begin{tabular}{l r r r}
