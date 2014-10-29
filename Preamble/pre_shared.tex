@@ -27,6 +27,7 @@
 % This is for people stuck with older versions of texlive
 %\usepackage{sty/caption/subcaption}
 \usepackage{subcaption}
+\usepackage{emptypage}
 
 % ********************************** Table *************************************
 \usepackage{booktabs} % For professional looking tables
@@ -67,6 +68,20 @@
 %\renewcommand{\listfigurename}{My List of Figures}
 %\renewcommand{\listtablename}{My List of Tables}
 
+
+\usepackage[
+nonumberlist, %do not show page numbers
+acronym,      %generate acronym listing   -> Not used in this example (see line with %%% )
+toc,          %show listings as entries in table of contents
+nopostdot]
+{glossaries}
+
+\usepackage{textcase}
+
+\makeindex
+\input{Symbols/symbols}
+\makeglossaries
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -81,8 +96,8 @@
     {}          % CUSTOM-HEAD-SPEC
   
 \newtheoremstyle{pub}
-    {\parskip}   % ABOVESPACE
-    {\parskip}   % BELOWSPACE
+    {\parskip\parskip}   % ABOVESPACE
+    {\parskip\parskip}   % BELOWSPACE
     {}  % BODYFONT
     {}       % INDENT (empty value is the same as 0pt)
     {} % HEADFONT
