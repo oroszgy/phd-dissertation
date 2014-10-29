@@ -265,6 +265,7 @@ supported!}
 % Add appendices
 \RequirePackage[title,titletoc]{appendix}
 
+
 \renewcommand{\contentsname}{Table of contents}
 \renewcommand{\listfigurename}{List of figures}
 \renewcommand{\listtablename}{List of tables}
@@ -914,6 +915,8 @@ wish to left align your text}
 \cleardoublepage
 \setsinglecolumn
 \chapter*{\centering \Large Acknowledgements}
+	\phantomsection
+	\addcontentsline{toc}{chapter}{Acknowledgements}
 \thispagestyle{empty}
 }
 
@@ -969,7 +972,7 @@ wish to left align your text}
 
 \ifPHD@chapter
     \defineChaptertrue
-    % Disable the table of contents, figures, tables, index and nomenclature
+    % Disable the table of contents, figures, , index and nomenclature
     \renewcommand{\maketitle}{}
     \renewcommand{\tableofcontents}{}
     \renewcommand{\listoffigures}{}
@@ -1015,6 +1018,8 @@ wish to left align your text}
 	\cleardoublepage
 	\setsinglecolumn
 	\chapter*{\centering \Large Abstract}
+		\phantomsection
+		\addcontentsline{toc}{chapter}{Abstract}
 	\thispagestyle{empty}
 \fi
 }

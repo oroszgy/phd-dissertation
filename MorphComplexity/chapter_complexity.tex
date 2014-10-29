@@ -11,9 +11,9 @@ This chapter presents\footnote{This study is a joint work with Kinga Mátyus.
 Manual annotation of the data were performed by both of us, while the morpheme counting principles are her work. 
 My contribution is the construction of the tagging chain, its adaptation and the automatization of the MLUm calculation.} 
 an automatic method for estimating \acrshort{mlum} for Hungarian transcripts. 
-We show that PurePos can be used effectively for aiding linguist in this scenario. 
+We show that PurePos can be used effectively for aiding linguists in this scenario. 
 Our approach adapts this tagging tool (cf. Section \ref{sec:purepos}) yielding the first Hungarian tagger for spoken texts. 
-Further on, show an \acrshort{mlum} estimation method based on the tool resulting in high correlation with the result of human annotators. 
+Further on, we show an \acrshort{mlum} estimation method based on the tool resulting in high correlation with the result of human annotators. 
 
 First we summarize related studies, then we present resources used for the research. 
 Next, the adaptation steps of PurePos are described and the framework designed is introduced. 
@@ -27,7 +27,7 @@ In contrast, there are others employing and adapting statistics of written langu
 Besides, building domain-specific rules also lead to satisfactory taggers (e.g. \cite{Moreno2003}),
 while combination of such systems with stochastic tools \cite{Bick2012} yields effective algorithms as well. 
 
-Previous studies implies that a proper morphological annotation system aiming to process transcripts must be able to handle the following types of difficulties:
+These previous studies imply that a proper morphological annotation system aiming to process transcripts must be able to handle the following types of difficulties:
 \begin{enumerate}
  \item existence of new morphosyntactic tags which are missing from the tagset of the training data,
  \item occurrence of tokens with non-standard orthography in texts,
@@ -43,30 +43,30 @@ Therefore, some studies concur that \acrshort{mluw} is a reliable measure as opp
 
 Crystal also points out \cite{Crystal1974} that computing length in morphemes is a good way to measure morphologically complex languages (see e.g. \cite{Bowerman1973}). 
 Hungarian is an agglutinative language, thus this measure can be considered to be a more reliable indicator of language development  than \acrshort{mluw} (similarly to Turkish \cite{saygin2010}). 
-Moreover, previous studies investigating language development in Hungarian \cite{Reger1990,Weber2011} employed \acrshort{mlum} as a metric.
+Moreover, previous studies investigating language development in Hungarian \cite{Reger1990,Weber2011} also employed \acrshort{mlum} as a metric.
 
 In the case of corpora which follow the CHAT guidelines \cite{macwhinney1991childes}, lengths of utterances (including morpheme counting) can be calculated with the CLAN \cite{MacWhinney1992} toolkit. 
 This system is widely used, since it has components performing the necessary preprocessing steps. 
 One of its modules is MOR that is a morphological analyzer designed for spoken language corpora. 
-A subsequent component is POST doing the morphological disambiguation. 
+A subsequent component is POST, doing the morphological disambiguation. 
 Finally, a morpheme counter tool using their output is also available. 
 In that way, \acrshort{mlum} is usually calculated in a number of languages applying these tools.
 However, they lack rules for Hungarian and many other morphologically complex languages, thus none of them can be used for analyzing such transcripts.
 
 We are not aware of any research investigating the tagging of spoken Hungarian. 
 Moreover, there is no study aiming to calculate \acrshort{mlum} for Hungarian transcripts automatically. 
-This study introduce adaptation methods of a general-purpose tagger tool which is then utilized for counting morphemes resulting in \acrshort{mlum} estimates.
+This study introduce adaptation methods for a general-purpose tagger tool that is then utilized for counting morphemes resulting in accurate \acrshort{mlum} estimates.
 
 \section{Resources}
 
-There is no Hungarian speech corpus being morphosyntactically annotated, therefore we use a contemporary one as a base of our research. 
+There is no Hungarian speech corpus morphosyntactically annotated, therefore we use a contemporary one as a base of our research. 
 \gls{hukilc} \cite{Matyus2014} has been compiled predominantly for child language variation studies. 
 It contains 62 interviews with 4.5--5.5 year-old kindergarten children from Budapest, recorded in the spring of 2012. 
 The interviews are 20--30 minutes long consisting different types of story-telling tasks. 
 Its transcription was carried out using the \gls{childes} \cite{macwhinney1991childes} following its guidelines. 
 The corpus has about 39,000 utterances with 140,000 words.
 
-In order to develop a proper tagger tool for this corpus, a small part of the data has been manually annotated. 
+In order to develop a proper tagger tool, a small part of the data has been manually annotated. 
 As a first step, general tagging principles were established. 
 We chose the morphosyntactic labels and lemmata of the Humor analyzer to represent morphological analyses. 
 Next, an annotation manual was developed for human annotators to guide their work during the morphological disambiguation of the corpus. 
@@ -82,13 +82,13 @@ This gold standard corpus was split into two sets of equal sizes: a development 
 \hline
 & Utterances & Tokens \\
 \hline
-Development set & 509 & 3340 \\
-Test set & 449 & 2740 \\
+Development set & 509 & 3,340 \\
+Test set & 449 & 2,740 \\
 \hline
 \end{tabular}
 \end{table}
 
-%TODO: valamilyen ábra ide is jöhetne
+
 
 The tagset of the corpus has been created to allow both the investigation of morphosyntactic relations and the representation of phenomena typical to transcripts. 
 First of all, a new label was introduced to mark filled pauses. 
@@ -111,7 +111,7 @@ Their formulation could be done with high confidence, since most of the transcri
 
 As a first step, morphological analyses of about 40 words typical of spoken language were created manually. 
 These tokens were mostly interjections not used in written language (such as \textit{hűha} `wow’), while some adverbs were regarded as utterance words in the corpus (e.g. \textit{komolyan} `seriously’). 
-Furthermore, those tokens that are written in one word in transcripts but are spelled as two words in formal texts were also added to the lexicon. 
+Furthermore, those tokens that are written as one word in transcripts but are spelled as two words in formal texts were also added to the lexicon. 
 An example is \textit{légyszíves} `please’ which is written formally as \textit{légy szíves}. Finally, diminutive analyses were also provided where it was necessary. 
 E.g. \textit{kutyus} `doggy’ was also analysed as \textsc{n.dim} with the lemma \textit{kutya} `dog’ beside the old label \textsc{n} and the \textit{kutyus} `doggy’ root. This process was carried out by investigating the lemmata produced by Humor: if the deletion of the derivational affix resulted in a root enumerated in a domain-specific list, a new diminutive analysis was created as well. 
 

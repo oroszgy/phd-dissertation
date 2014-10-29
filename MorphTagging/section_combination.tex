@@ -1,16 +1,16 @@
 Although high accuracy tagging tools are generally available even for morphologically rich languages, sometimes their performance is not satisfactory and shall be increased further.
 In cases, when superior annotation quality is required, variance of tools should be considered.
 Disparate methods can result in different sort of errors, therefore their combination can yield better algorithms.
-Even though, this idea is not new, being present in both Machine Learning and NLP literature, there have not been much work for morphologically rich languages. 
+Even though, this idea is not new, being present in both machine learning and \acrshort{nlp} literature, there have not been much work for morphologically rich languages. 
 
 In this section, the case of agglutinative languages is investigated by experimenting with Hungarian morphological disambiguator tools.
-First, we give a brief overview about PoS tagger combination methods.
+First, we give a brief overview about \acrshort{pos} tagger combination methods.
 Next, discrepancies of two taggers are presented allowing us to create a new combination architecture.
-Finally, we evaluate the combination method by measuring the overall improvement compared to baseline tools.
+Finally, we evaluate the proposed method by measuring the overall improvement compared to baseline tools.
 
 \subsection{Background}
 
-The design process of a combined tagger system involves several steps \cite{Brill1998,Halteren2001}.
+The design process of a combined tagger system involves several steps\footnote{Statements are based on two fundamental studies by Brill and Wu~\cite{Brill1998} and Halteren et al.~\cite{Halteren2001}.}.
 First, it needs to be examined whether the errors of components are different enough to outperform the best individual system significantly.
 Then an appropriate combining scheme must be found.
 Decisions to be made by a combination algorithm can be of at least two sorts: 
@@ -48,14 +48,14 @@ Then, features investigated which fit the best for agglutinative languages.
 
 \subsection{Experiments}
 
-Evaluating taggers on general Hungarian can shows that two of the best performing tools (our new method and HuLaPos) significantly diverge by the errors they made.
+Evaluating taggers on general Hungarian can show that two of the best performing tools (our new method and HuLaPos) significantly diverge by the errors they made.
 In doing so, a detailed analysis of errors is carried out first, aiming to reveal their possible combined performance.
-For this, we rely on the Humor-tagged Szeged Corpus used before, which is split to 3 parts.
-80\% of the sentences is utilized for training the systems, 10\% is employed for development purposes while the rest is set apart for final evaluation.
+For this, we rely on the Humor-tagged Szeged Corpus.
+It is split to 3 parts: 80\% of the sentences is utilized for training the systems, 10\% is employed for development purposes while the rest is set apart for final evaluation.
 
 \subsubsection{Analysis of errors}
 
-First of all, we could not compare word class error rates one-by-one to reveal differences of taggers, since the cardinality of the tagset is over 1000.
+First of all, we could not compare word class error rates one-by-one to reveal differences of taggers, since the cardinality of the tagset is over 1,000.
 Further on, we could neither rely on Brill's well-known formula (cf. \cite{Brill1998}), as it gives hard-to-interpret unlimited negative values when there is a considerable amount of overlap between the errors investigated.
 Therefore, a new metric, called Own Error Rate ($\oer$), is introduced to measure the relatedness of the taggers' errors properly.
 We use the formula 
@@ -64,7 +64,7 @@ We use the formula
 \end{equation}
 for calculating the percentage of tagger $A$ being wrong but $B$ being correct in proportion of all errors made by either $A$ or $B$.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Error analysis of PurePos and HuLaPos on the development set}\label{tab:comb-disambig-comp}
 \begin{tabular}{l r r r}
@@ -116,7 +116,7 @@ Assuming a hypothetical oracle always selecting the correct \emph{(tag, lemma)} 
 \subsubsection{Improving PurePos with HuLaPos}
 
 To utilize combination through cross-validation, the training set is split into 5 equal-sized parts.
-Level-0 taggers (PurePos and HuLaPos) are trained 5 times using 4/5 of the corpus while the rest of the sentences are annotated by both taggers in each round.
+Level-0 taggers (PurePos and HuLaPos) are trained 5 times using the 4/5 of the corpus while the rest of the sentences are annotated by both taggers in each round.
 In doing so, the union of these automatically annotated parts are used to train the (level-1) metalearners.
 Furthermore, this technique allows us to utilize all the training data in each level, yet separating the two phases of the training process. 
 
@@ -162,7 +162,7 @@ Further on, wider context features are also introduced to manage the free word o
 
 
 Performing the experiments, we use the WEKA machine learning toolkit \cite{Hall2009}.
-Improvements are measured on PoS tagging, lemmatization, as well as on the full annotation scenario.
+Improvements are measured on \acrshort{pos} tagging, lemmatization, as well as on the full annotation scenario.
 Table \ref{tab:comb-reduction-rates} shows the error reduction rates of different systems compared to PurePos. 
 
 \begin{table}[h]
@@ -207,7 +207,7 @@ Results on the development set suggest utilizing instance-based methods with the
 
 \paragraph{Combining PoS taggers only}
 
-Another plausible scheme is to combine only the PoS tagger modules of the tools (see Figure \ref{fig:comb2}).
+Another plausible scheme is to combine only the \acrshort{pos} tagger modules of the tools (see Figure \ref{fig:comb2}).
 However, in doing so, one has to deal with lemmatization as well.
 A straightforward solution for this to employ the lemmatizer of the better annotator tool (PurePos).
 Following this way, the best tag selection model could be constructed (cf.
@@ -220,12 +220,12 @@ Table \ref{tab:comb-reduction-rates}) using IB learning with FS4 features.
   \label{fig:comb2}
 \end{figure}
 
-Although this algorithm allows us to create a better PoS tagger compared to that of above, the gain in lemmatization remains lower (6.81\%).
+Although this algorithm allows us to create a better morphosyntactic tagger compared to that of above, the gain in lemmatization remains much lower (6.81\%).
 Consequently, the overall accuracy improvement measured in the development set (25.26\%) is inferior.
 
 \paragraph{Multiple metalearners}
 
-Finally, the best results are produced using two level-1 learners: one of them learns to choose the better lemmatizer while the other aims to select the optimal PoS tagger (cf. Figure \ref{fig:comb3}).
+Finally, the best results are produced using two level-1 learners: one of them chooses the better lemmatizer while the other selects the optimal \acrshort{pos} tagger (cf. Figure \ref{fig:comb3}).
 In that  way, this architecture can incorporate the best lemma and tag candidates (as in Table \ref{tab:comb-reduction-rates}) yielding superior performance.
 However, a drawback of this configuration that it may result in incompatible tag-lemma pairs\footnote{ A lemma and a tag for a word is incompatible if the MA can analyze the word, but no analysis contains both the lemma and the morphosyntactic label.}.
 To overcome this problem, the combination is extended with the Humor morphological analyzer which is used to discover and fix incompatibilities.
@@ -260,6 +260,7 @@ Multiple metalearners & 25.07\% & 29.89\% & \underline{28.90\%} \\
 
 As expected, the hybrid architecture using a morphological analyzer achieved the best performance.
 It resulted in 98.90\% of full disambiguation accuracy fixing 28.90\% of PurePos’ errors.
+Further on, the proposed method gives the highest error reduction rate in both \acrshort{pos} tagging and lemmatization.
 These results show that our new combination architecture can be used in cases when very high disambiguation accuracy is crucial.
 Finally, we also confirmed that PurePos and HuLaPos complement each other well resulting in an improved morphological tagger. 
 

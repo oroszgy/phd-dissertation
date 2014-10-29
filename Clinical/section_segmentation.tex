@@ -1,4 +1,4 @@
-Error propagation in a text-processing chain is usually a notable problem, therefore accurate text segmentation methods are essential to parse texts properly.
+Error propagation in a text processing chain is usually a notable problem, therefore accurate segmentation methods are essential to parse texts properly.
 Moreover, notes written by doctors are extremely noisy containing errors which inhibit the application of existing tools.
 
 Even though tokenization and sentence segmentation methods perform well on general Hungarian, they have serious difficulties on clinical texts.
@@ -18,12 +18,14 @@ Finally, our system is systematically evaluated on a gold standard corpus showin
 \subsection{Previous work on text segmentation}
 
 Even though, numerous approaches deal with English medical texts, only few attempts have been made (cf. \cite{Siklosi2012,Siklosi2013,Siklosi2013b}) for Hungarian. 
-While the latter ones pay almost no attention on segmenting texts, most of the studies for English do not detail such methods. 
-%We review general tokenization and sentence boundary detection techniques first, then describes their application on the biomedical domain.
+Further on, the task of detecting sentence and word boundaries in health records is often a neglected issue.
+Studies for Hungarian pay almost no attention on segmenting texts, while
+most of the approaches for English also ignores this question. 
+In that way, we review general tokenization and sentence boundary detection techniques first, then describe their application on the biomedical domain.
 
-The task of text segmentation is often composed of several subtasks: normalization of noisy text (when necessary), tokenization, and sentence boundary detection.  
+The segmentation task is often composed of several subtasks: normalization (when necessary), tokenization, and sentence boundary detection.  
 Although, these are generally performed one after another, there are approaches (e.g. \cite{zhu2007unified}), where tokenization and \acrshort{sbd} are treated as a unified tagging problem (such as in \cite{mikheev2000tagging}). 
-Further on, handling of abbreviations is also often involved in the segmentation process, since their identification helps detecting sentence and token boundaries.
+Further on, handling of abbreviations is often involved in the segmentation process, since their identification helps to detect sentence and token boundaries.
 
 As regards tokenization, it is generally treated as a simple engineering problem\footnote{In the case of alphabetic writing systems.} cutting off punctuation marks from words. 
 On the contrary, \acrshort{sbd} is a rather researched topic. 
@@ -36,15 +38,15 @@ As Read et al. summarize \cite{read2012sentence}, sentence segmentation approach
 
 As regards \acrshort{ml} attempts, one of the first pioneers was Riley \cite{riley1989some} who employed decision-tree learners to classify full stops. 
 He utilized mainly lexical features (such as word length or case) to compute the probability of a word being sentence-initial or sentence-final. 
-Next, Palmer et al. presented \cite{palmer1997adaptive} the SATZ system, employing machine learning algorithms with surface and syntactic features. 
-Since it can be easily adjusted by modifying features, this system has been successfully applied to several European languages. 
-Further on, the maximum entropy learning approach was utilized first by Reynar and Ratnaparkhi \cite{reynar1997maximum} to the task. 
+Next, Palmer et al. presented \cite{palmer1997adaptive} the SATZ system, employing machine learning algorithms. 
+Since this tool can be easily adjusted through surface and syntactic features, it has been successfully applied to several European languages. 
+Further on, the maximum entropy learning approach was utilized as well to the task by Reynar and Ratnaparkhi \cite{reynar1997maximum}. 
 Their system classifies tokens containing `.', `?' or `!' characters relying on contextual features and abbreviation lists. 
 Recently, a similar approach has been presented by Gillick \cite{gillick2009sentence} for English, using support vector machines and resulting in state-of-the-art performance.
 
-Beside machine learning algorithms, rule-based methods are also commonly applied for the tasks. 
+Beside machine learning algorithms, rule-based methods are also commonly applied for these tasks. 
 E.g. Mikheev presents \cite{mikheev2002periods} a small set of rules for detecting sentence boundaries (\acrshort{sb}) with a high accuracy. 
-In another system presented of him \cite{mikheev2000tagging}, the latter method is integrated into a PoS-tagging framework enabling the classification of punctuation marks. 
+In another system presented of him \cite{mikheev2000tagging}, the latter method is integrated into a \acrshort{pos} tagging framework enabling the classification of punctuation marks. 
 In doing so, they can be labeled as sentence boundaries, abbreviations or both. 
 Moving on, Kiss and Strunk have introduced \cite{kiss2006unsupervised} an unsupervised method for sentence boundary detection in 2009. 
 Their tool, Punkt uses scaled log-likelihood ratio for deciding whether a \emph{(word, full stop)} pair is a collocation or not.
@@ -71,7 +73,7 @@ Then, a method is presented which combines high precision rules with unsupervise
 A gold standard corpus of clinical texts was collected and manually corrected in order to investigate and evaluate segmentation approaches.
 This process involved several steps. 
 First, input texts were normalized, as they were highly erroneous.
-We had to deal with the following types of errors\footnote{Text normalization steps were carried out employing regular expressions.}:
+In doing so, we had to deal with the following types of errors\footnote{Text normalization steps were carried out employing regular expressions.}:
 \begin{enumerate}
  \item doubly converted characters, such as `\&amp;gt;',
  \item typewriter problems (e.g. `1' and `0' is written as `l' and `o'),
@@ -88,7 +90,7 @@ To investigate possible pitfalls of the algorithm being developed, the gold stan
 The first part is used to identify typical problems and to develop the segmentation methods. 
 On the contrary, the second one is used to verify results. 
 
-First of all, the distribution of abbreviations, punctuation marks and capitalization is investigated in these texts to reveal possible pitfalls. 
+First of all, the distribution of abbreviations, punctuation marks and capitalization is investigated in these texts to reveal possible difficulties. 
 Comparing our data with a corpus of general Hungarian (Szeged Corpus \cite{Csendes2004}) uncovers numerous discrepancies: 
 \begin{enumerate}
  \item 2.68\% of tokens found in clinical corpus sample are abbreviations while the same ratio for general Hungarian is only 0.23\%; 
@@ -112,20 +114,19 @@ Recently, Read et al. have reviewed \cite{read2012sentence} the state-of-the-art
 Their method allows to measure sentence boundaries at any position labeling characters as sentence-finals or non sentence-finals. 
 In doing so, simple accuracy measures the performance. 
 
-Our work builds on the results of Read et al. \cite{read2012sentence}. 
-We adapt their approach to the full segmentation task considering noisy texts. 
-We consider the corpus as a sequence of characters and empty strings and treat text segmentation as a single classification problem. 
-In that way, all the entities (either characters or empty string between them) are labeled with one of the following tags: 
+Our study builds on their results \cite{read2012sentence} adapting it to the full segmentation task of noisy texts. 
+In that way, we consider the corpus as a sequence of characters and empty strings and treat text segmentation as a single classification problem. 
+Therefore, all the entities (either characters or empty string between them) can be labeled with one of the following tags: 
 \begin{description}
  \item[$\langle$T$\rangle$] --  if the entity is a token boundary,
  \item[$\langle$S$\rangle$] -- if it is a sentence boundary,
  \item[$\langle$None$\rangle$] -- otherwise.
 \end{description}
 This classification scheme enables us to compute accuracy of the unified segmentation task. 
-Moreover, it allows us to perform further measurements as well.
+Moreover, it also allows computing further standard metrics as it follows.
 
-As it is important to measure each subsystem's correctness, precision and recall are computed for both word tokenization and \acrshort{sbd}. 
-Further on, word segmentation is evaluated with the standard $F_1$ measure, while $F_{0.5}$ is computed for the sentence boundary detection task. 
+Since it is important to measure each subsystem's correctness, precision and recall are computed for both word tokenization and \acrshort{sbd}. 
+Further on, word segmentation is evaluated with $F_1$, while $F_{0.5}$ is computed for the sentence boundary detection task. 
 The latter calculation makes precision more important than recall. % for sentences of noisy texts. 
 We do this because an erroneously split sentence may cause information loss\label{sec:loss}, while statements might still be extracted from longer multi-sentence text. 
 
@@ -133,7 +134,7 @@ We do this because an erroneously split sentence may cause information loss\labe
 \label{sec:clinical_segmentation}
 
 Our system is built up from several components (cf. Figure \ref{fig:clin-segment-arch}). 
-First, a symbolic component (referred as the baseline) marks word and sentence boundaries\footnote{Rules and heuristics used are formulated investigating the development corpus.} seeking for full stops. 
+First, a symbolic method (referred as the baseline) marks word and sentence boundaries\footnote{Rules and heuristics used are formulated investigating the development corpus.} seeking for full stops. 
 Then, an unsupervised learning extends its output.
 Finally, rules employing capitalization yields further sentence boundaries.
 
@@ -150,12 +151,12 @@ Our baseline method is composed of two parts.
 First, it tokenizes words (BWT) using regular expressions implemented in standard tokenizers. %then some of the sentence boundaries are classified.
 However, this algorithm does not try disambiguate all words containing periods, since it would need the proper recognition of domain-specific abbreviations as well. %Therefore it only marks just a few boundaries
 
-Further on, sentence segmentation (BSBD) is carried out considering information loss (as described in section \ref{sec:loss}.) 
+Further on, sentence segmentation (BSBD) is carried out considering information loss (as described in section \ref{sec:loss}). 
 In that way, the method minimizes the possibility of making false-positive errors by splitting sentences only if there is a high confidence of success. 
 We found that such cases are, when:
 \begin{enumerate} 
- \item a period or exclamation mark directly follows another punctuation mark token\footnote{Question marks are not considered as sentence-final punctuation marks, since they generally indicate a questionable finding in clinical texts.};
- \item a line starts with a full date, and is followed by other words (The last white-space character before the date is marked as SB.);
+ \item a period or exclamation mark directly follows another punctuation mark\footnote{Question marks are not considered as sentence-final punctuation marks, since they generally indicate a questionable finding in clinical texts.};
+ \item a line starts with a full date, and is followed by other words (The last white-space character before the date is marked as a \gls{sb}.);
  \item a line begins with the name of an examination followed by a semicolon and a sequence of measurements.
 \end{enumerate}
 
@@ -182,12 +183,13 @@ In addition, numerous sentence boundaries lack both of these indicators (as show
 
 \subsubsection{Unsupervised sentence boundary classification}
 
-Even though these features do not function regularly, they can still be utilized without a list of possible abbreviations. 
+Even though these features do not function regularly, they can be utilized without a list of possible abbreviations. 
 It is enough to find \emph{evidence} for the separateness of a word and the subsequent full stop to classify a position as a sentence boundary. 
-This idea has been introduced by Kiss and Strunk \cite{kiss2006unsupervised} and now it is adapted for clinical texts.
+For this we employ the idea of Kiss and Strunk \cite{kiss2006unsupervised} and adapt it for clinical texts.
 
-Although log-likelihood ratio was first used to identify collocations \cite{dunning1993accurate}, it has been adapted for detecting sentence boundaries as well (cf. Punkt\cite{kiss2006unsupervised}). 
-The basic idea is to handle abbreviations as collocations of words and periods. 
+The method used (log-likelihood ratio) was first applied to identify collocations \cite{dunning1993accurate}, however, it has been adjusted for the \acrshort{sbd} problem recently (cf. Punkt\cite{kiss2006unsupervised}). 
+The latter algorithm considers abbreviations as collocations of words and periods. 
+In that way, it marks \textit{collocations} using log-likelihood ratio.
 In practice, this is formulated via a null hypothesis \eqref{eq:h0} and an alternative one \eqref{eq:ha}. 
 
 \begin{equation} \label{eq:h0}
@@ -203,20 +205,19 @@ H_A: P(\bullet|w) = p_1 \neq p_2 = P(\bullet|\neg w)
 \end{equation}
 
 
-Firstly, $H_0$ expresses the independence of a \emph{(word, $\bullet$)} pair, while $H_1$ formulates that their co-occurrence is not just by chance. 
-$\log \lambda$ score \eqref{eq:loglambda} measures their ratio. 
-Further on, its distribution is asymptotical to $\chi^2$, thus  it can be applied as a statistical test \cite{dunning1993accurate}. 
-Kiss and Strunk found this pure algorithm performs poorly (in terms of precision) for identifying abbreviation, thus they introduced several scaling factors \cite{kiss2006unsupervised}. 
-In doing so, their method looses the asymptotic relation to $\chi^2$ and became a simple filtering algorithm.
+In these formulae $H_0$ expresses the independence of a \emph{(word, $\bullet$)} pair, while $H_1$ formulates that their co-occurrence is not just by chance. 
+Their ration is measured by the $\log \lambda$ score \eqref{eq:loglambda}, which is found to be asymptotical to $\chi^2$, thus   can be applied as a statistical test \cite{dunning1993accurate}. 
+Kiss and Strunk recovered that this pure algorithm performs poorly (in terms of precision) for identifying abbreviation, thus they introduced several scaling factors \cite{kiss2006unsupervised}. 
+In doing so, their method lost the asymptotic relation to $\chi^2$ and became a simple filtering algorithm.
 
 Utilizing their ideas, we improved the original method in numerous ways. 
 First of all, the inverse score ($iscore=1/log\lambda$) is used as a base, since it helps to find candidates co-occurring only by chance. 
 Moving on, we introduce further scaling factors reviewing that of Punkt and adapting them to match the characteristics of the target domain.
 
-Several sorts of abbreviations occur with relative low frequencies. Therefore, counts and count ratios do not indicate properly alone whether a token and the period is related in a clinical record. 
-In that way, the first modification of Punkt \cite{kiss2006unsupervised} cannot be directly applied in our case, thus ignored. 
+First, several sorts of abbreviations occur with relative low frequencies. Therefore, counts and count ratios do not indicate properly alone whether a token and the period is related in a clinical record. 
+In that way, the first enhancement of the Punkt system cannot be directly applied in our case, thus ignored. 
 
-Next, length of words ($len$) has been shown to indicate abbreviations well. 
+Next, lengths of words ($len$) have been shown to indicate abbreviations well. 
 This is even true for medical texts, since shorter tokens tend to be abbreviations, while longer ones do not. 
 Therefore, we reformulate the original function to penalize short words and reward longer ones. 
 Having a medical abbreviation list of almost 200 \label{sec:abbrev} elements\footnote{The list is gathered with an automatic algorithm on the development corpus using word shape properties and frequencies. The most frequent elements are manually verified and corrected.} 
@@ -278,7 +279,7 @@ Good \acrshort{sb} candidates of such tokens are the ones not following a non se
 Therefore, sequences of capitalized words are considered to be named entities and omitted as a first step. 
 Then, the rest of the candidates are processed with the morphological analyzer used.
 We employ a simple heuristic for detecting sentence boundaries:
-if a word does not have a proper noun analysis but is capitalized it is marked as the beginning of a sentence.  
+if a word does not have a proper noun analysis but is capitalized, it is marked as the beginning of a sentence.  
 Our results on the development set indicates that this component also enhances the BSBD: it increases recall to 65.46\% while keeps precision high (96.37\%). 
 
 \subsection{Evaluation}
@@ -304,13 +305,13 @@ BSBD & 99.11\% \\
 \end{table}
 
 Evaluation is presented for each components showing their accuracies in Table \ref{tab:base}.
-First, our improvements are compared both to the baseline module and to the raw preprocessed corpus.
+First, our improvements are compared to both the baseline module and the raw preprocessed corpus.
 The unsupervised \acrshort{sbd} algorithm is marked with LLR\footnote{Referring to the term log-likelihood ratio.}, while the last component is indicated by CAP.
 Results show high accuracies for the overall segmentation task.
-However, the metric applied is not well balanced, since accuracy for the raw corpus is relatively high.
+However, the metric applied is not well balanced, since accuracy score of the raw corpus is also relatively high.
 
-Moving on, overall improvements are investigated calculating error reduction rates (in Table \ref{tab:reduction}). 
-Comparison is carried out measuring enhancements over the baseline method (BSBD). 
+Therefore, their improvements are investigated calculating error reduction rates (in Table \ref{tab:reduction}). 
+Comparison is carried out measuring enhancements over the baseline method (BSBD) showing that both of the components improved the segmentation method.
 
 \begin{table}[H]
 \centering
@@ -327,9 +328,9 @@ LLR + CAP & 65.50\% \\
 \end{tabular}
 \end{table}
 
-Considering sentence boundaries, a more detailed analysis is got by computing precision, recall and $F_{0.5}$ values (in Table \ref{tab:prec_rec}). 
+Considering sentence boundaries only, a more detailed analysis is got by computing precision, recall and $F_{0.5}$ values (in Table \ref{tab:prec_rec}). 
 Data shows that each component significantly increases the recall, while precision is just barely decreased. 
-All in all, the combined hybrid algorithm\footnote{It is the composition of the BWT, BSBD, LLR and CAP components.} brings significant improvement over the well-established baseline.
+Finally, the combined hybrid algorithm\footnote{It is the composition of the BWT, BSBD, LLR and CAP components.} brings significant improvement over the well-established baseline.
 
 \begin{table}[H]
 \centering
@@ -349,7 +350,7 @@ Baseline & 96.57\% & 50.26\% & 81.54\%  \\
 
 
 While our approach focuses on the sentence segmentation task, we show that it improves word tokenization as well. 
-Table \ref{tab:tok_eval} presents measurements on word segmentation indicating that our enhancements results in a higher recall, while they do not significantly decrease precision. \label{sec:eval}
+Table \ref{tab:tok_eval} presents measurements on word segmentation indicating that our enhancements results in a higher recall, while they do not decrease precision significantly. \label{sec:eval}
 
 %0.9974	0.7494	0.8558
 %0.9854	0.9532	0.9690
@@ -396,9 +397,9 @@ Hybrid system & 93.28\% & 86.73\% & \underline{91.89\%} \\
 \end{tabular}
 \end{table}
 
-Results in Table \ref{tab:comparison} show that general segmentation methods fail on Hungarian clinical notes in contrast to our new method. 
+Results in Table \ref{tab:comparison} show that general segmentation methods fail on Hungarian clinical notes in contrast to our new algorithm. 
 The hybrid approach presented bears with both high precision and recall, providing accurate sentence boundaries.
-It has been found that the \acrshort{maxent} approach has high recall as well, but boundaries marked by it are false positives in almost half of the cases. 
+While it has been found that the \acrshort{maxent} approach has high recall as well, boundaries marked by it are false positives in almost half of the cases. 
 Further on, rules of \texttt{magyarlanc} seem to be robust, but the overall low performance inhibits its application for clinical texts. 
 Finally, other tools do provide not just low recalls, but their precision values are still around 50\% limiting their applicability. 
 
