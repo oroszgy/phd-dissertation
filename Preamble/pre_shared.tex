@@ -10,7 +10,9 @@
 
 \RequirePackage[labelsep=space,tableposition=top]{caption}
 \renewcommand{\figurename}{Fig.} %to support older versions of captions.sty
-
+\usepackage{url}
+\usepackage[none]{hyphenat}
+\sloppy
 
 % *************************** Graphics and figures *****************************
 
@@ -59,6 +61,7 @@
 \usepackage{float}
 \DeclareMathOperator{\argmax}{arg\,max}
 \DeclareMathOperator{\oer}{OER}
+\DeclareMathOperator{\err}{ERR}
 
 \usepackage{todonotes}
 \usepackage{changepage}
@@ -124,7 +127,7 @@ nopostdot]
 \newcommand{\thesisline}{%
     \noindent
     \begin{center}
-        \vspace{0.3cm}
+        \vspace{0.15cm}
     --- $\bullet$ ---
     %      \vspace{0.3cm}
     \end{center}

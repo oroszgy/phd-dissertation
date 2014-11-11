@@ -12,9 +12,10 @@
 % Set {innerside margin / outerside margin / topmargin / bottom margin}  and
 % other page dimensions
 \ifsetCustomMargin
-  \RequirePackage[left=37.5mm,right=25mm,top=25mm,bottom=25mm]{geometry}
+  \RequirePackage[bindingoffset=12.5mm,left=25mm,right=25mm,margin=25mm,bottom=25mm,includeheadfoot]{geometry}
   \setFancyHdr % To apply fancy header after geometry package is loaded
 \fi
+%\RequirePackage[left=37.5mm,right=25mm,margin=25mm,bottom=25mm,includeheadfoot]{geometry}
 
 % *****************************************************************************
 % ******************* Fonts (like different typewriter fonts etc.)*************
@@ -42,8 +43,13 @@
 
 % Choose linespacing as appropriate. Default is one-half line spacing as per the
 % University guidelines
-\usepackage{setspace}
-\onehalfspacing
+%\linespread{1.3}
+%\usepackage{setspace}
+%\newcommand{\SPACING}{\spacing{1.5}}
+\newcommand{\SPACING}{\onehalfspacing}
+%\renewcommand{\arraystretch}{1.3}
+
+%\onehalfspacing
 %\doublespacing
 % \singlespacing
 

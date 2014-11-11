@@ -17,14 +17,14 @@
 Full morphological tagging is a complex task composed of two parts. 
 Beside identifying morphosyntactic tags, lemmata of words must be computed as well.
 While the first task is a well-known problem of \acrlong{nlp}, the latter one is often neglected.
-We start summing our results with the new lemmatization method, following this the full tagging systems are presented. 
+We start summarizing our results by describing the new lemmatization method followed by the full tagging systems. 
 
 
 \begin{core}
 \begin{thesis}\label{thes:morf-lemma}
 We developed a new lemmatization method for agglutinative languages.
-The presented algorithm is based on the output of a morphological analyzer, however, it can handle both known and unknown words effectively by incorporating diverse models. 
-Results presented show that it has superior performance on Hungarian texts.
+The presented algorithm is based on the output of a morphological analyzer. It can handle both known and unknown words effectively by incorporating diverse stochastic models. 
+Results presented show that it has high accuracy on Hungarian texts.
 \end{thesis} 
 
 \begin{pub}
@@ -33,28 +33,27 @@ Results presented show that it has superior performance on Hungarian texts.
 \end{core}
 
 The proposed algorithm performs lemmatization in two steps. 
-First, it uses a morphological analyzer to generate lemma candidates, then disambiguation is performed using different stochastic models.
-The latter part is carried out calculating the score ($S$) of each lemma ($l$) for a given word ($w$) and tag ($t$) using interpolation of two models:
+First, it uses a morphological analyzer and a guesser component to generate lemma candidates, then disambiguation is performed using stochastic models.
+The latter part is carried out calculating the score ($S$) of each lemma ($l$) for a given word ($w$) and tag ($t$) using the interpolation of two different models:
 \begin{equation} %\label{lemma-interpolated}
 S(l|w,t) = P(l)^{\lambda_1} P(l,t|w)^{\lambda_2}
 \end{equation}
 
-This process combines a simple unigram model with the output of a suffix-based guesser. 
-Further on, the calculation of lambda parameters is based on ideas introduced for deleted interpolation.
-In doing so, the better model gets lower weights thus increased more.
+In doing so, it combines a simple unigram model with the output of a suffix-based guesser. 
+To calculate the lambda parameters guesses of models are evaluated on the training data, then the better model's score gets increased while that of the worse one is decreased.
 
-Several experiments have been presented showing that our method bears superior accuracy for Hungarian. 
+Several experiments have been presented on the Szeged Corpus showing that the proposed method has superior accuracy for Hungarian compared to other available tools. 
 
 \thesisline%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \begin{core}
 \begin{thesis}\label{thes:morf-tagging}
-We designed a hybrid morphological tagging system (PurePos) for resource-less and agglutinative languages.
+We designed a hybrid morphological tagging system (PurePos\footnote{The presented system is open source and is freely available at \href{https://github.com/ppke-nlpg/purepos}{https://github.com/ppke-nlpg/purepos}}) for less-resourced and agglutinative languages.
 The method relies on stochastic methods incorporating the output of a morphological analyzer.
-In that way, its lemmatization component utilize algorithms presented in Thesis \ref{thes:morf-lemma}.
+In that way, its lemmatization component utilizes algorithms presented in Thesis \ref{thes:morf-lemma}.
 Furthermore, the tool is built up in a way to be able to incorporate domain-specific rules effectively.
-Experiments carried out confirming the tool's superior accuracy for Hungarian.
+Experiments confirm its state-of-the-art accuracy for Hungarian.
 \end{thesis}
 
 \begin{pub}
@@ -73,7 +72,7 @@ The architecture of PurePos (cf. Figure \ref{fig:purepos-arch_en}) is built up t
 In doing so, the disambiguation is carried out in multiple steps.
 The data flow starts from a \acrshort{ma} providing word analyses as \emph{(lemma, tag)} pairs. 
 Next, trigram-tagging methods (see \cite{Brants2000,Halacsy2007}) are employed for selecting morphosyntactic labels of words. 
-In fact, these algorithms have been adapted to fit agglutinative languages.
+%In fact, these algorithms have been adapted to fit agglutinative languages.
 Finally, lemmatization is carried out employing the methods presented in Thesis \ref{thes:morf-lemma}. 
 
 \begin{figure}[H]
@@ -83,25 +82,25 @@ Finally, lemmatization is carried out employing the methods presented in Thesis 
   \label{fig:humor-token_en}
 \end{figure}
 
-Several experiments are carried out measuring the performance of PurePos on the Szeged Corpus \cite{Csendes2004}.
-Our results show that the new method yields 96.26\% full tagging accuracy, which it has the highest performance amongst available tools.
-Moving on, we also compared existing tagging tools with ours on a less-resourced scenario.
-These experiments show (cf. Figure \ref{fig:humor-token_en}) that PurePos can be successfully used even when the training data is limited.
-Finally, all the hybrid enhancement of PurePos is evaluated one-by-one, showing that they can fix several sorts of errors.
+Several experiments were carried out measuring the performance of PurePos on the Szeged Corpus \cite{Csendes2004}.
+Our results show that the new method yields 96.26\% full tagging accuracy, which is the highest one amongst available tools.
+Moving on, we also compared existing tagging systems with ours on a less-resourced scenario.
+These experiments showed (cf. Figure \ref{fig:humor-token_en}) that PurePos can be successfully used even when the training dataset is limited.
+Finally, all the hybrid enhancement of PurePos was evaluated one-by-one, showing that they can be used to fix several sorts of errors.
 
 
 \thesisline%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Although, methods presented in Thesis group \ref{thes:morf-tagging} have high accuracy, we show that they can be further improved.  
-In the next, results are presented increasing the ceiling of morphological tagging tools' performance for agglutinative languages.
+Although, methods of Thesis group \ref{thes:morf-tagging} have high accuracy, we showed that they can be further improved.  
+Therefore, a combination technique is presented increasing the ceiling of morphological tagging tools' performance for agglutinative languages.
 
 
 \begin{core}
 \begin{thesis}
 We developed a methodology for combining morphological tagging systems effectively.
-The system presented selects the best lemma and tag candidates separately using two different combination schemes.
-These components are trained with cross-validation using instance based methods.
-We showed that our method can significantly reduce the errors of existing annotation tools.
+The system presented selects the best lemma and tag candidates separately using two different combination methods.
+These components are trained with cross-validation using instance based learning.
+We showed that our method can significantly reduce the number of errors of existing annotation tools.
 \end{thesis}
 
 \begin{pub}
@@ -109,15 +108,15 @@ We showed that our method can significantly reduce the errors of existing annota
 \end{pub}
 \end{core}
 
-First of all, discrepancy of tagging tools are investigated. 
-For this, we designed a new metric (Own Error Rate) which measures the differences of taggers' output correctly.
-In that way, we showed that the most typical mistakes of HuLaPos and PurePos are different enough to be aggregated.
+First of all, discrepancy of tagging systems was investigated. 
+For this, we designed a new metric (Own Error Rate) which measures the differences of the taggers' output.
+In that way, we showed that the most typical mistakes of HuLaPos \cite{Laki2013} and PurePos are different enough to be aggregated.
 
-Following this, the most common combination techniques are investigated considering their applicability to full morphological tagging.
-A new combination method is presented involving adapted features sets for morphologically rich languages.
-The novelty of our method is its architecture (cf. Figure \ref{fig:comb3_en}) which is able to compute full morphological annotations effectively.
-The presented algorithm utilizes instance based learning \cite{Aha1991} and trains classifiers with cross-validation.
-In doing so, it can utilize the whole training for both the baseline tools and the level-one learner.
+Following this, the most common combination techniques were investigated considering their applicability to full morphological tagging.
+Next, a new combination method was presented involving adapted features sets for morphologically rich languages.
+It utilizes instance based learning \cite{Aha1991} and trains classifiers with cross-validation, which
+can employ the whole training data for both the baseline tools and the level-one learners. %TODO Nóri fordítás
+The novelty of the presented method is its architecture (cf. Figure \ref{fig:comb3_en}) allowing us to utilize different combiners for the lemmatization and \acrshort{pos} tagging subtasks.
 
 \begin{figure}[H]
   \centering
@@ -126,31 +125,32 @@ In doing so, it can utilize the whole training for both the baseline tools and t
   \label{fig:comb3_en}
 \end{figure}
 
-
-Finally, evaluation experiments are presented indicating that errors made by the best tagger can be further decreased.
-The new algorithm resulted in 28.90\% error reduction rate compared to PurePos.
+Finally, evaluation experiments were presented indicating that errors of the best tagger can be further decreased.
+The new algorithm could reduce the number of errors of PurePos by 28.90\%.
 
 \subsection{Measuring morphosyntactic complexity using morphological annotation algorithms}
 \label{thes:mlu}
 
-Measuring morphosyntactic complexity plays and important role in linguistic studies, which is usually calculated in \acrlong{mlu}.
-However, lengths of utterances are computed in morphemes (\acrshort{mlum}) for morphologically complex languages.
-Although automatic methods and tools exist for e.g English, other less-resources languages lack of such systems.
+
+Measuring morphosyntactic complexity is an important task of linguistic studies, which is usually carried out calculating \acrlong{mlu}s.
+This metric is often computed in words for analytical languages, while morphemes (\acrshort{mlum}) are used for morphologically complex ones.
+Although automatic methods and tools exist for e.g English, other less-resourced languages lack such systems.
 Therefore, \acrshort{mlum} could be only computed manually, which is a time-consuming task.
 
-This thesis group presents\footnote{This study is a joint work with Kinga Mátyus. 
+This thesis group presents\footnote{This research has been conducted together with Kinga Jelencsik-Mátyus. 
 %Manual annotation of the data were performed by both of us, while the morpheme counting principles are her work. 
-My contribution is the construction of the tagging chain, its adaptation and the automatization of the MLUm calculation.} methods for processing speech transcripts effectively and estimating \acrlong{mlum} automatically.
+My contributions are the construction of the tagging chain, its adaptation and the automatization of the MLUm calculation.} methods for processing speech transcripts effectively and estimating \acrlong{mlum} automatically.
 %Our solution relies on the PurePos tagger tool (cf. Thesis \ref{thes:morf-tagging}).
 %Results also indicate that the labor-intense manual work can be replaced with our new method.
+
 
 \begin{core}
 \begin{thesis}
 \label{thes:spoken-morf-tagging}
-We developed a hybrid morphological tagging chain for Hungarian speech transcripts.
-Our method builds on top of the results presented in Thesis \ref{thes:morf-tagging}, adapting them to the domain.
-Its evaluation shows that resulted performance is comparable with that of tagging methods for written corpora.
-Moreover, our experiments indicate that the algorithm presented is accurate enough to be used in further applications.
+We developed a hybrid morphological tagging chain for Hungarian child-language transcripts.
+Our method builds on top of the results presented in Thesis \ref{thes:morf-tagging} by adapting them to the domain.
+Evaluation shows that our performance is comparable with that of tagging methods for written corpora.
+Moreover, experiments indicate that the algorithm presented is accurate enough to be used in further applications.
 \end{thesis}
 
 \begin{pub}
@@ -159,15 +159,15 @@ Moreover, our experiments indicate that the algorithm presented is accurate enou
 \end{core}
 
 The proposed method adapts the algorithms introduced in Thesis \ref{thes:morf-tagging} for spoken Hungarian.
-For this, analyses of the Humor \acrlong{ma} is augmented first with phenomena typical to the domain.
-Next, the output of PurePos is adjusted utilizing domain-specific knowledge.
+For this, the Humor \acrlong{ma} was augmented first with analyses of words typical to the domain.
+Next, the output of PurePos was adjusted utilizing domain-specific knowledge.
 
-For this, a golden dataset of about 1,000 utterances from the \acrshort{hukilc} corpus is created containing manually verified morphological annotation. 
-In doing so, a new tagging scheme is designed representing properly the characteristics of spoken language.
-These manually corrected texts enabled us to develop and validate the proposed methods.
+For this, a gold corpus of about 1,000 utterances from the \acrshort{hukilc} was created, annotating manually texts with morphological analyses. 
+Additionally, a new tagging scheme was designed representing the characteristics of spoken language properly.
+%These manually corrected texts enabled us to develop and validate the proposed methods.
 
-Evaluation of the chain resulted in 96\% token-level precision that is comparable with that of written taggers.
-In that way, our investigation showed the PurePos is an appropriate base for tagging scenarios of spoken texts.
+The evaluation of the chain resulted in 96\% token-level precision, which is comparable with that of taggers for corpora of written language.
+In that way, our investigation showed the PurePos is an appropriate base for tagging corpora of transcribed spoken texts.
 
 \thesisline%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -175,9 +175,9 @@ In that way, our investigation showed the PurePos is an appropriate base for tag
 \begin{core}
 \begin{thesis}
 \label{thes:mlu-estimation}
-We proposed a new algorithm for estimating morphosyntactic complexity (calculating \acrlong{mlum}) in Hungarian speech transcripts.
-The proposed method uses the morphological tagging chain of Thesis \ref{thes:spoken-morf-tagging} as a base.
-In doing so, it computes lengths of utterances in its output.
+We proposed a new algorithm for estimating morphosyntactic complexity (calculating \acrlong{mlum}) in Hungarian child language transcripts.
+The method uses the morphological tagging chain of Thesis \ref{thes:spoken-morf-tagging} as a base.
+%In doing so, it computes lengths of utterances in its output.
 Evaluation of the system indicates that our methodology can properly replace the time-consuming manual computation of human annotators.
 \end{thesis}
 
@@ -187,29 +187,29 @@ Evaluation of the system indicates that our methodology can properly replace the
 \end{core}
 
 The estimation method analyzes morphological annotation of tokens.
-Words known by the analyzer is decomposed by Humor, while length unknown words are guessed based on their \acrshort{pos} label.
+Words known by the analyzer are decomposed by Humor, while lengths of unknown words are guessed based on their \acrshort{pos} labels.
 This is followed by morpheme counting rules implementing linguistic guidelines, thus providing relevant estimates.
 
-As regards resources, a manually checked corpus has been created for the experiments.
-Evaluation results indicates that our approach highly correlates (0.9901) with counts of human annotators.
-Further on, we have shown that the mean relative error of the method is only 4.49\%.
-In that way, we have shown the proposed method can properly replace the labor-intense human computation.
+As regards resources, a manually checked corpus was created for the experiments.
+Evaluation of the methods on this dataset shows that our results highly correlates (0.9901) with counts of human annotators.
+Further on, we showed that the mean relative error of the method is only 4.49\%.
+In that way, it was revealed the proposed algorithm can properly replace the labor-intensive human computation.
 
 \subsection{Effective preprocessing methods for a less-resourced noisy domain}
 \label{thes:clin}
 
 More and more electronic health records are produced in hospitals containing valuable but hidden knowledge.
 Since doctors cannot spend enough time on writing them properly, notes often contain numerous errors.
-Because of such mistakes, processing of them cannot be carried out using general-purpose tools.
+Because of such mistakes, processing of these reports cannot be carried out using general-purpose tools.
 Moreover, while several algorithms are becoming available for English, Hungarian and other morphologically rich languages are still neglected.
 
 \begin{core}
 \begin{thesis}%{II.1/b}
 \label{thes:clin-segment}
-We developed a new framework which segments noisy clinical records into words and sentences properly.
-The method is built on top of well-known tokenization rules (e.g. \cite{Halacsy2004}), however, it augments them with unsupervised algorithms.
-Evaluation experiments showed that the proposed tool can properly identify word and sentence boundaries in noisy clinical notes. 
-Moreover, our results indicate that beside our approach none of the available systems can handle such error-full texts.
+We developed a new framework which segments noisy clinical records into words and sentences accurately.
+The method is built on top of well-known tokenization rules (e.g. \cite{Halacsy2004}), however, it augments them with unsupervised heuristics.
+Our evaluation showed that the tool can properly identify word and sentence boundaries in noisy clinical notes. 
+Results also indicate that other systems available cannot handle such erroneous texts.
 \end{thesis}
 
 \begin{pub}
@@ -226,18 +226,18 @@ Moreover, our results indicate that beside our approach none of the available sy
 
 The proposed method builds on pattern-matching algorithms taken from general-purpose tokenization tools.
 Even though these methods perform with high accuracy, their recall still stays low.
-This study proposes a method (see Figure \ref{fig:clin-segment-arch_en}) which combines them with further unsupervised techniques.
-In doing so, the scaled $\log\lambda$ filtering method \cite{kiss2006unsupervised} is adapted for the task by introducing new  factors.
-Further on, the knowledge of a domain-specific morphological analyzer is utilized to fit the domain properly.
+Therefore, this study proposes a method (see Figure \ref{fig:clin-segment-arch_en}) which improves their performance using unsupervised heuristics and a domain-specific morphologic analyzer.
+In doing so, first, the scaled $\log\lambda$  method \cite{kiss2006unsupervised} was adapted by introducing new factors.
+Next, the Humor morphological analyzer was utilized to reveal further sentence boundaries.
 
-Evaluation of the framework is carried out on a manually segmented corpus. 
-Numerous metrics (such as precision, recall, F-score) are employed measuring the performance of the proposed tool.
-In doing so, we can analyze both the tokenization and the sentence boundary detection accuracy of the tool.
-Besides, existing Hungarian systems are also compared with the proposed one.
+The evaluation of the framework was carried out on a manually segmented corpus. 
+Numerous metrics (such as precision, recall, F-score) were employed measuring the performance of the proposed tool.
+Thus, we could analyze both the tokenization and the sentence boundary detection accuracy of the tool.
+Besides, existing Hungarian approaches were also compared with the proposed one.
 
-Results show that existing systems can only produce low quality segmentation.
-Moreover, most of them result in F-scores less than 50\% concerning sentence boundary identification.
-On the contrary, the presented method can detect both token and sentence boundaries properly, producing F-values over 90\%.
+Results show that systems available can only produce low quality segmentation.
+Moreover, most of them result in F-scores less than 50\% in sentence boundary identification.
+On the contrary, our method can detect both token and sentence boundaries accurately, producing F-values over 90\%.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -247,9 +247,9 @@ On the contrary, the presented method can detect both token and sentence boundar
 \begin{core}
 \begin{thesis}%{II.2}
 \label{thes:clin-pos}
-We showed that tagging methods of Thesis \ref{thes:morf-tagging} can be modified for annotating electronic health records properly.
-In doing so, PurePos is adjusted with stochastic and symbolic domain adaptation techniques.
-Evaluation results indicate that the quality of the annotation produced is comparable with that of general written tagger tools.
+We showed that tagging the methods of Thesis \ref{thes:morf-tagging} can be modified for annotating electronic health records satisfactorily.
+For the task, PurePos was adjusted with stochastic and symbolic domain adaptation techniques.
+The quality of the annotation produced is comparable with that of general written tagger tools.
 \end{thesis}
 
 \begin{pub}
@@ -257,12 +257,11 @@ Evaluation results indicate that the quality of the annotation produced is compa
 \end{pub}
 \end{core}
 
-We use an extended version of the Humor analyzer as a base. 
-This tool has been prepared\footnote{The lexicon extension is carried out by Attila Novák \cite{Orosz2014} .} to analyze electronic health records properly.
-Further on, the tagging chain is improved using a detailed error analysis of the baseline tagging chain.
+First of all, an extended version of the Humor analyzer was used as a base of the tagging chain, since it was prepared\footnote{The lexicon extension was carried out by Attila Novák \cite{Orosz2014} .} for electronic health records.
+Further on, the tagging chain was improved using a detailed error analysis of the baseline tagger.
 
-For this, a manually annotated corpus is created containing texts of clinical notes.
-Results show that the improved system performs significantly better (93.73\%) than the baseline system used (88.09\%).
-However, future work might target the segmentation and tagging problem with a unified framework, since both systems have the most issues with abbreviated terms.
+For this, a manually annotated corpus was created containing texts of clinical notes.
+Results on this dataset show that the improved system performs significantly better (93.73\%) than the baseline system (88.09\%).
+However, future work might target the segmentation and tagging tasks with a unified framework, since both systems have the most problems with abbreviated terms.
 
 \let\thesubsection=\oldthesubsection

@@ -176,11 +176,11 @@
   \ClassWarning{PhDThesisPSnPDF}{The Cambridge University PhD thesis guidelines
 recommend using a minimum font size of 11pt (12pt is preferred) and 10pt for
 footnotes.}
-  \renewcommand\PHD@ptsize{10pt}
+  \renewcommand\PHD@ptsize{12pt}
 }
 \DeclareOption{11pt}{\renewcommand\PHD@ptsize{11pt}}%
 \DeclareOption{12pt}{\renewcommand\PHD@ptsize{12pt}}%
-\PassOptionsToClass{\PHD@ptsize}{book}%
+\PassOptionsToClass{12pt}{book}%
 \message{PhDThesisPSnPDF: Font size is set as \PHD@ptsize}
 
 % Page Size
@@ -639,7 +639,7 @@ supported!}
 % type” means exactly (in terms of millimetres baseline distance). The following
 % LaTeX setting has routinely been considered perfectly acceptable:
 
-\renewcommand\baselinestretch{1.2}
+%\renewcommand\baselinestretch{1.2}
 
 % ******************************** Justification *******************************
 % Left aligned as per University identity guidelines
@@ -967,7 +967,7 @@ wish to left align your text}
 % ***************************** Chapter Mode ***********************************
 % The chapter mode allows user to only print particular chapters with references
 % All other options are disabled by default
-% To include only specific chapters without TOC, LOF, Title and Front Matter
+% To  only specific chapters without TOC, LOF, Title and Front Matter
 % To send it to supervisior for changes
 
 \ifPHD@chapter

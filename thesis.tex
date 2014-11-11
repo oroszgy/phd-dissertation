@@ -50,28 +50,38 @@
 
 \end{titlepage}
 
-\include{Dedication/dedication}
-% \include{Declaration/declaration}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PPCU FIT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Acknowledgement/acknowledgement}
-\include{Abstract/abstract_en}
-% \include{Abstract/abstract_hu}
-\listoffigures
-\listoftables
-%\printnomenclature[2.5cm]
+\SPACING
+%
+%\newpage
+%\include{Dedication/dedication}
+%% \include{Declaration/declaration}
+%
+%\newpage
+%\include{Acknowledgement/acknowledgement}
+%
+%\newpage
+%\include{Abstract/abstract_en}
+%% \include{Abstract/abstract_hu}
+%
+%\onehalfspace
+%
+%\newpage
+%\listoffigures
+%
+%\newpage
+%\listoftables
+%
+%\singlespace
+%\newpage
+%\printglossary[type=\acronymtype,title=Abbreviations]
 
-\printglossary[type=\acronymtype,title=Abbreviations]
-
-%\printglossary[title=Nomenclature]
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% *********************** Adding TOC and List of Figures ***********************
-
-
+\onehalfspace
+\newpage
+\phantomsection
 \tableofcontents
 
+\SPACING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO LIST
 %TODO: számok 3-asűval tagolva vannak-e ✓
@@ -84,16 +94,17 @@
 %TODO: lemmatizálás kombinációjának átgondolása ✓
 %TODO: appendixnek mehetne a végére az annotálási útmutató illetve hogy mit hogy számoljunk
 %TODO: Humor egységes írásmód, ✓ hivatkozás (?)
-%TODO: error rate reduction: az első megjelnéskor kellene valamilyen képlet
+%TODO: error rate reduction: az első megjelnéskor kellene valamilyen képlet ✓
 
-%TODO: nagy introduction
-%TODO: tézisfüzet introduction
+%TODO: nagy introduction ✓
+%TODO: tézisfüzet introduction ✓
 %TODO: angol/magyar abstract
 %TODO: függelék (annotálási útmutató)
 %TODO: magyar tézisfüzet
 %TODO: köszönetnyilvánítás (angol/magyar)
 %TODO: kell-e mini summary minden fejezet végén?
-%TODO: one _the_ one hand
+%TODO: one _the_ one hand ✓
+%TODO: word-form, domain/language-specific, rule-based ???
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \printnomenclature[space] space can be set as 2.5cm between symbol and
@@ -116,13 +127,14 @@
 \chapter{An application of the tagger: estimating morphosyntactic complexity}\label{chap:mlu}
 \input{MorphComplexity/chapter_complexity}
 
-\chapter{Methods for a less-resourced domain}\label{chap:clin}
+\chapter{Methods for a less-resourced domain: preprocessing algorithms for clinical Hungarian}\label{chap:clin}
 \input{Clinical/chapter_clinical}
 
-\chapter{Summary -- new scientific results}\label{chap:sum}
+\chapter{Summary: new scientific results}\label{chap:sum}
 \input{Summary_en/summary}
 
 \chapter*{Bibliography}
+\protect\thispagestyle{empty}
 \input{References/references}
 
 

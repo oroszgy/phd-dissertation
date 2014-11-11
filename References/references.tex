@@ -1,15 +1,18 @@
 \phantomsection
-
 \addcontentsline{toc}{chapter}{Bibliography}
-
 \addcontentsline{toc}{section}{The author's publications}
-\printbibliography[heading=subbibliography,title={The author`s journal publications}, keyword=own, type=article]
 
-\printbibliography[heading=subbibliography,title={The author`s book section publications}, keyword=own, type=incollection]
+\defbibheading{references}[\refname]{\section*{#1}
+   \markboth{#1}{#1}}
+   
+\printbibliography[heading=references,title={The author's journal publications}, keyword=own, type=article] %, prefixnumbers={O}]
 
-\printbibliography[heading=subbibliography,title={The author's international conference publications}, keyword=own,notkeyword=hun-conf,type=inproceedings]
+\printbibliography[heading=references,title={The author's book section publications}, keyword=own, type=incollection]
 
-\printbibliography[heading=subbibliography,title={The author's other conference publications}, keyword=own, keyword=hun-conf]
+\printbibliography[heading=references,title={The author's international conference publications}, keyword=own,notkeyword=hun-conf,type=inproceedings]
 
-\addcontentsline{toc}{section}{References}
-\printbibliography[heading=subbibliography,title={References}, notkeyword=own]
+\printbibliography[heading=references,title={The author's other conference publications}, keyword=own, keyword=hun-conf]
+\raggedbottom
+\pagebreak
+\addcontentsline{toc}{section}{Other references}
+\printbibliography[heading=references,title={Other references}, notkeyword=own]

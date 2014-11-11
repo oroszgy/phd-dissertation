@@ -1,32 +1,33 @@
-Natural language processing is a field of computer science and linguistics interested in interactions between computers and human (natural) languages. 
-Text processing is a notable part of language technology which involves several levels.
-These can be text segmentation, morphological parsing, syntactic parsing, and semantic analysis.
-Practical applications often build processing chains pipelining such components one after another. 
+%TODO: valamilyen jobb első bekezdés kellene + text processing / NLP / NLT
+
+Natural language technology eases everyday life by helping the information flow between humans and computers.
+Diverse applications of the field exist which can aid e.g. writing texts, understanding foreign languages or finding relevant information pieces.
+One of its major parts, text processing, deals with textual data stored on computers by annotating and representing them using linguistic concepts.
+Several processing layers can be distinguished such as text segmentation, morphological parsing, syntactic parsing or semantic analysis.
+Practical applications often build tools pipelining such components one after another. 
 While many layers are not available for numerous languages, two preprocessing steps are indispensable for most of the cases.
-Since words and sentences are the basic units of text mining applications, segmentation must be the first step.
-Beside this, lemmata and \acrshort{pos} labels of words are also necessary features of such systems, thus morphological parsing should be carried out next.
-Further on, pipelined architectures may easily result in erroneous output, since error propagation is often a notable phenomenon. 
-Therefore, accurate solutions are indispensable ingredients of proper applications. 
+Words and sentences are the basic units of text mining applications, therefore segmentation must be performed first.
+Beside this, lemmata and \gls{pos} of words are also necessary components of such systems, thus morphological parsing is carried out next.
+%Further on, pipelined architectures may easily result in erroneous output, since error propagation is often a notable phenomenon. 
+%Therefore, accurate solutions are indispensable ingredients of proper applications. 
 
-Text segmentation is usually composed of two parts: tokenization and sentence boundary identification. 
-The first task aims to split punctuation marks from words that is usually carried out utilizing pattern matching methods.
-Next, sentences boundaries are often recognized with rules relying on abbreviations or using machine learning algorithms.
+%Text segmentation is usually composed of two parts: tokenization and sentence boundary identification. 
+%The first task aims to split punctuation marks from words that is usually carried out utilizing pattern matching methods.
+%Next, sentences boundaries are often recognized with rules relying on abbreviations or using machine learning algorithms.
 %In most of the cases, solutions for these tasks are language-specific and fine-tuned, thus resulting in accurate tools.
-In most of the cases, such systems are accurate and remain robust amongst domains, hence text segmentation is considered to be solved.
-However, there are numerous scenarios (such as \acrshort{sbd} in noisy texts) on which existing approaches fail, thus posing new challenges to researchers.
+In most of the cases, text segmentation systems are accurate and remain robust amongst domains, hence the task is considered to be solved.
+However, there are numerous scenarios (such as the case of noisy texts) on which existing approaches fail, thus posing new challenges to researchers.
+Further on, \acrshort{pos} tagging is another well-researched field of \gls{nlp}, as diverse methods exist solving the problem in many languages. 
+In practice, these algorithms mostly build on data-driven techniques thus restricting their applicability by the corpus they model.
+%Therefore, transferring their knowledge to a new domain is often complicated without a satisfactory amount of annotated data.
+Furthermore, most of the tagging methods target English first, hence ignoring serious problems caused by rich morphological systems.
+In that way, disambiguating between part-of-speech labels becomes insufficient, hence full morphological tagging algorithms are required assigning full morphosyntactic tags and computing lemmata as well.
+Therefore, language technology needs preprocessing methods which can handle morphologically rich languages efficiently 
+and perform well on less-resourced scenarios at the same time.
 
-Next, \acrshort{pos} tagging is another well-researched field of \acrshort{nlp}, as diverse methods exist solving the problem in many languages. 
-In practice, they mostly build on data-driven algorithms which require large amount of training data.
-As a result, such approaches are restricted by the corpus they model.
-Moreover, transferring the knowledge of these systems (aka. domain adaptation) is often complicated and this field is still are under heavy development.
-Furthermore, most of the tagging algorithms target English first, thus ignoring serious problems caused by rich morphological systems.
-In that way, disambiguating between part-of-speech labels become insufficient, hence full morphological tagging algorithms are required assigning full morphosyntactic tags and computing lemmata as well.
-
-All in all, language technology needs preprocessing methods which perform well on less-resourced scenarios, handle morphologically rich languages efficiently and serve good base for domain adaptation approaches.
-
-
+%TODO: a félkövérekkel mi legyen?
 The aim of this study is twofold. 
-Firstly, morphological tagging methods are investigated which fits well for agglutinative languages and domain adaptation scenarios. 
+Firstly, morphological tagging algorithms are investigated which can handle agglutinative languages and domain adaptation scenarios effectively. 
 Secondly, methods suitable for less-resourced noisy domains are examined.
 
 First, we were interested in \textbf{how existing methods can be applied for full morphological tagging of agglutinative languages yet remaining suitable for domain adaptation tasks}. 
@@ -39,24 +40,23 @@ As a result we present an accurate lemmatization method and an efficient morphol
 %The presented system is evaluated through several experiments. 
 %On one hand, it is tested on a general Hungarian corpus showing its state-of-the-art accuracy.
 %On the other hand, hybrid components of the tool is examined through an annotation task showing their conduciveness.
-Following this, we examine \textbf{how one can improve combination schemes of full morphological taggers in order to raise the overall annotation quality}.
+Following this, we examined \textbf{how one can improve combination schemes of full morphological taggers in order to raise the overall annotation quality}.
 In that way, an architecture is introduced which fits well for agglutinative languages and improves the baselines used.
 
-
-Beside fundamental methods, their applications play also a central role in this study.
-We were interested in \textbf{how PurePos can help linguistic research in speech}.
+Beside tagging methods, their applications also played a central role in this study. %TODO:AR?
+We were interested in \textbf{creating a proper tagger tool for speech transcripts which can help linguists in their research}.
 In doing so, 
 %Chapter \ref{chap:mlu} presents adaptation methods resulting in the first morphological tagging chain for spoken Hungarian.
 %Following this, 
-an application of the chain is described estimating morphosyntactic complexity of child speech automatically.
+a methodology is described that can estimate morphosyntactic complexity of speech transcripts automatically.
 
-The third part of our work deals with problems of noisy electronic health records.
-In particular, we  are interested in \textbf{how one can develop proper text segmentation algorithm using existing methods}. 
-A hybrid framework is presented using diverse symbolic and machine learning components, thus resulting in a precise tokenization and SBD method.
+The third part of this study deals with the preprocessing of electronic health records.
+In particular, first we were interested in \textbf{how one can develop a proper text segmentation algorithm using existing methods}. 
+A hybrid framework was presented using diverse symbolic and machine learning components, thus resulting in a precise tokenization and SBD method.
 %Our contribution in this field is twofold. 
 %First, it is shown that all available tools fail on segmenting clinical Hungarian texts.
 %Next, an accurate methodology is proposed identifying sentence and token borders precisely.
-Following this, we look into the questions \textbf{what are the main pitfalls of morphological taggers aiming to process noisy clinical texts} and \textbf{how PurePos can be adapted for tagging medical texts properly}.
+Following this, we looked into the questions \textbf{what the main pitfalls of morphological taggers are which target noisy clinical texts} and \textbf{how PurePos can be adapted for tagging medical texts properly}.
 %This part introduces a detailed error analysis of the tool showing that abbreviations and \gls{oov} words cause the most of the errors.
 This part presents several adaptation techniques relying on domain-specific knowledge, thus improving the annotation quality significantly.
 

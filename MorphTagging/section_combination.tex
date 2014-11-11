@@ -1,16 +1,16 @@
-Although high accuracy tagging tools are generally available even for morphologically rich languages, sometimes their performance is not satisfactory and shall be increased further.
-In cases, when superior annotation quality is required, variance of tools should be considered.
+Although high accuracy tagging tools are generally available, sometimes their performance is not satisfactory and shall be increased further.
+In cases, when very high annotation quality is required, variance of tools should be considered.
 Disparate methods can result in different sort of errors, therefore their combination can yield better algorithms.
 Even though, this idea is not new, being present in both machine learning and \acrshort{nlp} literature, there have not been much work for morphologically rich languages. 
 
 In this section, the case of agglutinative languages is investigated by experimenting with Hungarian morphological disambiguator tools.
 First, we give a brief overview about \acrshort{pos} tagger combination methods.
 Next, discrepancies of two taggers are presented allowing us to create a new combination architecture.
-Finally, we evaluate the proposed method by measuring the overall improvement compared to baseline tools.
+Finally, we evaluate the proposed method by measuring its improvement over baseline tools used.
 
 \subsection{Background}
 
-The design process of a combined tagger system involves several steps\footnote{Statements are based on two fundamental studies by Brill and Wu~\cite{Brill1998} and Halteren et al.~\cite{Halteren2001}.}.
+The design process of a combined tagger system involves several steps\footnote{Statements are based on studies of Brill and Wu~\cite{Brill1998} and Halteren et al.~\cite{Halteren2001}.}.
 First, it needs to be examined whether the errors of components are different enough to outperform the best individual system significantly.
 Then an appropriate combining scheme must be found.
 Decisions to be made by a combination algorithm can be of at least two sorts: 
@@ -40,24 +40,36 @@ However, the cardinality of the tag set and the dimensionality of the feature sp
 
 A system of different architecture is presented by Hajič et al. \cite{Hajic2001}: in contrast to the parallel and hierarchical architecture of the systems above, it employs a serial combination of annotators starting with a rule-based morphological analyzer, followed by constraint-based filters feeding statistical taggers at the end of the chain. 
 
-This study uses metalearners with cross-validation, however language-specific symbolic components are utilized as well. 
-Cross-validation schemes \cite{Brill1998,Halteren2001} perform effectively, while the latter methods can help to handle the rich morphology of the target language.
-In that way, we improve existing methods. 
-First, the underlying architecture is modified to produce lemmata candidates as well.
+We use metalearners with cross-validation, since such schemes \cite{Brill1998,Halteren2001} perform effectively.
+Further on language-specific symbolic components are utilized as well, as they can help to handle the rich morphology of the target language.
+%In that way, we improve existing methods. 
+First, the underlying architecture of general combination methods is modified to produce lemmata candidates as well.
 Then, features investigated which fit the best for agglutinative languages.
 
-\subsection{Experiments}
+\subsection{Discrepancies of taggers}
 
 Evaluating taggers on general Hungarian can show that two of the best performing tools (our new method and HuLaPos) significantly diverge by the errors they made.
 In doing so, a detailed analysis of errors is carried out first, aiming to reveal their possible combined performance.
 For this, we rely on the Humor-tagged Szeged Corpus.
-It is split to 3 parts: 80\% of the sentences is utilized for training the systems, 10\% is employed for development purposes while the rest is set apart for final evaluation.
+It is split to 3 parts: 80\% of the sentences is utilized for training the systems, 10\% is employed for development purposes while the rest is set apart for final evaluation (cf. Table \ref{comb-data}).
 
-\subsubsection{Analysis of errors}
+\begin{table}[H]
+\centering
+\caption{Sentences and tokens of the corpus used}\label{tab:comb-data}
+\begin{tabular}{l r r}
+\hline
+& Tokens & Sentences \\
+\hline
+Training set & 98,225 & 56,792\\
+Development set & 105,779 & 7,099 \\
+Test set & 108,344 & 7,099 \\
+\hline
+\end{tabular}
+\end{table}
 
 First of all, we could not compare word class error rates one-by-one to reveal differences of taggers, since the cardinality of the tagset is over 1,000.
 Further on, we could neither rely on Brill's well-known formula (cf. \cite{Brill1998}), as it gives hard-to-interpret unlimited negative values when there is a considerable amount of overlap between the errors investigated.
-Therefore, a new metric, called Own Error Rate ($\oer$), is introduced to measure the relatedness of the taggers' errors properly.
+Therefore, a new metric, called Own Error Rate ($\oer$), is introduced to measure the relatedness of the taggers' errors.
 We use the formula 
 \begin{equation}
 \oer(A,B)=\frac{\text{\#errors of }A\text{ only}}{\text{\#errors of either }A\text{ or }B}
@@ -71,7 +83,6 @@ for calculating the percentage of tagger $A$ being wrong but $B$ being correct i
 \hline
 & Tagging & Lemmatization & Full disambig. \\
 \hline
-
 % \hline
 % Disagreement rate& 2.40\% & 1.98\% & 3.08\% \\
 Agreement rate & 97.60\% & 98.02\% & 96.92\% \\
@@ -86,17 +97,17 @@ $\oer($HLP, PP$)$ & 53.58\% & 80.21\% & 58.24\% \\
 \end{tabular}
 \end{table}
 
-To begin, we investigate the tools agreement rate on the development set.
+To begin, we investigate the agreement of tools on the development set.
 As Table \ref{tab:comb-disambig-comp} shows:
 \begin{enumerate}
- \item they agree on the full annotation in most of the cases,
- \item matching tags and lemmata are almost always right,
- \item there is still a significant amount (more than 3\%) of discrepancy when one of the tools are correct.
+ \item they agree on the full annotation in most of the cases, next,
+ \item matching tags and lemmata are almost always right, while
+ \item one of them (frequently) knows the correct annotation even when their guesses do not match.
 \end{enumerate}
 
-Secondly, own error rates indicate that HuLaPos performs worse than PurePos, however, the overall error distribution is fairly balanced between them. 
+Secondly, own error rates indicate that even though HuLaPos performs worse than PurePos, the errors are fairly balanced between them. 
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Precision of the oracle and baseline systems on the development set}\label{tab:comb-disambig-acc}
 \begin{tabular}{l r r r}
@@ -113,7 +124,7 @@ Oracle & 99.26\% & 99.83\% & \underline{99.22\%} \\
 Finally, the theoretical maximum performance of the combination is presented in Table \ref{tab:comb-disambig-acc}.
 Assuming a hypothetical oracle always selecting the correct \emph{(tag, lemma)} pairs from the tools' suggestions, the accuracy of the better tagger can be further increased eliminating 72.73\% of PurePos' errors. 
 
-\subsubsection{Improving PurePos with HuLaPos}
+\subsection{Improving PurePos with HuLaPos}
 
 To utilize combination through cross-validation, the training set is split into 5 equal-sized parts.
 Level-0 taggers (PurePos and HuLaPos) are trained 5 times using the 4/5 of the corpus while the rest of the sentences are annotated by both taggers in each round.
@@ -121,7 +132,7 @@ In doing so, the union of these automatically annotated parts are used to train 
 Furthermore, this technique allows us to utilize all the training data in each level, yet separating the two phases of the training process. 
 
 Concerning the question of choosing a level-1 learner we follow Witten et al. \cite{Witten2011} for investigating only ``relatively global, smooth'' algorithms.
-We utilize\footnote{ C4.5 decision tree algorithm was involved in our experiments, but it was unable to handle the large amount of feature data used.} naïve Bayes (NB) classifier and instance-based (IB) learners \cite{Aha1991}.
+We utilize \footnote{C4.5 decision tree algorithm was involved in our experiments, but it was unable to handle the large amount of feature data used.} the naïve Bayes (NB) classifier \cite{John1995} and instance-based (IB) learners \cite{Aha1991}.
 The latter in addition to be simple, have been previously shown to perform well in similar combination tasks.
 Another important decision was to apply metalearners only in cases of disagreement, since the tools’ agreement rate was high.
 
@@ -131,7 +142,7 @@ In that way, we opted on using Manhattan distance and decided to rely only on th
 
 Moving on, Hungarian has a tagset with a cardinality of over a thousand and an almost unlimited vocabulary which would make the tag-picking approach inviable. Therefore, we applied methods choosing the tagger but not the tag. 
 
-As regards features, we relied on the set proposed by Brill and Wu \cite{Brill1998}, since it has been shown (e.g. \cite{Halteren2001}) to be simple but powerful. It (FS1 in Table \ref{tab:comb-feature-sets}) consists of several lexical properties such as
+As regards features, we relied on the set proposed by Brill and Wu \cite{Brill1998}, since it has been shown (cf. \cite{Halteren2001}) to be simple but powerful. It (FS1 in Table \ref{tab:comb-feature-sets}) consists of several lexical properties such as
 \begin{enumerate}
  \item the word to be tagged, 
  \item immediate neighbours of the token,
@@ -139,7 +150,7 @@ As regards features, we relied on the set proposed by Brill and Wu \cite{Brill19
  \item tags suggested for neighbouring tokens.
 \end{enumerate}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Feature sets used in the experiments}\label{tab:comb-feature-sets}
 \begin{tabular}{l l l}
@@ -156,18 +167,17 @@ FS6 & FS4 & use at most 10-character suffixes instead of the word form \\
 \end{tabular}
 \end{table}
 
-First, we examine how these attributes can be extended systematically (see Table \ref{tab:comb-feature-sets}) to better fit languages with a productive morphology.
-Since wordforms in Hungarian are composed of a lemma and numerous affixes, longer suffixes are utilized to handle data sparseness issues.
-Further on, wider context features are also introduced to manage the free word order nature of the language. 
+First, we examine how these attributes can be extended systematically (see Table \ref{tab:comb-feature-sets}) to fit languages with a productive morphology.
+Since wordforms in Hungarian are composed of a lemma and numerous affixes, longer suffixes features are utilized to handle data sparseness issues.
+Further on, wider context are also employed to manage the free word order nature of the language. 
 
 
 Performing the experiments, we use the WEKA machine learning toolkit \cite{Hall2009}.
 Improvements are measured on \acrshort{pos} tagging, lemmatization, as well as on the full annotation scenario.
-Table \ref{tab:comb-reduction-rates} shows the error reduction rates of different systems compared to PurePos. 
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
-\caption{Error reduction rate values on the dev. set}\label{tab:comb-reduction-rates}
+\caption{Error reduction rates of combination algorithms on the dev. set}\label{tab:comb-reduction-rates}
 \begin{tabular}{l r r r r r r}
 \hline
 Task:& \multicolumn{2}{c}{Tagging} & \multicolumn{2}{c}{Lemmatization} & \multicolumn{2}{c}{Full annotation} \\
@@ -184,16 +194,17 @@ FS6 & 19.27\% & 27.30\% & -17.03\% & \underline{26.85\%} & 16.16\% & \underline{
 \end{tabular}
 \end{table}
 
-Results reveal that naïve Bayes classifier (NB) performs significantly worse than instance-based learners (IB) even when using seemingly independent features.
+Table \ref{tab:comb-reduction-rates} shows \acrlong{err} scores of different systems compared to PurePos. 
+These results reveal that naïve Bayes classifier (NB) performs significantly worse than instance-based learners (IB) even when using seemingly independent features.
 Further on, lemma combination turned out to be an insoluble task for that classifier.
 Improvements show that word shape features (FS2) always help on tagging, while increased contexts (FS5) are not as powerful.
-An interesting outcome of combining PoS taggers, that the word to be tagged is not necessary as a feature.
-However utilization of longer suffixes boost the performance.
+An interesting outcome of combining \acrshort{pos} taggers, that the word to be tagged is not necessary as a feature.
+However, utilization of longer suffixes boost the performance.
 In addition, they are also beneficial in cases where lemmatization is part of the task. 
 
 Now we turn on experiments yielding the best combination architecture for full morphological annotation.
 
-\paragraph{Combination of morphological taggers}
+\subsubsection{Combination of morphological taggers}
 
 A simple combination structure is to treat annotations as atomic units letting the metalearner choose the output of one of the baselines (cf. Figure \ref{fig:comb1}).
 Results on the development set suggest utilizing instance-based methods with the FS6 feature set for this architecture (cf. ``Full annotation'' column in Table \ref{tab:comb-reduction-rates}). 
@@ -205,7 +216,7 @@ Results on the development set suggest utilizing instance-based methods with the
   \label{fig:comb1}
 \end{figure}
 
-\paragraph{Combining PoS taggers only}
+\subsubsection{Combining PoS taggers only}
 
 Another plausible scheme is to combine only the \acrshort{pos} tagger modules of the tools (see Figure \ref{fig:comb2}).
 However, in doing so, one has to deal with lemmatization as well.
@@ -223,13 +234,14 @@ Table \ref{tab:comb-reduction-rates}) using IB learning with FS4 features.
 Although this algorithm allows us to create a better morphosyntactic tagger compared to that of above, the gain in lemmatization remains much lower (6.81\%).
 Consequently, the overall accuracy improvement measured in the development set (25.26\%) is inferior.
 
-\paragraph{Multiple metalearners}
+\subsubsection{Multiple metalearners}
 
 Finally, the best results are produced using two level-1 learners: one of them chooses the better lemmatizer while the other selects the optimal \acrshort{pos} tagger (cf. Figure \ref{fig:comb3}).
 In that  way, this architecture can incorporate the best lemma and tag candidates (as in Table \ref{tab:comb-reduction-rates}) yielding superior performance.
-However, a drawback of this configuration that it may result in incompatible tag-lemma pairs\footnote{ A lemma and a tag for a word is incompatible if the MA can analyze the word, but no analysis contains both the lemma and the morphosyntactic label.}.
-To overcome this problem, the combination is extended with the Humor morphological analyzer which is used to discover and fix incompatibilities.
-With this enhancement, we achieved superior improvement scores (32.42\%) on the development set.
+However, a drawback of this configuration that it may result in incompatible tag-lemma pairs\footnote{A lemma and a tag for a word is incompatible if the \acrshort{ma} can analyze the word, but no analysis contains both the lemma and the morphosyntactic label.}.
+To overcome this problem, this combination scheme is enhanced with the Humor morphological analyzer.
+This component is used to discover and fix incompatibilities.
+With this enhancement, we achieved  32.42\% of improvement on the development set.
 
 \begin{figure}[H]
   \centering
@@ -240,10 +252,10 @@ With this enhancement, we achieved superior improvement scores (32.42\%) on the 
 
 \subsection{Evaluation}
 
-In order to validate our hypothesis, stating that the last configuration performs the best, improvements are validated on the unseen test set (cf.
-Table \ref{tab:comb-eval}).
+%In order to validate our hypothesis, stating that the last configuration performs the best, improvements
+Combination schemes presented are evaluated on the unseen test set, confirming the results presented above.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Relative error rate reduction on the test set compared to PurePos}\label{tab:comb-eval}
 \begin{tabular}{l r r r}
@@ -258,9 +270,9 @@ Multiple metalearners & 25.07\% & 29.89\% & \underline{28.90\%} \\
 \end{tabular}
 \end{table}
 
-As expected, the hybrid architecture using a morphological analyzer achieved the best performance.
-It resulted in 98.90\% of full disambiguation accuracy fixing 28.90\% of PurePos’ errors.
-Further on, the proposed method gives the highest error reduction rate in both \acrshort{pos} tagging and lemmatization.
+Results show (cf. Table \ref{tab:comb-eval}) that the hybrid architecture using a morphological analyzer achieved the best performance.
+While other schemes could also increase the accuracy of PurePos, it resulted in the best tagging precision (98.90\%) of fixing 28.90\% of the baseline system's errors.
+Further on, the proposed method also gives the highest error rate reduction in both \acrshort{pos} tagging and lemmatization.
 These results show that our new combination architecture can be used in cases when very high disambiguation accuracy is crucial.
 Finally, we also confirmed that PurePos and HuLaPos complement each other well resulting in an improved morphological tagger. 
 

@@ -3,76 +3,72 @@ Even though tagging of general texts is well-known and considered to be solved, 
 In addition, English has been the main target of many studies investigating the biomedical domain up to the present time. 
 Furthermore, there are just a few approaches for non- English data, neglecting agglutinative languages and particularly Hungarian.
 
-This section investigates the tagging of clinical Hungarian by adapting existing methods.% which results in an accurate tagger.
+This section investigates the tagging of clinical Hungarian by adapting existing methods. % which results in an accurate tagger.
 Our work is structured as follows. 
 Related studies are described first, then a corpus of clinical notes is presented.
 %Latter texts has been collected for developing and evaluating tagging algorithms. 
 %In Section \ref{sec:baseline}, we introduce a baseline morphological disambiguation chain and a detailed error analysis. 
-Finally, domain adaptation enhancements are introduced which are being evaluated on the test corpus.
+Finally, domain adaptation enhancements are introduced which are evaluated on the test corpus.
 
 \subsection{Background}
 \label{sec:biomed_tag}
 
-Processing of biomedical texts has an extensive literature, since numerous resources are accessible for English. 
-%TODO az introductionbe tisztázni a fogalmakat
+In general, tagging of biomedical texts has an extensive literature, since numerous resources are accessible for English. 
 On the contrary, much less manually annotated corpora of clinical texts are available. 
 Further on, most of the work in this field has been done for English, while only a few attempts have been published for morphologically rich languages (e.g. \cite{oleynik2009performance,rost2008lessons}).
 
 First of all, a common approach for tagging biomedical text is to train supervised sequence-classifiers. 
-However, a drawback of these methods that they require manually annotated texts which are hard to create. %labor-intense human work. 
+However, a drawback of these methods is that they require manually annotated texts which are hard to create. %labor-intense human work. 
 Considering the types of training material, domain-specific corpora are used either alone \cite{pakhomov2006developing,Savova2010,Smith2006} or in conjunction with a (sub)corpus of general English \cite{coden2005domain,ferraro2013improving,miller2007building}. % as training data. 
 While utilizing texts only from the target domain yields acceptable performance \cite{pakhomov2006developing,Savova2010,Smith2006}, 
 several experiments have shown that accuracy further increases with incorporating annotated sentences from the general domain as well \cite{barrett2011token,coden2005domain}. 
-A general observation is that the more data is used from the reference domain, the higher accuracy can be achieved (e.g. \cite{pestian2004development}). 
+It is shown (e.g. \cite{pestian2004development}) that the more data is used from the reference domain, the higher accuracy can be achieved. 
 However, Hahn and Wermter argue for training learners only on general corpora \cite{hahn2004tagging} (for German). 
 Besides, there are studies on automatic selection of the training data (e. g. \cite{liu2007heuristic}). % to increase accuracy. 
 What is more, there are algorithms (such as \cite{choi2012fast}) learning from several domains parallelly thus delaying the model selection decision to the decoding process. 
 
 Next, utilization of domain-specific lexicons is another way of adapting taggers, as they can improve tagging performance significantly \cite{coden2005domain,ruch2000minimal}. 
-Some studies extend existing \acrshort{pos} dictionaries \cite{divita2006dtagger}, while others build new specific ones \cite{Smith2006}. 
+Some studies extend existing \acrshort{pos} dictionaries \cite{divita2006dtagger}, while others build new ones \cite{Smith2006}. 
 In brief, all such experiments yield significantly reduced error rates. 
 
 Concerning tagging algorithms, researchers tend to prefer already existing applications. 
 One of the most popular system is the OpenNLP toolkit \cite{Baldridge2002}, which is e.g. the basis of the cTakes system \cite{Savova2010}.
 Further on, Brill’s method \cite{Brill1992} and TnT \cite{Brants2000} are widely used (e.g. \cite{hahn2004tagging,Savova2010,pestian2004development}) as well. 
-Besides, other \acrshort{hmm}-based solutions have also been shown to perform well \cite{barrett2011token,coden2005domain,divita2006dtagger,hahn2004tagging,pakhomov2006developing,rost2008lessons,ruch2000minimal} on biomedical texts. 
+Besides, other \acrshort{hmm}-based solutions were also shown to perform well \cite{barrett2011token,coden2005domain,divita2006dtagger,hahn2004tagging,pakhomov2006developing,rost2008lessons,ruch2000minimal} on biomedical texts. 
 
 Moving on, number of experiments have revealed \cite{ferraro2013improving,ruch2000minimal,Smith2006} that domain-specific \acrshort{oov} words are behind the reduced performance of taggers. 
 Therefore, successful methods employ either guessing algorithms \cite{barrett2011token,divita2006dtagger,rost2008lessons,ruch2000minimal,Smith2006} or broad-coverage lexicons (as detailed above). 
 Beyond supervised algorithms, other approaches were also shown to be effective: Miller et al. \cite{miller2007building} use semi-supervised methods;
 %\footnote{This algorithm needs raw data from the target domain, while an annotated general corpus is still used.}; 
-Dwinedi and Sukhadeve build a tagger system based only on rules \cite{dwivedi8rule}; while Ruch et al. propose a hybrid system \cite{ruch2000minimal}. 
+Dwinedi and Sukhadeve build a tagger based only on rules \cite{dwivedi8rule}; while Ruch et al. propose a hybrid system \cite{ruch2000minimal}. 
 Further on, automatic domain adaptation methods (such as EasyAdapt \cite{daume2007frustratingly}, ClinAdapt \cite{ferraro2013improving} 
 or reference distribution modelling  \cite{tateisi2006subdomain}) also perform well. As a drawback, they need an appropriate amount of manually annotated data from the target domain limiting their applicability. 
 
 %First, we examine special properties of clinical notes, then a proper disambiguation methodology is being presented. 
-Our method builds on a baseline chain composed of a trigram tagger (introduced in Section \ref{sec:purepos}) and a broad coverage morphological analyzer. 
-The latter tool employs a domain-adapted lexicon, while the tagger is enhanced with further symbolic components.
-For this, an error analysis of the baseline system is used to adjust the output of the tagger to the domain.
+Our method builds on a baseline tagging chain composed of a trigram tagger (introduced in Section \ref{sec:purepos}) and a broad coverage morphological analyzer. 
+The latter tool employs a domain-adapted lexicon, while the tagger is adapted to the domain with further components.
+%For this, an error analysis of the baseline system is used to adjust the output of the tagger to the domain.
 
 \subsection{The clinical corpus}
 
-
-
-As there is no corpus of clinical records available being manually annotated with morphological analyses, a new one has been created. 
+As there is no corpus of clinical records available manually annotated with morphological analyses, a new one was created. 
 These texts contain about 600 sentences extracted from notes of 24 different clinics. 
 First, textual parts of the records were identified (as described in \cite{Siklosi2012}), then the paragraphs to be processed were selected randomly. 
 After these, sentence boundary segmentation, tokenization and normalization was performed manually being aided by methods detailed in Section \ref{sec:clinical_segmentation}. 
 Manual spelling correction was carried out using the system of Siklósi et al. \cite{Siklosi2013}. 
-Finally, morphological disambiguation was performed: the initial annotation was provided by PurePos, then its output was checked and corrected manually. 
+Finally, morphological disambiguation was performed: the initial annotation was provided by PurePos, then its output was corrected manually. 
 
 As regards morphological annotation of texts, clinical notes have special properties differing from general Hungarian, which have been considered during their analysis. 
 %Beside characteristics described above, the corpus has further specialties. 
 These texts contain numerous \textit{x} tokens denoting multiplication, thus they are labeled as numerals. 
 Latin words and abbreviations dominates sentences, which we decided to analyze regarding their meaning. 
 For instance, \textit{o.} denotes \textit{szem} `eye’ thus it is tagged as a noun (\textsc{n.nom}). 
-Further on, medicines names are common as well. 
-They found to be almost always singular nouns. 
-Finally, numerous sentences lack final punctuation marks that are not recovered in the test corpus, therefore these are not tagged either. 
+Further on, medicines names are common as well, which found to be almost always singular nouns. 
+Finally, numerous sentences lack final punctuation marks that are not recovered in the test corpus. 
 
-The manually annotated corpus is split into two sets (cf. Table \ref{tab:clin_corpus}) for our experiments. 
-The first part is employed for development purposes, while new methods are evaluated on the second part.
-Precision is calculated considering correct full analyses of tokens, not counting punctuation marks.
+The manually annotated corpus is split into two parts (cf. Table \ref{tab:clin_corpus}) for our experiments. 
+The first one is employed for development purposes, while new methods are evaluated on the second part.
+%
 
 \begin{table}[H]
 \centering
@@ -103,14 +99,15 @@ These records are created in a special environment, thus they differ from genera
 \subsection{The baseline setting and its most common errors}
 \label{sec:baseline}
 
-We start our work by employing a baseline tagging chain, which employs components available for Hungarian. 
-Humor is used to produce \emph{(morphosyntactic tag, lemma)} pairs as analyses which are then disambiguated by PurePos. 
-(The output of the MA is extended with the new analysis of the \textit{x} token to fit the corpus to be tagged.)
+We use a baseline chain to analyze its errors and thus improve its annotation quality.
+It is built on the Humor analyzer, which produces \emph{(morphosyntactic tag, lemma)} pairs as analyses. 
+(The output of the \acrshort{ma} is extended with the new analysis of the \textit{x} token to fit the corpus to be tagged.)
+Further on, analyses candidates are disambiguated by PurePos. 
 
-This baseline text processing chain produced 86.61\% token accuracy on the development set, which is remarkably lower than tagging results for general Hungarian using the same components (96--98\% as in \cite{Orosz2013b,zsibrata2013magyarlanc}). 
-Measuring precision on sentences revealed that less than the third (28.33\%) of the sentences were tagged correctly. 
-This fact indicates that the models used by the baseline algorithm are weak for this task. 
-Therefore, errors made by the baseline algorithm are investigated to reveal common pitfalls. 
+This baseline tagger produced 86.61\% token accuracy\footnote{Precision is calculated considering correct full analyses of tokens, not counting punctuation marks.} on the development set, which is remarkably lower than tagging results for general Hungarian using the same components (96--98\% as in \cite{Orosz2013b,zsibrata2013magyarlanc}). 
+Further on, sentence-based prevision shows that less than the third (28.33\%) of the sentences were tagged correctly. 
+This fact indicates that the models of the baseline algorithm alone are weak for this task. 
+Therefore, we investigated the most common errors of the chain.
 
 \begin{table}[H]
 \centering
@@ -130,23 +127,21 @@ Other & 0.06\% \\
 \end{table}
 
 Table \ref{tab:error_types} shows that the top error class is composed of mistagged abbreviations and acronyms. 
-A reason for this is that most of the abbreviated tokens are unknown to the tagger. 
-Moreover, such words usually refer to medical terms originating from Latin.
+A reason for this is that most of the abbreviated tokens are previously not seen by the tagger.
+Therefore, their labels are produced by the tool's guesser module, which is not prepared for handling such tokens. 
+What is more, these abbreviations usually refer to medical terms (and their inflected forms) originating from Latin, thus differing notably from standard ones.
 
-Another sorts of mistakes are caused by \acrlong{oov} words. 
+Another sorts of mistakes were caused by \acrlong{oov} words. 
 These are specific to the clinical domain and often originate from Latin.
-Although, this observation is in accordance with the \acrshort{pos} tagging results for medical English, listing of such terms' analyses is not a satisfactory solution to the problem. 
-This is because the number of their inflected forms are much higher compared to English. 
+Although, this observation is in accordance with the \acrshort{pos} tagging results for medical English, listing of such terms' analyses is not a satisfactory solution to the problem, since the number of inflected forms are significantly larger compared to English. 
 
-Finally, domain-specific usage of words leads the tagger astray as well. 
-Examples are participles being mislabeled as verbs. 
-E.g. \textit{javasolt} `suggested’  and  \textit{felírt} `written’ are common words having different \acrshort{pos} tag distributions in this domain. 
-Further on, some erroneous tags are due to the lexical ambiguity being present in Hungarian (such as \textit{szembe} which can refer to `into an eye’ or `toward/against’). 
+Finally, domain-specific usage of some words leads the tagger astray as well. 
+An example is the class participles which are mislabeled as past tense verbs. 
+E.g. \textit{javasolt} `suggested’  and  \textit{felírt} `written’ are common words in the corpus, but have different \acrshort{pos} tag distributions in this domain. 
+Further on, several erroneous tags are due to the lexical ambiguity being present in Hungarian (such as \textit{szembe} which can refer to `into an eye’ or `toward/against’). 
 
-
-
-In sum, our investigation shows that most of the errors of the baseline system can be classified into the three categories shown in Table \ref{tab:error_types}. 
-Therefore, we utilize this classification to enhance the baseline method eliminating its most typical errors.
+%In sum, our investigation shows that most of the errors of the baseline system can be classified into the three categories shown in Table \ref{tab:error_types}. 
+Based on the classification of errors above, domain-adaptation techniques are introduced enhancing the overall accuracy of the chain.
 
 \subsection{Domain adaptation experiments}
 
@@ -157,36 +152,36 @@ Therefore, we utilize this classification to enhance the baseline method elimina
 \label{sec:ma-extension}
 
 Supervised tagging algorithms commonly use augmented lexicons reducing the number of out-of-vocabulary words (see Section \ref{sec:biomed_tag}). 
-In the case of Hungarian, this must be performed at the level of the \acrlong{ma}, since inflection is a notable phenomenon. 
-Extension of the lexicon has been carried out by Attila Novák \cite{Orosz2014} adding 40,000 different lemmata to the analyzer. 
+In the case of Hungarian, this must be performed at the level of the \acrlong{ma}, since inflection is a momentous phenomenon. 
+Extension of the lexicon was carried out by Attila Novák \cite{Orosz2014} adding 40,000 different lemmata to the analyzer. 
 For this he used a spelling dictionary of medical terms \cite{Fabian1992} and a freely available list of medicines \cite{Foigazgatosag2012}.
-By employing the enhanced lexicon, the OOV word ratio is reduced to 26.19\% (from 34.57\%) improving the overall accuracy to 92.41\% (on the development set). 
-Further on, the medical dictionary \cite{Fabian1992} used contained numerous abbreviated tokens as well, thus the usage of the augmented analyzer also helps to decrease the number of mistagged abbreviations.
+By employing the enhanced lexicon, the ratio of \acrshort{oov} words is reduced to 26.19\% (from 34.57\%) that also improved the overall accuracy to 92.41\% (on the development set). 
+Further on, the medical dictionary \cite{Fabian1992} used contained numerous abbreviated tokens as well, thus the usage of the augmented analyzer also helped to decrease the number of mistagged abbreviations.
 
 \subsubsection{Dealing with acronyms and abbreviations}
 
-Despite improvements above, numerous errors made by the enhanced tagger are still connected to abbreviations. 
-Thus, we investigate the erroneous tags of abbreviated terms first, then methods are introduced for improving the performance of the disambiguation chain. 
+Despite improvements above, numerous errors made by the enhanced tagger were still connected to abbreviations. 
+Thus, we investigated the erroneous tags of abbreviated terms first, then methods were introduced for improving the performance of the disambiguation chain. 
 
-A detailed examination revealed that some erroneous tags are due to the over-generating nature of Humor. 
-To fix such problems we apply a simple filtering method. 
-An analysis of a word with an attached full stop is considered to be a false candidate if the lemma candidate is not an abbreviation. 
-In doing so, the overall accuracy is increased notably, reducing the number of errors on the development set by 9.20\%.
+A detailed examination revealed that some erroneous tags were due to the over-generating nature of Humor. 
+To fix such problems we applied a simple filtering method. 
+An analysis of a word with an attached full stop was considered to be a false candidate if the lemma candidate is not an abbreviation. 
+In doing so, the overall accuracy was increased notably, reducing the number of errors on the development set by 9.20\%.
 %(cf. ``Filtering'' in Table \ref{tab:abbrev_fixes}).
 
-Another typical error type is the mistagging of unknown acronyms. 
-Since PurePos do not employ features  dealing with such cases, these tokens are usually left to the suffix guesser resulting in incorrect annotation. 
+Another typical error type was the mistagging of unknown acronyms. 
+Since PurePos did not employ features  dealing with such cases, these tokens were usually left to the suffix guesser resulting in incorrect annotation. 
 In addition, our investigation shows that acronyms should be tagged as singular nouns in most of the cases. 
 To annotate them properly, a pattern matching component is developed relying on surface features.
 % (see ``Acronyms'' in Table \ref{tab:abbrev_fixes}). 
 
-Finally, the rest of the errors are mainly connected to those abbreviations which are both unknown to the analyzer and have not been seen previously. 
-For this, the distribution of abbreviations' labels is compared to that of the Szeged Corpus (see Table \ref{tab:pos_distribution} below).
+Finally, the rest of the errors were connected to those abbreviations mainly which are both unknown to the analyzer and have not been seen previously. 
+Therefore, the distribution of abbreviations' labels is compared to that of the Szeged Corpus (see Table \ref{tab:pos_distribution} below).
 While there are common properties between the two datasets (such as the ratio of adverbs), discrepancies are more significant. 
 The most important difference is the proportions of adjectives: it is notably higher in the medical domain than in general Hungarian. 
 Moreover, these values are more expressive if we consider that 10.85\% of the tokens are abbreviated in the development set, while the same ratio is only 0.37\% in the Szeged Corpus. 
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Morphosyntactic tag frequencies of abbreviations -- dev. set}
 \label{tab:pos_distribution}
@@ -203,9 +198,9 @@ Other & 2.12\% & 5.50\% \\
 \end{tabular}
 \end{table}
 
-Since the nominal noun tag is the most frequent amongst abbreviations, a plausible method (``UnkN'') is to assign the \textsc{n.nom} label to unknown ones. 
-In doing so, we keep the original word forms as lemmata. 
-Although this approach is really simple, it results in a surprisingly high (31.54\%) error rate reduction (cf. Table \ref{tab:abbrev_fixes}). 
+Since the nominal noun tag is the most frequent amongst abbreviations, a plausible method (``UnkN'') was to assign the \textsc{n.nom} label to unknown ones. 
+In doing so, we kept the original word forms as lemmata. 
+Although this approach is rather simple, it resulted in a surprisingly high (31.54\%) error rate reduction (cf. Table \ref{tab:abbrev_fixes}). 
 
 \begin{table}[H]
 \centering
@@ -225,22 +220,20 @@ ID & Method &  Precision \\
 \end{tabular}
 \end{table}
 
-Next, we try to approximate the abbreviations' analyses with the distribution of tags observed in Table \ref{tab:pos_distribution}. 
-First, we utilize (``UnkUni'') a uniform distribution over their labels. % using the development set.
-In that way, \textsc{a.nom}, \textsc{a.pro}, \textsc{adv}, \textsc{conj}, \textsc{n.nom}, \textsc{v.3sg} and \textsc{v.pst\_ptcl} labels are used with equal probability as a sort of guessing algorithm.
+Next, we tried to approximate the abbreviations' analyses with the distribution of tags observed in Table \ref{tab:pos_distribution}. 
+First, we utilized (``UnkUni'') a uniform distribution over their labels. % using the development set.
+In that way, \textsc{a.nom}, \textsc{a.pro}, \textsc{adv}, \textsc{conj}, \textsc{n.nom}, \textsc{v.3sg} and \textsc{v.pst\_ptcl} labels were used with equal probability as a sort of guessing algorithm.
 
-Beside these, another reasonable method is to employ maximum likelihood estimation for calculating a priori probabilities of labels (``UnkMLE''). 
-In that way, relative frequency estimates are calculated for all the tags enlisted above.
-Comparing the performance of enhancements presented (cf. Table \ref{tab:abbrev_fixes}), we found that this approach can increase the overall performance, however ``UnkN'' performs the best.
-%, but ``UnkN'' models best the task. 
-An explanation for this surprising fact is that annotated data available can be insufficient for computing the proper distribution of labels.
+Beside these, another reasonable method was to employ maximum likelihood estimation for calculating a priori probabilities of labels (``UnkMLE''). 
+In that way, relative frequency estimates were calculated for all the tags enlisted above.
 
-
+Comparing the performance of these enhancements (cf. Table \ref{tab:abbrev_fixes}), we found that this approach can also increase the overall performance, but the simple ``UnkN'' performs the best.
+This can be due to the fact that the data available could be insufficient for estimating probability distribution of labels properly.
 
 \subsubsection{Choosing the proper training data}
 
-Since many studies showed (cf. Section \ref{sec:biomed_tag}) that the training data used significantly affects the result of the annotation chain, we investigated sub-corpora of the Szeged Corpus. 
-Several properties (cf. Table \ref{tab:subcorpora_attrib}) are  examined\footnote{Measurements regarding the development set were calculated manually where it was necessary.} to find a decent domain to learn from for tagging clinical Hungarian. 
+Since many studies showed (cf. Section \ref{sec:biomed_tag}) that the training data significantly affects the result of a data-driven annotation chain, we investigated sub-corpora of the Szeged Corpus. 
+Several properties (cf. Table \ref{tab:subcorpora_attrib}) were examined\footnote{Measurements regarding the development set were calculated manually where it was necessary.} to find a decent domain to learn from for tagging clinical Hungarian. 
 
 \begin{table}[H]
 \centering
@@ -267,15 +260,14 @@ Development set & 9.29 & 10.85\% & -- & -- & -- \\
 First of all, an important attribute of texts is the lengths of sentences. 
 Shorter sentences tend to have simpler grammatical structure, while longer ones are grammatically more complex. 
 Further on, clinical texts have a vast amount of abbreviations, thus their ratio can also serve as a relevant metric. 
-
 In addition, the accuracy of a tagging system depends heavily on the ratio of unknown words, therefore their proportions are calculated. 
 For this, we measured the ratio of \acrshort{oov} words on the development set. 
 %In doing so, the vocabularies of training sets are compared to the training corpora (see Table \ref{tab:subcorpora_attrib}). 
 
-Besides, we also compute perplexity, since it can measure the similarity of different texts \cite{kilgarriff1998measures}. 
+Besides, we compute perplexity, since it can measure similarities of texts \cite{kilgarriff1998measures}. 
 Calculation is carried out as follows: trigram models of word and tag sequences are trained on each corpus using Kneser-Ney smoothing, then all of them are evaluated on the development set\footnote{We used the SRILM toolkit \cite{stolcke2002srilm} for training models and measuring perplexity.}.
 
-Data shows that neither parts of the Szeged Corpus contain as much abbreviated terms as clinical texts have. 
+Our examination shows that neither parts of the Szeged Corpus contain as much abbreviated terms as clinical texts have. 
 Likewise, sentences written by clinicians are significantly shorter than that of the Szeged Corpus. 
 Neither the calculations above, nor the ratio of unknown words suggest using any subcorpora for training. 
 However, the perplexity scores contradict: sentences from the law domain share the most phrases with clinical notes, while news texts have the most similar grammatical structures. 
@@ -300,16 +292,16 @@ Szeged Corpus & \underline{94.73\%} \\
 \end{table}
 
 
-Since similarity measurements are not in accordance with each other, all sub-corpora are verified as a training data for tagging clinical texts. 
-These experiments are performed using the previously enhanced tagger. 
-Our results (in Table  \ref{tab:eval_subcorpora}) on the development set indicate that training on a subcorpus cannot improve the performance. % , however the whole data yields a better tagger.
-This observation led us to use utilize the whole Szeged Corpus to train the morphological tagger.
+Since similarity measurements were not in accordance with each other, all sub-corpora were tested as training data for tagging clinical texts. 
+(These experiments were performed using the previously enhanced tagging chain.)
+The taggers' accuracy scores (cf. Table  \ref{tab:eval_subcorpora}) on the development set show that training on a subcorpus cannot improve the performance. 
+Therefore, we decided to use utilize the whole Szeged Corpus to train our system.
 
 \subsection{Evaluation}
 
-The improved tagging chain (cf. Table \ref{tab:improvements}) is evaluated by investigating part-of-speech tagging, lemmatization and the whole morphological tagging performance.% of each enhancement presented.
+The improved chain (cf. Table \ref{tab:improvements}) is evaluated by investigating the part-of-speech tagging, lemmatization and the whole morphological annotation performance.
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Evaluation of the improved tagger -- test set}
 \label{tab:improvements}
@@ -320,13 +312,19 @@ ID & Method & PoS tagging & Lemmatization & Morph. disambig. \\
 0 & Baseline system & 90.57\% & 93.54\% & 88.09\% \\
 1 & 0 + Lexicon extension & 93.89\% & 96.24\% & 92.41\% \\
 2 & 1 + Handling abbreviations & \underline{94.81\%} & \underline{97.60\%} & \underline{93.73\%} \\
-3 & 2 + Training data selection & 94.25\% & 97.36\% & 93.29\% \\
+%3 & 2 + Training data selection & 94.25\% & 97.36\% & 93.29\% \\
 \hline
 \end{tabular}
 \end{table}
 
-First of all, results show that the baseline method annotated almost 12\% of the tokens erroneously while our enhancements raised the ceiling of the full morphological tagging accuracy to 93.73\% by eliminating almost half (47.36\%) of the errors. 
-Next, precision scores indicate that the error rate reduction is mainly due to the extended lexicon and the proper handling of abbreviations. 
-However, we have also shown that the small amount of the annotated data inhibited better modeling of abbreviated terms.
-Considering training data, we did not manage to find a better (sub)corpus for tagging clinical Hungarian than the whole Szeged Corpus. % was able to outperform the whole as a training corpus. 
-In sum, our improvements yielded a system having satisfactory performance for morphologically parsing clinical texts.
+First of all, results show that the baseline method annotated almost 12\% of the tokens erroneously, while our enhancements raised the ceiling of the full morphological tagging accuracy to 93.73\%.
+Therefore, we managed to eliminate almost half (47.36\%) of the errors. 
+Next, precision scores also indicate that the error rate reduction is mainly due to the extended lexicon.
+However, the proper handling of abbreviations also increased the performance significantly.
+Therefore, our improvements yielded a system having satisfactory performance for morphologically parsing clinical texts.
+
+
+This study revealed that abbreviations and \acrlong{oov} words cause the most of the errors for tagging Hungarian clinical texts.
+We introduced numerous enhancements dealing with them, however not all of them were successful.
+This could be due to the small amount of annotated data used inhibiting the better modeling of the domain.
+%Further on, Hungarian is a less-resource language and as such we did not manage to find a better (sub)corpus for tagging clinical Hungarian than the whole Szeged Corpus. 
