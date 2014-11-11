@@ -8,14 +8,14 @@ Our work is structured as follows.
 Related studies are described first, then a corpus of clinical notes is presented.
 %Latter texts has been collected for developing and evaluating tagging algorithms. 
 %In Section \ref{sec:baseline}, we introduce a baseline morphological disambiguation chain and a detailed error analysis. 
-Finally, domain adaptation enhancements are introduced which are evaluated on the test corpus.
+Finally, domain adaptation enhancements are introduced which are then evaluated on the test corpus.
 
 \subsection{Background}
 \label{sec:biomed_tag}
 
 In general, tagging of biomedical texts has an extensive literature, since numerous resources are accessible for English. 
 On the contrary, much less manually annotated corpora of clinical texts are available. 
-Further on, most of the work in this field has been done for English, while only a few attempts have been published for morphologically rich languages (e.g. \cite{oleynik2009performance,rost2008lessons}).
+Further on, most of the work in this field was done for English, while only a few attempts were published for morphologically rich languages (e.g. \cite{oleynik2009performance,rost2008lessons}).
 
 First of all, a common approach for tagging biomedical text is to train supervised sequence-classifiers. 
 However, a drawback of these methods is that they require manually annotated texts which are hard to create. %labor-intense human work. 
@@ -54,7 +54,7 @@ The latter tool employs a domain-adapted lexicon, while the tagger is adapted to
 As there is no corpus of clinical records available manually annotated with morphological analyses, a new one was created. 
 These texts contain about 600 sentences extracted from notes of 24 different clinics. 
 First, textual parts of the records were identified (as described in \cite{Siklosi2012}), then the paragraphs to be processed were selected randomly. 
-After these, sentence boundary segmentation, tokenization and normalization was performed manually being aided by methods detailed in Section \ref{sec:clinical_segmentation}. 
+After these, sentence boundary segmentation, tokenization and normalization was performed manually aided by methods of Section \ref{sec:clinical_segmentation}. 
 Manual spelling correction was carried out using the system of Siklósi et al. \cite{Siklosi2013}. 
 Finally, morphological disambiguation was performed: the initial annotation was provided by PurePos, then its output was corrected manually. 
 
@@ -66,8 +66,8 @@ For instance, \textit{o.} denotes \textit{szem} `eye’ thus it is tagged as a n
 Further on, medicines names are common as well, which found to be almost always singular nouns. 
 Finally, numerous sentences lack final punctuation marks that are not recovered in the test corpus. 
 
-The manually annotated corpus is split into two parts (cf. Table \ref{tab:clin_corpus}) for our experiments. 
-The first one is employed for development purposes, while new methods are evaluated on the second part.
+The manually annotated corpus was split into two parts (cf. Table \ref{tab:clin_corpus}) for our experiments. 
+The first one was employed for development purposes, while new methods were evaluated on the second part.
 %
 
 \begin{table}[H]
@@ -99,13 +99,13 @@ These records are created in a special environment, thus they differ from genera
 \subsection{The baseline setting and its most common errors}
 \label{sec:baseline}
 
-We use a baseline chain to analyze its errors and thus improve its annotation quality.
-It is built on the Humor analyzer, which produces \emph{(morphosyntactic tag, lemma)} pairs as analyses. 
+We built a baseline chain and analyzed its errors to improve the overall annotation quality.
+It uses the Humor analyzer, which produces \emph{(morphosyntactic tag, lemma)} pairs as analyses. 
 (The output of the \acrshort{ma} is extended with the new analysis of the \textit{x} token to fit the corpus to be tagged.)
 Further on, analyses candidates are disambiguated by PurePos. 
 
-This baseline tagger produced 86.61\% token accuracy\footnote{Precision is calculated considering correct full analyses of tokens, not counting punctuation marks.} on the development set, which is remarkably lower than tagging results for general Hungarian using the same components (96--98\% as in \cite{Orosz2013b,zsibrata2013magyarlanc}). 
-Further on, sentence-based prevision shows that less than the third (28.33\%) of the sentences were tagged correctly. 
+This baseline tagger produces 86.61\% token accuracy\footnote{Precision is calculated considering correct full analyses of tokens, not counting punctuation marks.} on the development set, which is remarkably lower than tagging results for general Hungarian using the same components (96--98\% as in \cite{Orosz2013b,zsibrata2013magyarlanc}). 
+Further on, sentence-based precision shows that less than the third (28.33\%) of the sentences were tagged correctly. 
 This fact indicates that the models of the baseline algorithm alone are weak for this task. 
 Therefore, we investigated the most common errors of the chain.
 
@@ -224,8 +224,8 @@ Next, we tried to approximate the abbreviations' analyses with the distribution 
 First, we utilized (``UnkUni'') a uniform distribution over their labels. % using the development set.
 In that way, \textsc{a.nom}, \textsc{a.pro}, \textsc{adv}, \textsc{conj}, \textsc{n.nom}, \textsc{v.3sg} and \textsc{v.pst\_ptcl} labels were used with equal probability as a sort of guessing algorithm.
 
-Beside these, another reasonable method was to employ maximum likelihood estimation for calculating a priori probabilities of labels (``UnkMLE''). 
-In that way, relative frequency estimates were calculated for all the tags enlisted above.
+Beside these, another reasonable method was to employ \acrlong{mle} for calculating a priori probabilities of labels (``UnkMLE''). 
+In that way, relative frequency estimates were computed for all the tags enlisted above.
 
 Comparing the performance of these enhancements (cf. Table \ref{tab:abbrev_fixes}), we found that this approach can also increase the overall performance, but the simple ``UnkN'' performs the best.
 This can be due to the fact that the data available could be insufficient for estimating probability distribution of labels properly.
@@ -237,7 +237,7 @@ Several properties (cf. Table \ref{tab:subcorpora_attrib}) were examined\footnot
 
 \begin{table}[H]
 \centering
-\caption{Properties of training corpora}
+\caption{Comparing Szeged Corpus with clinical texts}
 \label{tab:subcorpora_attrib}
 \begin{tabular}{ l r r r r r } 
 \hline
@@ -320,7 +320,7 @@ ID & Method & PoS tagging & Lemmatization & Morph. disambig. \\
 First of all, results show that the baseline method annotated almost 12\% of the tokens erroneously, while our enhancements raised the ceiling of the full morphological tagging accuracy to 93.73\%.
 Therefore, we managed to eliminate almost half (47.36\%) of the errors. 
 Next, precision scores also indicate that the error rate reduction is mainly due to the extended lexicon.
-However, the proper handling of abbreviations also increased the performance significantly.
+However, the better handling of abbreviations also increased the performance significantly.
 Therefore, our improvements yielded a system having satisfactory performance for morphologically parsing clinical texts.
 
 

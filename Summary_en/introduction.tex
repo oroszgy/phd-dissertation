@@ -2,12 +2,12 @@
 
 Natural language technology eases everyday life by helping the information flow between humans and computers.
 Diverse applications of the field exist which can aid e.g. writing texts, understanding foreign languages or finding relevant information pieces.
-One of its major parts, text processing, deals with textual data stored on computers by annotating and representing them using linguistic concepts.
+Text processing is a branch of language technology, which includes the automated analysis of textual data. %One of its major parts, text processing, deals with textual data stored on computers by annotating and representing them using linguistic concepts.
 Several processing layers can be distinguished such as text segmentation, morphological parsing, syntactic parsing or semantic analysis.
 Practical applications often build tools pipelining such components one after another. 
 While many layers are not available for numerous languages, two preprocessing steps are indispensable for most of the cases.
 Words and sentences are the basic units of text mining applications, therefore segmentation must be performed first.
-Beside this, lemmata and \gls{pos} of words are also necessary components of such systems, thus morphological parsing is carried out next.
+Beside this, the lemmata and the \gls{pos} of words are also necessary components of such systems, thus morphological parsing is carried out next.
 %Further on, pipelined architectures may easily result in erroneous output, since error propagation is often a notable phenomenon. 
 %Therefore, accurate solutions are indispensable ingredients of proper applications. 
 
@@ -17,6 +17,7 @@ Beside this, lemmata and \gls{pos} of words are also necessary components of suc
 %In most of the cases, solutions for these tasks are language-specific and fine-tuned, thus resulting in accurate tools.
 In most of the cases, text segmentation systems are accurate and remain robust amongst domains, hence the task is considered to be solved.
 However, there are numerous scenarios (such as the case of noisy texts) on which existing approaches fail, thus posing new challenges to researchers.
+
 Further on, \acrshort{pos} tagging is another well-researched field of \gls{nlp}, as diverse methods exist solving the problem in many languages. 
 In practice, these algorithms mostly build on data-driven techniques thus restricting their applicability by the corpus they model.
 %Therefore, transferring their knowledge to a new domain is often complicated without a satisfactory amount of annotated data.

@@ -239,8 +239,10 @@ Finally, models are aggregated in a unified ($S$) score:
 S(l|w,t) = P(l)^{\lambda_1} P(l,t|w)^{\lambda_2}
 \end{equation}
 
+
 \begin{algorithm*}
-\begin{algorithmic}
+\setstretch{1.35}
+\begin{algorithmic}[H]
     \ForAll{(word, tag, lemma)} 
         \State candidates $\gets$ generateLemmaCandidates(word, tag)
         \State maxUnigramProb $\gets$ getMaxProb(candidates, word, tag, unigramModel)
@@ -292,7 +294,7 @@ Hybridization steps listed below show the differences between PurePos and its pr
 
 \subsection{Experiments}
 
-\subsubsection{Tagging general Hungarian}
+\subsubsection{Tagging general Hungarian}\label{sec:porepos-gen}
 
 First, PurePos is evaluated on Hungarian using the Szeged Corpus\footnote{Version 2.3 is utilized in our experiments, since the \acrshort{ma} employed is only compatible with this corpus variation.}~\cite{Csendes2004} (SZC). 
 It contains general texts from seven genres being annotated with detailed (MSD) morphosyntactic tags~\cite{Erjavec2012} and lemmata.
@@ -322,7 +324,7 @@ Evaluation is carried out measuring the overall precision of full annotations (i
 Further on, sentence-based accuracies are also provided in some cases. 
 The latter metric is computed by considering a sentence to be correct only when all of its tokens are properly tagged. 
 
-Further on, morphological tagging tools available for Hungarian were also evaluated. 
+Further on, other morphological tagging tools were also evaluated that are available for Hungarian. 
 Firstly, \texttt{magyarlanc}, HuLaPos and Morfette\footnote{Version 3.5 is used.} are compared with PurePos.  
 %Next, combination of lemmatization and \gls{pos} tagging tools are investigated. 
 Secondly, two-phase architectures have been shown to be prosperous (e.g.~\cite{Agic2013,Erjavec2004}), therefore successful modules being commonly applied are also involved in our experiments. 
@@ -336,7 +338,8 @@ Concerning \gls{pos} taggers, we use
 As regards lemmatization tools, CST~\cite{Jongejan} and a baseline (as detailed above) method are employed. 
 %The latter one results on roots for \emph{(word, tag)} pairs being the most frequent in the training data. 
 Beside these components, tag dictionaries have been prepared for HunPos, since it can employ such resources.  
-At this point we simulated a setting, where the tagger is only load once, therefore relatively large lexicons were prepared for the tool.
+At this point we simulated a setting, where the tagger is only loaded once.
+Therefore, a large lexicon was prepared for the tool.
 In that way, analyses of the 100,000 most frequent words of Hungarian were provided to the tagger.\footnote{Frequencies are calculated relying on the results of the Szószablya project~\cite{Halacsy2004}.}.
 
 %TODO: keresztvalidáció
@@ -392,21 +395,21 @@ In that way, analyses of the 100,000 most frequent words of Hungarian were provi
 First of all, there are notable discrepancies between the results on the two datasets (cf. Tables \ref{tab:morphtag-orig} and \ref{tab:morphtag-humor}). 
 On the one hand, performance discrepancies can be explained by the morphological analyzers used.
 These tools have different coverage, thus they affect the results of parsing chains built on them.
-On the other hand, the two corpora use different annotation schemes:
+On the other hand, the two corpora utilize different annotation schemes:
 \begin{itemize}
   \item First, the original corpus contains foreign and misspelled words being tagged with a uniform \textsc{x} tag. 
   Due to the various syntactic behavior of such tokens, their labels could not be estimated using their context or their suffix properly.
   \item Further on, date expressions and several named entities are tagged with a single MSD code resulting in lemmata composed of more than one words. (An example is \emph{Golden Eye-oztunk} `we visited the Golden Eye’ being lemmatized as \emph{Golden Eye-ozik} `to visit the Golden Eye’.) 
   Such phenomena could be hard to handle for lemmatizers.
 \end{itemize}
-Such differences can have a huge impact on morphological disambiguation algorithms.
+These differences can have a huge impact on morphological disambiguation algorithms.
 In our case, they decrease the accuracy of MSD-based systems, while allow Humor-based ones to produce better annotation  (since the corresponding corpus is free of such phenomena).
 
 In general, results show that the best-performing systems are PurePos, HuLapos, \texttt{magyarlanc} and Morfette.
 Besides, HunPos also achieves high \acrshort{pos} tagging scores, while other two-stage taggers are far behind state-of-the-art results. 
-As regards learning methods of the OpenNLP toolkit, their precision indicate that they cannot handle such labeling problems properly.
-Further on, both of the lemmatization methods degrade accuracy, which can be due to their design. 
-The baseline method was not prepared for handling unknown words, while CST was originally created for inflectional languages. 
+As regards learning methods of the OpenNLP toolkit, their precision indicate that they cannot handle such labeling problems precisely.
+Further on, both of the standalone lemmatizer degrade accuracy. 
+This reduced performance can be due to their design: the baseline method was not prepared for handling unknown words, while CST was originally created for inflectional languages. 
 
 An explanation for the high morphosyntactic labeling score of PurePos is that it uses morphological analyzers to get analyses candidates. 
 This component can reduce the number of unknown words, thus enabling it to provide better annotations.
@@ -418,10 +421,12 @@ Further on, HuLaPos is an interesting outlier.
 It is based on pure stochastic methods, but it can still achieve high precision.
 Next, Morfette also provides accurate annotations (concerning \acrshort{pos} labels only), however it has problems with computing the roots of words.
 
-Finally, results show that PurePos provides the most accurate annotations amongst tool tested.
-In addition, sentence-based accuracies (especially on the Humor-tagged corpus) confirms its superior performance. 
-They reveal that most of the tools result in erroneously tagged sentences in more than half of the cases, while the same number for our method is much less (42\% and 18\%). 
-Therefore, it is shown that the presented algorithm can handle the huge number of inflected forms of Hungarian, while it can also produce precise root candidates for both previously seen and unseen tokens due to its improved lemma computing method.
+Therefore, results show that PurePos provides the most accurate annotations amongst tested tools.
+In addition, sentence-based accuracies (especially on the Humor-tagged corpus) confirms the superior performance of our method. 
+These values reveal that most of the tools result in erroneously tagged sentences in more than half of the cases, while the same number for our method is much less (42\% and 18\% respectively). 
+
+It was shown that the presented algorithm can produce high quality morphosyntactic annotations handling the huge number of inflected forms of Hungarian.
+Further on, it can also produce precise root candidates for both previously seen and unseen tokens due to its improved lemma computing method.
 In that way, Purepos is a suitable tool for morphological tagging of Hungarian and other agglutinative languages.
 %
 %Next, comparison of full annotation scores reveals that our lemmatization algorithm significantly outperforms others. 
@@ -429,8 +434,10 @@ In that way, Purepos is a suitable tool for morphological tagging of Hungarian a
 
 \subsubsection{Resource-scarce settings}
 
-Next, PurePos is compared to others (see methods investigated in the previous section\footnote{Unfortunately, we could not measure the performance of \texttt{magyarlanc}, since the current release of the tool cannot be trained.}), on settings when the amount of the training data is limited (cf. Table \ref{tab:small-szeged}).
-In that way, we draw learning curves of systems evaluating them on both versions of the Hungarian Szeged Corpus.
+Next, PurePos is compared to other taggers on less-resourced scenarios.
+For this we use systems\footnote{Unfortunately, we could not measure the performance of \texttt{magyarlanc}, since the current release of the tool cannot be trained.})  and corpora described in Section \ref{sec:porepos-gen}.
+For this, the amount of the training data was limited (cf. Table \ref{tab:small-szeged}).
+In that way, we draw learning curves of systems, evaluating them on both versions of the test set.
 
 \begin{table}[H]
 \centering
@@ -458,9 +465,9 @@ Tokens (Humor-tagged corpus) & 20,863 & 41,740 & 82, 964 & 121,026 & 146,816 \\
   \label{fig:humor-token}
 \end{figure}
 
-First, Figures \ref{fig:msd-token} and \ref{fig:humor-token} present morphological tagging accuracies of the systems depending on the number of tokens in the training corpus. 
+First, Figures \ref{fig:msd-token} and \ref{fig:humor-token} present morphological tagging accuracies of systems depending on the number of tokens in the training corpus. 
 These results are in accordance with conclusions of our previous experiments, however the differences revealed are higher. 
-Further on, the large distance between precision scores of PurePos and other systems confirms the effectiveness of our  hybrid approach in less-resourced scenarios.
+Further on, the large distance between the precision scores of PurePos and other tools confirms the effectiveness of our  hybrid approach in less-resourced scenarios.
 
 \begin{figure}[H]
   \centering
@@ -476,10 +483,10 @@ Further on, the large distance between precision scores of PurePos and other sys
   \label{fig:humor-sent}
 \end{figure}
 
-Further on, if we compare (cf. Figures \ref{fig:msd-sent} and \ref{fig:humor-sent}) sentence precisions, the gap between taggers are much more emphasized. 
+Further on, if we compare (cf. Figures \ref{fig:msd-sent} and \ref{fig:humor-sent}) the taggers' sentence-based precisions, the gap between their performance are much more emphasized. 
 For example, having only 2,000 sentences for training (with MSD tags) the proposed algorithm results in 40.71\% sentence precision compared to the second best of 18.62\%.
 
-All in all, we have shown that the architecture of PurePos allows producing accurate annotations when the amount of training data is limited. Therefore, our method could be used for morphological tagging scenarios of agglutinative languages when there is just a few thousand manually annotated sentences are available.
+In brief, we have shown that the architecture of PurePos allows producing accurate annotations when the amount of training data is limited. Therefore, our method could be used for morphological tagging scenarios of agglutinative languages when there is just a few thousand manually annotated sentences are available.
 
 \subsubsection{The case of Middle- Old-Hungarian}
 \label{sec:oldhungarian}

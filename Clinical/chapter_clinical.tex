@@ -13,14 +13,14 @@ Secondly, morphological tagging is an indispensable step for information extract
 Considering the case of Hungarian, there are only a few studies on processing medical records. 
 Recently, Siklósi et al. \cite{Siklosi2012,Siklosi2013} have presented a system that is able to correct spelling errors in clinical notes. 
 Their system uses a mixture of language models to generate correction candidates, however it focuses only on correctly segmented words. 
-Next, an abbreviation resolution method has also been presented by them \cite{Siklosi2013b}, however, problems of text segmentation and  morphosyntactic tagging are still untouched. 
-As far as we know, no study investigates such preprocessing tasks on Hungarian clinical texts. 
+Beside error correction, an abbreviation resolution method was also presented by them \cite{Siklosi2013b}, however, problems of text segmentation and  morphosyntactic tagging are still untouched. 
+Furthermore, as far as we know, no study investigates such preprocessing tasks on Hungarian clinical texts. 
 
 Therefore, this chapter presents accurate preprocessing algorithms for noisy medical texts.
 Methods were developed and presented for only Hungarian, but they are designed in a way to perform well on other morphologically complex languages as well. 
 Firstly, an effective method is introduced for detecting sentence and token boundaries.
 The presented system builds on well-known tokenization rules boosting them with the knowledge of a morphological analyzer and the output of an unsupervised filtering algorithm.
-Secondly, tagging experiments are presented yielding a viable morphological tagger for clinical Hungarian. 
+Secondly, tagging experiments are presented yielding a viable morphological tagger for Hungarian electronic health records. 
 The proposed tool builds on PurePos fixing its most common errors regarding the domain.
 
 \section{Segmenting texts of electronic health records}\label{sec:clin_segm}
