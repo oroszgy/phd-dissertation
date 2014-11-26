@@ -176,7 +176,7 @@ In that way, full analyses -- containing both the lemmata and the tag -- were co
 
 \begin{table}[H]
 \centering
-\caption{Accuracy of the improvements on tagging chain}
+\caption{Evaluation of the improvements on tagging chain}
 \label{tab:eval_tag}
 \begin{tabular}{ l r r} 
 \hline
@@ -199,7 +199,8 @@ The next one -- marked with CONJ -- utilized further rules aiming to tag \textit
 Finally, the last system presented contains all the enhancements detailed above.
 
 Measurements in Table \ref{tab:eval_tag} show that the baseline tool tagged erroneously 3 out of 10 sentences. 
-On the contrary, each of the enhancements improved the overall performance remarkably.
+On the contrary, each of the enhancements improved the overall performance significantly.
+For this, we used the Wilcoxon matched-pairs signed-rank test at p<0.05. 
 Furthermore, results indicate that the accuracy of the adapted chain is comparable with that of the tagging methods for written corpora \cite{zsibrata2013magyarlanc}. 
 
 As for the \acrshort{mlu} estimation task, two metrics were used for the evaluation. 

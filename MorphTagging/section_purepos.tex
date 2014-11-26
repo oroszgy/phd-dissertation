@@ -321,6 +321,7 @@ As a morphological analyzer is an integral part of our method, we tested the too
 The first setting utilized the MSD tagged corpus and an analyzer extracted from \texttt{magyarlanc}, while the second one applied Humor on the transcribed corpus.
 
 Evaluation is carried out measuring the overall precision of full annotations (i.e \emph{(morphosyntactic tag, lemma)} pairs). 
+For significance tests, we have used the Wilcoxon matched-pairs signed-rank test at the 95\% confidence level dividing the test set into 100 data pairs.
 Further on, sentence-based accuracies are also provided in some cases. 
 The latter metric is computed by considering a sentence to be correct only when all of its tokens are properly tagged. 
 
@@ -421,8 +422,9 @@ Further on, HuLaPos is an interesting outlier.
 It is based on pure stochastic methods, but it can still achieve high precision.
 Next, Morfette also provides accurate annotations (concerning \acrshort{pos} labels only), however it has problems with computing the roots of words.
 
-Therefore, results show that PurePos provides the most accurate annotations amongst tested tools.
-In addition, sentence-based accuracies (especially on the Humor-tagged corpus) confirms the superior performance of our method. 
+Results show that PurePos provides the most accurate annotations amongst tested tools.
+Further on, its advance over other systems is statistically significant (Wilcoxon test of paired samples, p < 0.05)\footnote{Pairwise tests were carried out comparing token-level accuracies of PurePos and other competing tools on each corpus.}.
+In addition, sentence-based accuracies (especially on the Humor-tagged corpus) also confirms the superior performance of our method. 
 These values reveal that most of the tools result in erroneously tagged sentences in more than half of the cases, while the same number for our method is much less (42\% and 18\% respectively). 
 
 It was shown that the presented algorithm can produce high quality morphosyntactic annotations handling the huge number of inflected forms of Hungarian.
@@ -465,10 +467,6 @@ Tokens (Humor-tagged corpus) & 20,863 & 41,740 & 82, 964 & 121,026 & 146,816 \\
   \label{fig:humor-token}
 \end{figure}
 
-First, Figures \ref{fig:msd-token} and \ref{fig:humor-token} present morphological tagging accuracies of systems depending on the number of tokens in the training corpus. 
-These results are in accordance with conclusions of our previous experiments, however the differences revealed are higher. 
-Further on, the large distance between the precision scores of PurePos and other tools confirms the effectiveness of our  hybrid approach in less-resourced scenarios.
-
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{MorphTagging/msd_sent.png} 
@@ -482,6 +480,11 @@ Further on, the large distance between the precision scores of PurePos and other
   \caption{Learning curves (regarding sentence accuracy) of full morphological taggers on the Szeged Corpus (using Humor labels)}
   \label{fig:humor-sent}
 \end{figure}
+
+First, Figures \ref{fig:msd-token} and \ref{fig:humor-token} present morphological tagging accuracies of systems depending on the number of tokens in the training corpus. 
+These results are in accordance with conclusions of our previous experiments, however the differences revealed are higher. 
+Further on, the large distance between the precision scores of PurePos and other tools confirms the effectiveness of our  hybrid approach in less-resourced scenarios.
+
 
 Further on, if we compare (cf. Figures \ref{fig:msd-sent} and \ref{fig:humor-sent}) the taggers' sentence-based precisions, the gap between their performance are much more emphasized. 
 For example, having only 2,000 sentences for training (with MSD tags) the proposed algorithm results in 40.71\% sentence precision compared to the second best of 18.62\%.
@@ -598,8 +601,8 @@ PurePos  & 96.48\% & 80.95\% \\
 \end{tabular}
 \end{table}
  
-Enhancements are validated measuring improvements on the test set.
-Data in Table \ref{tab:oldhun-test} shows that each linguistic component improves the overall chain notably.
+Enhancements are validated evaluating them on the test set.
+Data in Table \ref{tab:oldhun-test} shows that each linguistic component improves the overall chain significantly\footnote{We used the Wilcoxon matched-pairs signed-rank test at p < 0.05}.
 Further on, using the $5$-best output sequence of the tagger provides us much more golden annotations. 
 These are available for 92.30\% of the clauses and for 98.66\% of the tokens.
 

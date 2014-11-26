@@ -253,7 +253,7 @@ With this enhancement, we achieved  32.42\% of improvement on the development se
 \subsection{Evaluation}
 
 %In order to validate our hypothesis, stating that the last configuration performs the best, improvements
-Combination schemes presented are evaluated on the unseen test set, confirming the results presented above.
+%Combination schemes presented are evaluated on the unseen test set. %, confirming the results presented above.
 
 \begin{table}[H]
 \centering
@@ -270,9 +270,11 @@ Multiple metalearners & 25.07\% & 29.89\% & \underline{28.90\%} \\
 \end{tabular}
 \end{table}
 
+All the presented combination schemes are evaluated on the unseen test set. %, confirming the results presented above.
 Results show (cf. Table \ref{tab:comb-eval}) that the hybrid architecture using a morphological analyzer achieved the best performance.
 While other schemes could also increase the accuracy of PurePos, it resulted in the best tagging precision (98.90\%) of fixing 28.90\% of the baseline system's errors.
 Further on, the proposed method also gives the highest error rate reduction in both \acrshort{pos} tagging and lemmatization.
+Concerning statistical significance, both the improvements of the presented schemes and their differences are significant at p < 0.05 (using Wilcoxon test of paired samples).
 These results show that our new combination architecture can be used in cases when very high disambiguation accuracy is crucial.
 Finally, we also confirmed that PurePos and HuLaPos complement each other well resulting in an improved morphological tagger. 
 
