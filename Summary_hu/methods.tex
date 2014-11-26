@@ -17,7 +17,8 @@ Végezetül a klinikai rekordokat mondatrabontó algoritmus a Dunning által bem
 
 Az eszközök teljesítményét a tudományágban bevett, sztenderd módszerekkel mértük.
 Elsősorban szó- és mondat-szintű pontosságot számoltuk a szófaji és morfológiai egyértelműsítő rendszerek esetén.
-Azonban ezeket néhány esetben úgy módosítottuk, hogy ne vegye figyelembe a központozást jelölő tokeneket annotációját.
+Azonban ezeket néhány esetben úgy módosítottuk, hogy a kiértékelés során ne vegyük figyelembe a központozást jelölő tokeneket annotációját.
+Vizsgáltuk még az egyes rendszerek pontossága közti eltérések statisztikai szignifikanciáját is, amihez a Wilcoxon-féle előjeles rangszámösszeg próba a SciPy \cite{scipy} eszközben elérhető implementációját használtuk.
 Végül pedig ezen rendszerek teljesítménynövekményét hibaráta csökkenést is számoltunk.
 
 Az egyszerű osztályozási problémákhoz osztály szintű pontosságot, fedést és F-értékeket számoltunk, illetve figyelembe vettük még a módszerek teljes címkekészletre vetített pontosságát is.
