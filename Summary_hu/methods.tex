@@ -1,2 +1,25 @@
+% !TeX spellcheck = hu_HU
+Munkánk során számos korpusszal dolgoztunk.
+A morfológiai egyértelműsítő eljárásokat a Szeged Korpuszt \cite{Csendes2004} használva fejlesztettük ki, de azok egy részét az ó- és közép-magyar szövegeken \cite{Novak2013} is kiértékeltük.
+A beszélt nyelvi átiratokhoz készült alkalmazások létrehozásához a MONYEK korpuszt \cite{Matyus2014} használtuk, míg a klinikai rekordokat kezelő eljárásokhoz nem létezett etalon szöveggyűjtemény, így azt mi készítettük el.
 
+A bemutatott rendszerek legtöbbször hibrid eljárásokat használnak. 
+Így egyfelől építettünk morfológiai elemzők kimenetére, míg másrészről gépi tanuló algoritmusokat is alkalmaztunk.
 
+A morfológiai elemzők közül legtöbbször a Humort~\cite{Proszeky1994,Novak2003,Proszeky2005} (vagy annak valamely adaptál verzióját \cite{Novak2013,NovakOMK,Orosz2013}) használtuk, de a \texttt{magyarlanc} \cite{zsibrata2013magyarlanc} megfelelő komponensére is építettünk. 
+
+Gépi tanulás kapcsán legtöbbször rejtett Markov modellezést \cite{Rabiner1989,Samuelsson1993}  használtunk, így különösen építettünk két közismert szófaji egyértelműsítő (HunPos  \cite{Halacsy2007} és a TnT \cite{Brants2000}) módszereire.
+Ezeken kívül alkalmaztunk még szuffixum fákat, $n$-gram modellezést, illetve általános interpolációs technikákat is.
+Továbbá az ismertetett kombinációs algoritmust példány alapú tanulásra \cite{Aha1991} építettük, amit a Weka \cite{Hall2009} eszköz implementációjában értünk el.
+%Ezeken túl, felügyelet nélküli gépi tanuló eljárásokat is hasznosítottunk még.
+%Így, 
+Végezetül a klinikai rekordokat mondatrabontó algoritmus a Dunning által bemutatott \cite{dunning1993accurate} és a Kiss és Strunk által továbbfejlesztett \cite{kiss2006unsupervised} kollokációs metrikára épül.
+
+Az eszközök teljesítményét a tudományágban bevett, sztenderd módszerekkel mértük.
+Elsősorban szó- és mondat-szintű pontosságot számoltuk a szófaji és morfológiai egyértelműsítő rendszerek esetén.
+Azonban ezeket néhány esetben úgy módosítottuk, hogy ne vegye figyelembe a központozást jelölő tokeneket annotációját.
+Végül pedig ezen rendszerek teljesítménynövekményét hibaráta csökkenést is számoltunk.
+
+Az egyszerű osztályozási problémákhoz osztály szintű pontosságot, fedést és F-értékeket számoltunk, illetve figyelembe vettük még a módszerek teljes címkekészletre vetített pontosságát is.
+Végezetül a számszerű értékek összevetését átlagos relatív hibarátával \cite{Witten2011} illetve
+Pearson korrelációs együtthatójával \cite{Witten2011} végeztük.

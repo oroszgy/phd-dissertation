@@ -57,7 +57,7 @@
 \include{Dedication/dedication}
 % \include{Declaration/declaration}
 
-\newpage
+%\newpage
 \include{Acknowledgement/acknowledgement}
 
 \newpage
@@ -135,6 +135,9 @@
 
 \chapter*{Bibliography}
 \protect\thispagestyle{empty}
+
+\defbibheading{references}[\refname]{\section*{#1}
+   \markboth{#1}{#1}}
 \input{References/references}
 
 

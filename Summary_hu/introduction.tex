@@ -1,1 +1,45 @@
-A szófaji, illetve a morfológiai egyértelműsítés a nyelvtechnológia egyik alapfeladata, mely egy feldolgozó lánc elején áll. Fontos, hogy a folyamat nagy pontossággal történjen meg, hiszen ennek kimenetére számtalan alkalmazás épül. Míg angol nyelvre 
+% !TeX spellcheck = hu_HU
+
+A nyelvtechnológiai alkalmazások, bár nem vesszük észre, de szerves részét képezik mindennapi életünknek.
+% melyek segíthetik a számítógéppel vagy éppen a másik emberrel való kommunikációt.
+Ilyen eszközök például azok, amik támogathatnak dokumentumaink helyesírásának vizsgálatában, idegen nyelvű források fordításában és megértésében vagy az interneten található információk visszakeresésében.
+A szövegfeldolgozás a nyelvtechnológia azon ága, melynek célja digitalizált szövegek automatikus elemzése.
+Az ilyen feladatokhoz szükséges nyelvi előfeldolgozást legtöbbször több lépésben oldhatjuk meg: először szó- és mondathatárok megállapítása szükséges, majd a szavak morfológiai elemzése és egyértelműsítése következhet, végül pedig a mondatok szintaktikai analízise illetve a szöveg szemantikai értelmezése végezhető el.
+A gyakorlatban az egyes részfeladatokat végző komponensek egymásra épülnek.
+Bár ezen eszközök nem mindegyike érhető el minden nyelvre, két előfeldolgozó lépés mégis elengedhetetlen a szövegek magasabb szintű kezeléséhez. 
+Először is a tokenek és a mondatok azonosítása létfontosságú, hiszen ezek az alapegységei bármely nyelvtechnológiai elemző rendszernek.
+Ezen túl, gyakorta szükséges még a szavak szófaji címkéinek és szótöveinek meghatározása is.
+
+A legtöbb esetben az első részfeladat megoldottnak tekinthető, mivel a létező alkalmazások nagy pontossággal képesek szövegek részekre bontására.
+Ennek ellenére, számos olyan nyelvterület létezik, melyekre a jelenleg elérhető eszközök nem nyújtanak kielégítő eredményt.
+
+A szegmentálás problémáján kívül egy másik alaposan kutatott feladat még a szófaji címkézés (PoS taggelés) is.
+Az utóbbi húsz év során számos nagy pontosságú egyértelműsítő eszköz készült, melyek összességében jó néhány nyelvet lefednek.
+A gyakorlatban azonban ezek legtöbbször adatvezérelt módszerekre épülnek, ezért teljesítményük nagyban függ a használt tanítóanyagtól.
+Egy másik probléma, hogy a terület kutatásában az élenjáró eljárások elsődleges célja mindig is az angol nyelv elemzése volt, ezért a létrejött algoritmusok sokszor nem képesek kezelni a morfológiailag komplex nyelvek által okozott nehézségeket.
+Így például az agglutináló nyelvek esetén a szavak szófajainak megállapítása nem elégséges (az angollal szemben).
+Az elemzési lánc további komponensei a teljes morfoszintaktikai címke illetve a szótő ismeretét is igénylik.
+Ezért, megállapítható, hogy a mai nyelvtechnológia nem rendelkezik olyan algoritmusokkal melyek morfológiailag gazdag nyelvek esetén minden tekintetben jól működnének, továbbá kevés erőforrással rendelkező doménekre is megfelelően alkalmazhatóak lennének.
+
+Következésképpen, dolgozatunk célja kettős.
+Először olyan morfológiai egyértelműsítő eljárásokat vizsgáltunk, melyek megfelelően kezelik az agglutináló nyelvek okozta problémákat, mindazonáltal egyszerű domén adaptációs feladatok esetén is alkalmazhatóak.
+Másodsorban pedig olyan módszerekkel foglalkoztunk, melyek kevés erőforrással rendelkező domének elemzéséhez is alkalmasok.
+
+Első lépésben azt vizsgáltuk, hogy \textbf{hogyan lehetséges létező szófaji címkéző eljárásokat a teljes morfológiai egyértelműsítés feladatára használni, úgy, hogy azok képesek legyenek kezelni az agglutináló nyelvek tipikus nehézségeit, továbbá alkalmazhatóak maradjanak egyszerűbb domén adaptációs feladatokra is}.
+Így létrehoztunk egy magas pontossággal rendelkező lemmatizáló algoritmust, amit aztán felhasználva kifejlesztettünk egy teljes egyértelműsítő rendszert (PurePos).
+Ezt követően vizsgáltuk még, hogy \textbf{miként lehet morfológiai annotáló rendszerek pontosságát növelni kombinációs sémák alkalmazásával}.
+Kifejlesztettünk egy olyan kombináló algoritmust, ami agglutináló nyelvekhez illeszkedő jellemzőket használ, így teljesítménye meghaladja más létező eljárásokét magyar nyelvű szövegen esetén.
+
+A teljes egyértelműsítés feladatán túl, azok gyakorlati alkalmazása is fontos szerephez jutott munkánk során.
+Ennélfogva kutatásunkban tanulmányoztuk még, hogy \textbf{hogyan lehetséges beszélt nyelvi szövegekhez olyan morfológiai annotáló eszközt létrehozni, mely a szakterületi kutatók munkáját képesek segíteni}.
+Bemutattunk egy olyan eljárást, mely beszélt nyelvi szövegeket nagy pontossággal képes morfológiai annotációval ellátni, illetve ismertettünk még egy olyan módszert, ami automatikusan képes megbecsülni gyermeknyelvi szövegek morfoszintaktikai komplexitását.
+
+Írásunk harmadik részében elektronikus orvosi feljegyzések előfeldolgozásával foglalkoztunk.
+Mindenekelőtt azt vizsgáltuk hogy \textbf{hogyan lehetséges megfelelő szó- és mondatrabontó eljárásokat létrehozni létező algoritmusok továbbfejlesztésével}.
+Ennélfogva, bemutattunk egy olyan hibrid eszközt, mely szabályalapú komponenseken túl felügyelet nélküli gépi tanulásra építve azonosítja a klinikai rekordok szavait és mondatait. 
+Ezt követően tanulmányoztuk még a morfológiai egyértelműsítés kérdését az orvosi szövegek tekintetében.
+Megvizsgáltuk, hogy \textbf{mik okozhatják egy klinikai dokumentumokat feldolgozó morfológiai annotáló alkalmazás legfőbb nehézségeit} illetve, hogy \textbf{a PurePos rendszer hogyan alkalmazható a doménre}.
+A klinikai szövegek speciális tulajdonságait kihasználva, számos olyan domén adaptációs eljárást készítettünk, melyek jelentős mértékben képesek javítani a felhasznált alaprendszer hibáin.
+
+
+

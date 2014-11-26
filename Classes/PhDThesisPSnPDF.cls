@@ -917,6 +917,7 @@ wish to left align your text}
 \chapter*{\centering \Large Acknowledgements}
 	\phantomsection
 	\addcontentsline{toc}{chapter}{Acknowledgements}
+	\vspace{-2cm}
 \thispagestyle{empty}
 }
 
@@ -1020,7 +1021,9 @@ wish to left align your text}
 	\chapter*{\centering \Large Abstract}
 		\phantomsection
 		\addcontentsline{toc}{chapter}{Abstract}
+		\vspace{-2cm}
 	\thispagestyle{empty}
+	
 \fi
 }
 

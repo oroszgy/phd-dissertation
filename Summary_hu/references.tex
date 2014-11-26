@@ -1,9 +1,19 @@
-\printbibliography[heading=subbibliography,title={A szerző folyóirat publikációi}, keyword=own, type=article]
+\phantomsection
+\addcontentsline{toc}{chapter}{Irodalomjegyzék}
+\addcontentsline{toc}{section}{A szerző publikációi}
 
-\printbibliography[heading=subbibliography,title={A szerző könyvfejezet publikációi}, keyword=own, type=incollection]
+\defbibheading{references}[\refname]{\subsection*{#1}
+   \markboth{#1}{#1}}
+   
+\printbibliography[heading=references,title={A szerző folyóirat publikációi}, keyword=own, type=article]
 
-\printbibliography[heading=subbibliography,title={A szerző angol nyelvű konferencia publikációi}, keyword=own,notkeyword=hun-conf,type=inproceedings]
+\printbibliography[heading=references,title={A szerző könyvfejezet publikációi}, keyword=own, type=incollection]
 
-\printbibliography[heading=subbibliography,title={A szerző egyéb konferencia publikációi}, keyword=own, keyword=hun-conf]
+\printbibliography[heading=references,title={A szerző angol nyelvű konferencia publikációi}, keyword=own,notkeyword=hun-conf,type=inproceedings]
 
-\printbibliography[heading=subbibliography,title={Hivatkozások} ,notkeyword=own]
+\printbibliography[heading=references,title={A szerző egyéb konferencia publikációi}, keyword=own, keyword=hun-conf]
+
+\raggedbottom
+\pagebreak
+\addcontentsline{toc}{section}{Egyéb hivatkozások}
+\printbibliography[heading=references,title={Egyéb hivatkozások} ,notkeyword=own]
