@@ -21,12 +21,13 @@ Concerning text processing, which is a major part of language technology, severa
 \end{description}
 
 Practical applications often build parsing chains pipelining such components one after another. 
-While several modules are not available for numerous languages, two preprocessing steps are indispensable for most of the cases.
+%While several modules are not available for numerous languages, t
+Two preprocessing steps are indispensable for most of the cases.
 Since words and sentences are the basic units of text mining applications, segmentation must be performed first.
 Beside this, lemmata and \gls{pos} labels of words are also necessary components of such systems, thus morphological parsing should be carried out next.
 
 Moving on, pipelined architectures may easily result in erroneous output, since error propagation is often a notable phenomenon. 
-Obviously, the more accurate preprocessing modules are employed the better analyses are yielded, in that way, high precision of such methods are crucial.
+Obviously, the more accurate preprocessing modules are employed, the better analyses are yielded. Therefore, the high precision of such methods is crucial.
 
 \section{A solved problem?}
 
@@ -39,21 +40,22 @@ Obviously, the more accurate preprocessing modules are employed the better analy
 Text segmentation is composed of two parts: tokenization and sentence boundary identification. 
 The first one splits punctuation marks from words usually utilizing  pattern matching methods.
 Next, sentence boundaries are often recognized by applying linguistic rules or using machine learning algorithms.
-In most of the cases, these solutions are fine-tuned, hence resulting in accurate tools.
+In most of the cases, these solutions are fine-tuned, hence resulting in accurate tools, i.e. the problem is considered to be solved.
 %In addition, such systems usually remain robust amongst domains, hence 
-In that way the problem is considered to be solved.
+%In that way the problem is considered to be solved.
 However, these algorithms are often language and domain specific, thus numerous scenarios exist (such as the case of noisy texts) on which current approaches fail.
 
-Next, \acrshort{pos} tagging is another well-researched field of \gls{nlp}, as there are diverse methods for numerous languages. 
+Having identified the tokens themselves, the \gls{pos} tags of words are assigned.
+%Next, \acrshort{pos} tagging is another well-researched field of \gls{nlp}, as there are diverse methods for numerous languages. 
 In practice, these solutions mostly build on data-driven algorithms requiring large amount of training data.
 As a result, such approaches are restricted by the corpus they model.
 %Therefore, transferring their knowledge to a new domain is often complicated without a satisfactory amount of annotated data.
-Further on, most of the tagging algorithms target English first, thus ignoring serious problems caused by rich morphological systems.
+Further on, most of the tagging algorithms target English first, thus ignoring serious problems caused by languages with rich morphology.
 For instance, agglutinative languages (such as Hungarian) have rich inflection systems.
 Words are formed joining affixes to the lemma, thus affecting their morphosyntactic behavior.
 In that way, such languages need much larger (morphosyntactic) tagsets compared to English. 
 Furthermore, lemmatization of words cannot be carried out using simple suffix-stripping methods.
-In that way, disambiguating between part-of-speech labels becomes insufficient, full morphological tagging algorithms are required that assign complete morphosyntactic tags and compute lemmata as well.
+This means, disambiguating between part-of-speech labels becomes insufficient, full morphological tagging algorithms are required that assign complete morphosyntactic tags and compute lemmata as well.
 
 All in all, language technology needs preprocessing methods which handle morphologically rich languages efficiently 
 and perform well on less-resourced scenarios at the same time.
@@ -70,11 +72,12 @@ Section \ref{sec:purepos} focuses on the full disambiguation problem, in particu
 Further on,  this section also investigates \textbf{how a method can be created which computes roots of words (either seen or unseen previously by the algorithm) effectively}. 
 On the one hand, an efficient lemmatizer was developed which integrates a \gls{ma} and employs several stochastic models as well. % to
 On the other hand, an efficient tagging tool (PurePos) is designed that is customizable for diverse domains.
-Our system was tested on a general Hungarian corpus showing its state-of-the-art accuracy, in addition, hybrid components of the tool was also examined through an annotation task showing their conduciveness.
+Our system was tested on a general Hungarian corpus showing its state-of-the-art accuracy. 
+In addition, hybrid components of the tool were also examined through an annotation task showing their conduciveness.
 
 
 Following this, Section \ref{sec:combination} examines \textbf{how one can improve full morphological taggers through combination to raise the overall annotation quality}.
-We developed an architecture for combining morphological taggers for agglutinative languages which improves tagging quality significantly.
+We developed an architecture for combining morphological taggers for agglutinative languages, which improves tagging quality significantly.
 
 
 Beside tagging methods, their applications also played a central role in this study.

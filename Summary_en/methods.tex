@@ -12,7 +12,7 @@ On the one hand, we built on symbolic morphological analyzers and rule-based (pa
 On the other hand, stochastic and machine learning algorithms were heavily utilized as well.
 
 Morphological analyzers played a central role in our study, since their usage is inevitable for morphologically complex languages.
-In most of the cases we employed (adapted versions \cite{Novak2013,NovakOMK,Orosz2013}) of Humor ~\cite{Proszeky1994,Novak2003,Proszeky2005} but the \acrshort{ma} of \texttt{magyarlanc} \cite{zsibrata2013magyarlanc} were used as well.
+In most of the cases we employed (adapted versions \cite{Novak2013,NovakOMK,Orosz2013}) of Humor ~\cite{Proszeky1994,Novak2003,Proszeky2005} but the \acrshort{ma} of \texttt{magyarlanc} \cite{zsibrata2013magyarlanc} was used as well.
 
 As regards machine learning algorithms, tagging experiments were based on hidden Markov models \cite{Rabiner1989,Samuelsson1993}. 
 Our approach built on two well-known tools which are Brant's TnT \cite{Brants2000} and HunPos \cite{Halacsy2007} from Halácsy et al. 
@@ -21,12 +21,12 @@ Further on, the proposed combination scheme applied instance based learning \cit
 
 Beside supervised learning, unsupervised techniques were employed as well.
 Identification of sentences was performed using the collocation extractions measure of Dunning \cite{dunning1993accurate}.
-In fact, we based on the study of Kiss and Strunk \cite{kiss2006unsupervised} which employs scaling factors for the $\log\lambda$ ratio.
+In fact, we based on the study of Kiss and Strunk \cite{kiss2006unsupervised}, which employs scaling factors for the $\log\lambda$ ratio.
 
 The effectiveness of algorithms was measured calculating standard metrics.
 The performance of taggers were computed with precision as counting correct annotations of tokens and sentences.
 However, if the corpus investigated contained a considerable amount of punctuation marks, they were not involved in the computation.
-For significance tests, we have used the paired Wilcoxon signed rank test as implemented in the SciPy toolkit \cite{scipy}.
+For significance tests, we used the paired Wilcoxon signed rank test as implemented in the SciPy toolkit \cite{scipy}.
 Next, the improvement of taggers was examined calculating relative error rate reduction. 
 
 Simple classification scenarios were evaluated computing precision, recall and F-score for each class.

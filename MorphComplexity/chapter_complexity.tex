@@ -5,7 +5,7 @@ Do linguists need to spend long hours counting morphemes for measuring morphosyn
 Ever since the first studies, \gls{mlu} plays an important role in language development investigations. 
 This metric has been widely used for measuring linguistic productivity of children for almost a hundred years. 
 Utterance lengths are usually calculated in morphemes (\acrshort{mlum}) being a time-consuming task. 
-Even though CLAN toolkit \cite{MacWhinney1992} can count morphemes in utterances, this feature is only available just for a few languages not containing any agglutinative one. %TODO: Kinga szerint az MLUm nem biztos, hogy usually
+Even though CLAN toolkit \cite{MacWhinney1992} can count morphemes in utterances, this feature is only available just for a few languages not containing any agglutinative ones. %TODO: Kinga szerint az MLUm nem biztos, hogy usually
 
 This chapter presents\footnote{This study is a joint work with Kinga Jelencsik-Mátyus. 
 Manual annotation of the data were performed by both of us, while the morpheme counting principles are her work. 
@@ -13,11 +13,11 @@ My contribution is the construction of the tagging chain, its adaptation and the
 an automatic method for estimating \acrshort{mlum} for Hungarian transcripts. 
 We show that PurePos can be used effectively for aiding linguists in this scenario. 
 Our approach adapts this tagging tool (cf. Section \ref{sec:purepos}) yielding the first Hungarian tagger for spoken texts. 
-Further on, we describe an \acrshort{mlum} estimation method, which is based on the latter tagger, resulting in high quality output. 
+Further on, we describe an \acrshort{mlum} estimation method, which is based on the latter tagger, resulting in a high quality output. 
 
 First related studies are summarized, then we present resources used for the research. 
 Next, the adaptation steps of PurePos are described and the framework designed is introduced. 
-Finally, we show that both the tagger and the estimator methods are accurate enough to replace the labor-intense manual calculation.
+Finally, we show that both the tagger and the estimator methods are accurate enough to replace the labor-intensive manual calculation.
 
 \section{Background}
 
@@ -35,11 +35,11 @@ These previous studies imply that a proper morphological annotation system aimin
  \item if probability estimates are derived from a written language training corpus, the model of stochastic taggers can become non-representative (e.g. the distribution of \acrshort{pos} tags may significantly differ in written and spoken language).
 \end{enumerate}
 
-Ever since the complexity of child language has been measured, several methods have been developed. While manual counting prevailed for decades, automatic counting tools have been sought for in the past years.
+Ever since the complexity of child language was measured, several methods have been developed. While manual counting prevailed for decades, automatic counting tools have been sought for in the past years.
 
-Several studies (e.g. \cite{Brown1973}) showed that \acrshort{mlum} indicates language development for normal children, especially at very early stages. 
+Several studies (e.g. \cite{Brown1973}) showed that \acrshort{mlum} indicates language development for children, especially at very early stages. 
 In contrast, \gls{mluw} was shown to be highly correlating \cite{Hickey1991,Parker2005} with the latter in the case of analytical languages such as English or Irish. 
-Therefore, some studies concur that \acrshort{mluw} is a reliable measure as opposed to \acrshort{mlum}, where researchers often need to make ad hoc decisions on what (not) to count \cite{Crystal1974}. 
+Therefore, some studies concur that \acrshort{mluw} is a reliable measure as opposed to \acrshort{mlum}, where researchers often need to make ad hoc decisions on what (not) to count (see \cite{Crystal1974}). 
 
 Crystal also points out \cite{Crystal1974} that computing length in morphemes is a good way to measure morphologically complex languages (see e.g. \cite{Bowerman1973}). 
 Hungarian is an agglutinative language, thus this measure can be considered to be a more reliable indicator of language development  than \acrshort{mluw} (similarly to Turkish \cite{saygin2010}). 
@@ -164,15 +164,15 @@ For this, the method relies on capitalized token sequences and a domain-specific
 As for the automatization of rules, they were implemented using the morphological annotation of the corpus. 
 First, each item on the list of fillers was eliminated.
 Afterwards, tagged words known to the \acrshort{ma} were split into morphemes by the Humor analyzer. 
-If more than one analyses were created for a word, the least complex one was chosen, since analyses only differed in the number of derivative tags and compound markers (which we previously decided not to count) in the majority of the cases.
+If more than one analysis was created for a word, the least complex one was chosen, since analyses only differed in the number of derivative tags and compound markers (which we previously decided not to count) in the majority of the cases.
 As the labels of the annotation scheme were composed of morphemic properties, the estimation of unknown words could be based on their tags. 
-Therefore, such calculations were carried out counting only the inflection markers in the guessed tags. 
+Therefore, such calculations were carried out counting only the inflection markers in the guessed tags (as it is listed in principles above). 
 
 \section{Evaluation}
 
 First of all, morphosyntactic tagging performance of the system was investigated. 
 %For this, we calculated precision per token not counting punctuation markers (cf. Section \ref{}).
-In that way, full analyses -- containing both the lemmata and the tag -- were compared to the gold standard data, not counting punctuation marks and hesitation fillers.
+Full analyses -- containing both the lemmata and the tag -- were compared to the gold standard data, not counting punctuation marks and hesitation fillers.
 
 \begin{table}[H]
 \centering
@@ -208,7 +208,7 @@ First, \acrlong{mre} was calculated (as in \cite{Witten2011}), comparing the $a_
 \begin{equation}
 MRE = \sum_{i=1}^n \frac{|a_i-p_i|/a_i}{n}
 \end{equation}
-In that way, this measurement shows the average relative deviation of the estimated morpheme counts from the one of human annotators. 
+This measurement shows the average relative deviation of the estimated morpheme counts from the one of human annotators. 
 
 In addition, Pearson's correlation coefficient\footnote{The notation is the same above, except $\overline{x}$ is the average of $x_i$ values and $n$ denotes the total number of observation.}
  \eqref{eq:corr} (cf. \cite{Witten2011}) was employed as well:
@@ -235,7 +235,7 @@ Gold standard &  0.0279 &  0.9933 \\
 \end{tabular}
 \end{table}
 
-Since both metrics require a gold dataset, morpheme counts have been manually calculated for 300 utterances of the test set.
+Since both metrics require a gold dataset, morpheme counts were manually calculated for 300 utterances of the test set.
 Table \ref{tab:eval_est} presents the evaluation of the \acrshort{mlum} estimation algorithm on this manually checked corpus. 
 First, we evaluated the output of the baseline tagger with our morpheme counter. 
 Beside this, both the gold standard data and the output of the enhanced tagging tool were used as an input of the estimator. %enabling a detailed comparison of enhancements presented. 
