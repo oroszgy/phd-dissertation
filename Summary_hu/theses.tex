@@ -49,7 +49,7 @@ Méréseimmel megmutattam, hogy az új szótövező algoritmus kiemelkedő ponto
 Létrehoztam egy olyan hibrid morfológiai egyértelműsítő eszközt (PurePos\footnote{A bemutatott rendszer szabadon elérhető a \href{https://github.com/ppke-nlpg/purepos}{https://github.com/ppke-nlpg/purepos} címen.}), mely hatékonyan alkalmazható  morfológiailag komplex és nyelvi erőforrásokban szegény nyelvek esetén. 
 Az algoritmus statisztikai eljárásokra támaszkodva, morfológiai elemző integrált alkalmazásával és szabály alapú komponensek használatával hatékony egyértelműsítést tesz lehetővé. 
 Az eszköz a szavak lemmáinak meghatározását a \ref{thes:morf-lemma} tézisben ismertetett módszerrel végzi.
-Ezen kívül a rendszer architektúrája lehetőséget nyújt még domén specifikus szabályok hatékony alkalmazására.
+Ezen kívül a rendszer architektúrája lehetőséget nyújt még domén specifikus szabályok hatékony alkalmazására is.
 Megmutattam, hogy az eljárás magyar nyelv esetén state-of-the-art pontossággal rendelkezik (akár nagyon kevés tanítóanyag esetén is).
 \end{thesis}
 
@@ -83,7 +83,7 @@ A szófaji címkézést követően, az elemzés utolsó fázisában történik a
 Méréseimmel megmutattam, hogy a bemutatott egyértelműsítő algoritmus kimagasló pontossággal bír magyar nyelv esetén. 
 Ehhez a PurePos rendszert a Szeged Korpuszon tanítottam és teszteltem. 
 A rendszer ezen szövegek esetén 96.27\%-os szószintű pontosságot nyújt, mely meghaladja más szabadon elérhető eszközök teljesítményét.
-Vizsgáltam még az eszköz alkalmazhatóságát olyan esetekben, mikor csak kevés tanítóanyag áll rendelkezésre.
+Vizsgáltam még az eszköz alkalmazhatóságát olyan esetekben, amikor csak kevés tanítóanyag áll rendelkezésre.
 Kimutattam, hogy a PurePos ilyenkor is nagy pontossággal alkalmazható (vö. \ref{fig:humor-token_hu}. ábra). 
 Ismertettem még az eljárás egy olyan alkalmazását, ahol a hibrid komponenseinek köszönhetően jelentős mértékben sikerült javítani az eredeti elemzőlánc pontosságán, így gyorsítva a manuális annotációs folyamatot.
 
@@ -106,11 +106,11 @@ Méréseimmel alátámasztottam, hogy az ismertetett módszer jelentős mérték
 \end{pub}
 \end{core}
 
-Első lépésként, kidolgoztam egy új metrikát (OER), amivel egyértelműsítő rendszerek hibáinak különbözőségét vizsgáltam. 
+Első lépésként, kidolgoztam egy új metrikát (OER), amellyel egyértelműsítő rendszerek hibáinak különbözőségét vizsgáltam. 
 Ezt felhasználva megmutattam, hogy a HuLaPos rendszer tipikus hibái számottevően eltérnek a PurePos-étól. 
 
 Az általános kombinációs algoritmusok eredményességének részletes vizsgálata után, olyan jellemzőhalmazokat hoztam létre, melyek morfológiailag komplex nyelvek esetében magas pontossággal használhatóak.
-Ezt követően kidolgoztam egy olyan eljárást (\ref{fig:comb3_en}. ábra) melyben két külön komponens választja ki a szófaji címkéket illetve a lemmákat. 
+Ezt követően kidolgoztam egy olyan eljárást (\ref{fig:comb3_en}. ábra) melyben két külön komponens választja ki a szófaji címkéket, illetve a lemmákat. 
 A kombinációs rendszer moduljai keresztvalidáció segítségével tanítják az első szintű osztályozókat, amik példány alapú tanulásra épülnek.
 
 \begin{figure}[H]
@@ -121,18 +121,17 @@ A kombinációs rendszer moduljai keresztvalidáció segítségével tanítják 
 \end{figure}
 
 Megmutattam, hogy az új algoritmus a PurePos hibáinak mintegy 28,90\%-át javítja. 
-így eredményeimmel igazoltam, hogy egy teljes egyértelműsítő algoritmus pontossága jelentős mértékben javítható egy másik rendszerrel való kombinációval. 
+Így eredményeimmel igazoltam, hogy egy teljes egyértelműsítő algoritmus pontossága jelentős mértékben javítható egy másik rendszerrel való kombinációval. 
 
 \subsection{Morfoszintaktikai komplexitás automatikus becslése morfológiai egyértelműsítő algoritmusok alkalmazásával}
 \label{thes:mlu}
 
 A morfológiai komplexitás mérése fontos eszköze a nyelvfejlődést mérő nyelvészeti kutatásoknak.
 Ezt agglutináló nyelvek esetén a megnyilatkozások átlagos morfémában mért hosszával (MLUm) számolják.
-Míg angolra és más morfológiailag nem összetett nyelvre léteznek automatikus a feladat megoldására, addig magyarra (és egyéb agglutináló nyelvekre) ezek közvetlenül nem alkalmazhatóak. 
+Míg angolra és más morfológiailag nem összetett nyelvre léteznek automatikus algoritmusok a feladat megoldására, addig magyarra (és egyéb agglutináló nyelvekre) ezek közvetlenül nem alkalmazhatóak. 
 Így ezekben az esetekben a megnyilatkozások hosszának mérése csak időigényes manuális számolással végezhető el.
 
-Dolgozatomban megmutattam\footnote{A morfológiai komplexitás becslésének feladatát Mátyus Kingával együtt végeztem. A korpusz manuális címkézése, az annotálás útmutató kidolgozása közös munka eredménye. Az MLUm becslés nyelvészeti alapvetései a társzerző érdeme, míg a folyamat algoritmizálása önálló eredmény.}
-, hogy a PurePos rendszer egy megfelelő morfológiai elemzővel kiegészülve adekvát alapja egy automatikus morfémaszám-becslő eljárásnak. %, és így kiváltja a fáradtságos emberi munkát. 
+Dolgozatomban megmutattam\footnote{A morfológiai komplexitás becslésének feladatát Mátyus Kingával együtt végeztem. A korpusz manuális címkézése, az annotálás útmutató kidolgozása közös munka eredménye. Az MLUm becslés nyelvészeti alapvetései a társzerző érdeme, míg a folyamat algoritmizálása önálló eredmény.}, hogy a PurePos rendszer egy megfelelő morfológiai elemzővel kiegészülve adekvát alapja egy automatikus morfémaszám-becslő eljárásnak. %, és így kiváltja a fáradtságos emberi munkát. 
 
 \begin{core}
 \begin{thesis}
@@ -164,8 +163,8 @@ Vizsgálataimmal alátámasztottam, hogy a PurePos rendszer nagy pontossággal h
 \begin{core}
 \begin{thesis}
 \label{thes:mlu-estimation}
-Kifejlesztettem egy olyan új eljárást, ami magyar nyelvű beszédátiratok morfoszintaktikai összetettségét képes automatikusan becsülni.
-Az algoritmus a \ref{thes:spoken-morf-tagging} tézisben bemutatott elemzőláncra épülve becsli a megnyilatkozások morfémában mért hosszát. 
+Kifejlesztettem egy olyan új eljárást, amely magyar nyelvű beszédátiratok morfoszintaktikai összetettségét képes automatikusan becsülni.
+Az algoritmus a \ref{thes:spoken-morf-tagging} tézisben bemutatott elemzőláncra épülve számolja a megnyilatkozások morfémában mért hosszát. 
 Méréseimmel kimutattam, hogy a módszer megfelelően képes helyettesíteni időigényes manuális számolást.
 \end{thesis}
 
@@ -209,7 +208,7 @@ Bár angol nyelvre számtalan megoldás született az évek során, a magyar (é
 \begin{thesis}%{II.1/b}
 \label{thes:clin-segment}
 Létrehoztam egy olyan hibrid eljárást, mely magyar nyelvű klinikai rekordokat képes magas pontossággal mondatokra és szavakra bontani. 
-A módszer alapját egy szabály-alapú szegmentáló algoritmus képezi, amit felügyelet nélküli gépi tanulással egészítettem ki. %, melyek hatékonyan képesek javítani a teljesítményén.
+A módszer alapját egy szabály-alapú szegmentáló algoritmus képezi, amelyet felügyelet nélküli gépi tanulással egészítettem ki. %, melyek hatékonyan képesek javítani a teljesítményén.
 Méréseimmel alátámasztottam, hogy a hibrid rendszer által azonosított mondat- és szóhatárok kellően pontosak a gyakorlati alkalmazhatósághoz.
 Ezeken túl kimutattam még, hogy a magyar nyelvre elérhető algoritmusok közül sem a szabályalapú, sem a gépi tanulást használó rendszerek nem alkalmasak orvosbiológiai szövegek tokenizálására és mondatrabontására.
 \end{thesis}
@@ -233,7 +232,7 @@ Ezek bár magas pontossággal bírnak, fedésük alacsony, így ezt további heu
 Így megmutattam, hogy a módosított $\log \lambda$ szűrő nagy mértékben képes növelni a rendszer fedését. 
 A teljesítmény javításához a szóalakok felszíni jegyein túl, a Humor morfológiai elemzéseit is felhasználtam.
 
-A mérésekhez létrehoztam egy manuálisan javított korpuszt, amin az egyes rendszerek szó-szintű és mondat-szintű pontosságát, fedését és a kombinált $F$-értéket is vizsgáltam.  
+A mérésekhez létrehoztam egy manuálisan javított korpuszt, amin az egyes rendszerek szó- és mondat-szintű pontosságát, fedését és a kombinált $F$-értéket is vizsgáltam.  
 Kutatásomban a speciálisan magyar nyelvre fejlesztett rendszereket, illetve egy maximum entrópia módszeren alapuló általánosan használt eszközt is kiértékeltem.
 
 Mérésekkel megmutattam, hogy a mondatrabontás feladatában a legtöbb elérhető rendszer 50\%-os $F$-érték alatt teljesít. 

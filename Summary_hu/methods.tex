@@ -6,7 +6,7 @@ A beszélt nyelvi átiratokhoz készült alkalmazások létrehozásához a MONYE
 A bemutatott rendszerek legtöbbször hibrid eljárásokat használnak. 
 Így egyfelől építettünk morfológiai elemzők kimenetére, míg másrészről gépi tanuló algoritmusokat is alkalmaztunk.
 
-A morfológiai elemzők közül legtöbbször a Humort~\cite{Proszeky1994,Novak2003,Proszeky2005} (vagy annak valamely adaptál verzióját \cite{Novak2013,NovakOMK,Orosz2013}) használtuk, de a \texttt{magyarlanc} \cite{zsibrata2013magyarlanc} megfelelő komponensére is építettünk. 
+A morfológiai elemzők közül legtöbbször a Humort~\cite{Proszeky1994,Novak2003,Proszeky2005} (vagy annak valamely adaptál verzióját \cite{Novak2013,NovakOMK,Orosz2013}) használtuk, de a \texttt{magyarlanc} \cite{zsibrata2013magyarlanc} megfelelő komponensét is alkalmaztuk. 
 
 Gépi tanulás kapcsán legtöbbször rejtett Markov modellezést \cite{Rabiner1989,Samuelsson1993}  használtunk, így különösen építettünk két közismert szófaji egyértelműsítő (HunPos  \cite{Halacsy2007} és a TnT \cite{Brants2000}) módszereire.
 Ezeken kívül alkalmaztunk még szuffixum fákat, $n$-gram modellezést, illetve általános interpolációs technikákat is.
@@ -17,10 +17,10 @@ Végezetül a klinikai rekordokat mondatrabontó algoritmus a Dunning által bem
 
 Az eszközök teljesítményét a tudományágban bevett, sztenderd módszerekkel mértük.
 Elsősorban szó- és mondat-szintű pontosságot számoltuk a szófaji és morfológiai egyértelműsítő rendszerek esetén.
-Azonban ezeket néhány esetben úgy módosítottuk, hogy a kiértékelés során ne vegyük figyelembe a központozást jelölő tokeneket annotációját.
+Azonban ezeket néhány esetben úgy módosítottuk, hogy a kiértékelés során ne vegyük figyelembe a központozást jelölő tokenek annotációját.
 Vizsgáltuk még az egyes rendszerek pontossága közti eltérések statisztikai szignifikanciáját is, amihez a Wilcoxon-féle előjeles rangszámösszeg próba a SciPy \cite{scipy} eszközben elérhető implementációját használtuk.
-Végül pedig ezen rendszerek teljesítménynövekményét hibaráta csökkenést is számoltunk.
+Végül pedig ezen rendszerek hibaráta csökkenését is ellenőriztük.
 
 Az egyszerű osztályozási problémákhoz osztály szintű pontosságot, fedést és F-értékeket számoltunk, illetve figyelembe vettük még a módszerek teljes címkekészletre vetített pontosságát is.
-Végezetül a számszerű értékek összevetését átlagos relatív hibarátával \cite{Witten2011} illetve
-Pearson korrelációs együtthatójával \cite{Witten2011} végeztük.
+Végezetül a számszerű értékek összevetését átlagos relatív hibaráta \cite{Witten2011} illetve
+Pearson korrelációs együtthatója \cite{Witten2011} számolásával végeztük el.
