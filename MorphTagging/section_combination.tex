@@ -116,7 +116,7 @@ Secondly, own error rates indicate that even though HuLaPos performs worse than 
 \hline
 PurePos & 98.57\% & 99.58\% & 98.43\% \\
 HuLaPos & 97.61\% & 98.11\% & 97.03\% \\
-Oracle & 99.26\% & 99.83\% & \underline{99.22\%} \\
+Oracle & 99.26\% & 99.83\% & 99.22\% \\
 \hline
 \end{tabular}
 \end{table}
@@ -232,14 +232,14 @@ Table \ref{tab:comb-reduction-rates}) using IB learning with FS4 features.
   \label{fig:comb2}
 \end{figure}
 
-Although this algorithm allows us to create a better morphosyntactic tagger compared to that of above, the gain in lemmatization remains much lower (6.81\%).
+Although this algorithm allows us to create a better morpho-syntactic tagger compared to that of above, the gain in lemmatization remains much lower (6.81\%).
 Consequently, the overall accuracy improvement measured in the development set (25.26\%) is inferior.
 
 \subsubsection{Multiple metalearners}
 
 Finally, the best results are produced using two level-1 learners: one of them chooses the better lemmatizer while the other selects the optimal \acrshort{pos} tagger (cf. Figure \ref{fig:comb3}).
 In that  way, this architecture can incorporate the best lemma and tag candidates (as in Table \ref{tab:comb-reduction-rates}) yielding superior performance.
-However, a drawback of this configuration that it may result in incompatible tag-lemma pairs\footnote{A lemma and a tag for a word is incompatible if the \acrshort{ma} can analyze the word, but no analysis contains both the lemma and the morphosyntactic label.}.
+However, a drawback of this configuration that it may result in incompatible tag-lemma pairs\footnote{A lemma and a tag for a word is incompatible if the \acrshort{ma} can analyze the word, but no analysis contains both the lemma and the morpho-syntactic label.}.
 To overcome this problem, this combination scheme is enhanced with the Humor morphological analyzer.
 This component is used to discover and fix incompatibilities.
 With this enhancement, we achieved  32.42\% of improvement on the development set.

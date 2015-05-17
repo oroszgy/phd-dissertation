@@ -17,7 +17,7 @@ Furthermore, there are studies (following English approaches) which ignore lemma
 Nevertheless, approaches on full morphological tagging can be grouped depending on their relationship to lemmatization.
 
 \begin{enumerate}
-  \item First of all, numerous researchers propose a two stage model, where the first phase is responsible for finding full morphosyntactic tags, while the second one is for identifying lemmata for \emph{(word, tag)} pairs. 
+  \item First of all, numerous researchers propose a two stage model, where the first phase is responsible for finding full morpho-syntactic tags, while the second one is for identifying lemmata for \emph{(word, tag)} pairs. 
   For instance, Erjavec and Dzeroski decompose the problem~\cite{Erjavec2004} by utilizing a trigram  tagger first, then applying a decision list lemmatizer. \label{part:general-lemmatization}
   Further on, Agič et al. combine~\cite{Agic2013} an \acrshort{hmm}-based tagger with a data-driven rule-based lemmatizer~\cite{Jongejan}. 
   Even though such combinations could have error propagation issues, they usually result in well-established accuracy.
@@ -47,7 +47,7 @@ Even though they report about good results, their attempt ignores the dependency
 Next, Jongejan and Dalianis generate decision lists (cf. CST method~\cite{Jongejan}) for handling morphological changes in affixes.
 However, their system is optimized for inflecting languages exploring complex changes in word forms.  
 
-\subsubsection{Morphosyntactic tagging of morphologically rich languages}
+\subsubsection{Morpho-syntactic tagging of morphologically rich languages}
 
 Next we describe how well-known data-driven \gls{pos} tagging methods are applied for morphologically rich languages focusing on issues yielded by the complexity of the morphology.
 In doing so, only data-driven models are reviewed investigating techniques for managing
@@ -57,7 +57,7 @@ In doing so, only data-driven models are reviewed investigating techniques for m
 \end{enumerate}
 
 While numerous attempts have been published for tagging Polish recently~\cite{Piasecki2006,Piasecki2007,Acedanski2010,Radziszewski2013},  performance of these tools are below the average.
-Most of these solutions (e.g. \cite{Radziszewski2013}) use morphological analyzers to get morphosyntactic tag candidates to reduce the search space of the decoder used.
+Most of these solutions (e.g. \cite{Radziszewski2013}) use morphological analyzers to get morpho-syntactic tag candidates to reduce the search space of the decoder used.
 Further on, tiered tagging is another widely utilized technique~\cite{Radziszewski2013}.
 This method resolves complex tags by computing its parts one after another.
 Considering \acrshort{ml} algorithms used, the range of applications is wide.
@@ -102,7 +102,7 @@ They adapted the Stanford tagger by filtering its suggestions with a morphologic
 
 Concerning full tagging involving lemmatization, there are only two methods available for Hungarian.
 Although \texttt{magyarlanc} is designed for Hungarian, its lemmatization subsystem is rather simple.
-The tool assigns the most common lemmata (depending on the morphosyntactic label) to known words, and employs a rule-based guesser for unknown words.
+The tool assigns the most common lemmata (depending on the morpho-syntactic label) to known words, and employs a rule-based guesser for unknown words.
 Moving on, HuLaPos has been also applied to Hungarian~\cite{Laki2013}. %, but its performance is dissatisfactory in numerous scenarios. %TODO: ez így nem igaz
 
 This study introduces an accurate morphological tagging method.
@@ -119,7 +119,7 @@ In addition, short training time is also guaranteed due to the simple model used
 
 The architecture of PurePos (cf. Figure \ref{fig:purepos-arch}) is composed of multiple components. 
 The data flow starts from a \gls{ma} providing word analyses as \emph{(lemma, tag)} pairs. 
-Next, a trigram model is used to select morphosyntactic labels for words. 
+Next, a trigram model is used to select morpho-syntactic labels for words. 
 Then, lemmatization is carried out using both statistical and linguistic components. 
 
 \begin{figure}[H]
@@ -203,10 +203,10 @@ Score(w_1^m,t_1^m) = \log \prod_{i=1}^m P(w_i|t_i,t_{i-1})P(t_i|t_{i-1},t_{i-2})
 \end{figure}
 
 Lemmatization is performed in two steps (cf. Figure \ref{fig:lemma-arch}). 
-First, candidates are generated for \emph{(word, morphosyntactic tag)} pairs. 
+First, candidates are generated for \emph{(word, morpho-syntactic tag)} pairs. 
 If morphological analyses are available for the current word, their lemmata are used as candidates, otherwise suffix-based guessing is carried out. 
 For this, the guesser (described in Section \ref{sec:purepos-guesser}) was extended to handle lemma transformations as well. 
-Combined labels can represent both the morphosyntactic tag and suffix-transformations for lemmata (for an example see Table \ref{tab:lemma-example}).
+Combined labels can represent both the morpho-syntactic tag and suffix-transformations for lemmata (for an example see Table \ref{tab:lemma-example}).
 
 
 \begin{table}[H]
@@ -287,7 +287,7 @@ Hybridization steps listed below show the differences between PurePos and its pr
   \item[Linguistic rules] \hfill \\
   Next, the presented architecture allows rule-based components to modify the analyses of the \acrshort{ma}, in that way, bad candidates can be filtered out. Furthermore, lexical probability scores of analyses can be also given to PurePos, which are then used as context-dependent local distribution functions. 
   \item[Unseen tags] \hfill \\ 
-  In contrast to TnT or HunPos, our system is able to handle unseen tags\footnote{Morphosyntactic labels which are not seen in the training data.} properly. On the one hand, if a token has only one analysis not seen before, that one gets selected with 1 lexical probability. Further on, estimation of forthcoming tags is performed using a lower level (unigram) model in this case. On the other hand, the system can also calculate lexical and contextual scores for any tag previously not seen. This can be performed mapping latter tags to known ones using regular expressions.\footnote{For a complete example see Section \ref{sec:oldhungarian}.}
+  In contrast to TnT or HunPos, our system is able to handle unseen tags\footnote{Morpho-syntactic labels which are not seen in the training data.} properly. On the one hand, if a token has only one analysis not seen before, that one gets selected with 1 lexical probability. Further on, estimation of forthcoming tags is performed using a lower level (unigram) model in this case. On the other hand, the system can also calculate lexical and contextual scores for any tag previously not seen. This can be performed mapping latter tags to known ones using regular expressions.\footnote{For a complete example see Section \ref{sec:oldhungarian}.}
   \item[$k$-best output] \hfill \\
   Finally, our method decodes tags using beam search. One can generate partly disambiguated sentences being apt for linguistic post-processing. Further on, this facility allows the usage of advanced machine learning techniques resulting in more accurate parsing algorithms.
 \end{description}
@@ -298,7 +298,7 @@ Hybridization steps listed below show the differences between PurePos and its pr
 \subsubsection{Tagging general Hungarian}\label{sec:porepos-gen}
 
 First, PurePos is evaluated on Hungarian using the Szeged Corpus\footnote{Version 2.3 is utilized in our experiments, since the \acrshort{ma} employed is only compatible with this corpus variation.}~\cite{Csendes2004} (SZC). 
-It contains general texts from seven genres being annotated with detailed (MSD) morphosyntactic tags~\cite{Erjavec2012} and lemmata. %TODO: ebben csak hírek vannak??
+It contains general texts from seven genres being annotated with detailed (MSD) morpho-syntactic tags~\cite{Erjavec2012} and lemmata. %TODO: ebben csak hírek vannak??
 Beside the original corpus, we used a variant which is tagged with the analyses of Humor ~\cite{Proszeky1994,Novak2003,Proszeky2005}. 
 In our experiments, both corpora were split in 8:2 ratio for training and testing (as in Table \ref{tab:szeged-corpus}) purposes. 
 
@@ -321,7 +321,7 @@ In our experiments, both corpora were split in 8:2 ratio for training and testin
 As a morphological analyzer is an integral part of our method, we tested the tool with two different modules. 
 The first setting utilized the MSD tagged corpus and an analyzer extracted from \texttt{magyarlanc}, while the second one applied Humor on the transcribed corpus.
 
-Evaluation was carried out measuring the overall precision of full annotations (i.e \emph{(morphosyntactic tag, lemma)} pairs). 
+Evaluation was carried out measuring the overall precision of full annotations (i.e \emph{(morpho-syntactic tag, lemma)} pairs). 
 For significance tests, we used the Wilcoxon matched-pairs signed-rank test at the 95\% confidence level dividing the test set into 100 data pairs.
 Further on, sentence-based accuracies were also provided in some cases. 
 The latter metric was computed by considering a sentence to be correct only when all of its tokens are properly tagged. 
@@ -413,12 +413,12 @@ As regards learning methods of the OpenNLP toolkit, their precision indicate tha
 Further on, both of the standalone lemmatizers degrade accuracy. 
 This reduced performance can be due to their design: the baseline method was not prepared for handling unknown words, while CST was originally created for inflectional languages. 
 
-An explanation for the high morphosyntactic labeling score of PurePos is that it uses morphological analyzers to get analysis candidates. 
+An explanation for the high morpho-syntactic labeling score of PurePos is that it uses morphological analyzers to get analysis candidates. 
 This component can reduce the number of unknown words, thus enabling the system to provide better annotations.
 While HunPos also uses such resources, it can only handle static lexicons, which limits its accuracy.
 %In that way, the huge number of inflected word-forms could be handled accurately.
 
-As regards \texttt{magyarlanc}, it also yields first-class results (95.72\% precision) on the MSD-tagged corpus, however, its language specific components inhibit its application on other corpora. 
+As regards \texttt{magyarlanc}, it also yields first-class results (95.72\% precision) on the MSD-tagged corpus, however, its language (and annotation scheme) specific components inhibit its application on other corpora. 
 Further on, HuLaPos is an interesting outlier.
 It is based on pure stochastic methods, but it can still achieve high precision. 
 These results can be explained by the larger contexts used by the underlying machine translation framework.
@@ -429,7 +429,7 @@ Further on, its advance over other systems is statistically significant (Wilcoxo
 In addition, sentence-based accuracies (especially on the Humor-tagged corpus) also confirms the superior performance of our method. 
 These values reveal that most of the tools result in erroneously tagged sentences in more than half of the cases, while the same number for our method is much less (18\% on the transcribed corpus and 42\% on the original one). 
 
-It was shown that the presented algorithm can produce high quality morphosyntactic annotations handling the huge number of inflected forms of Hungarian.
+It was shown that the presented algorithm can produce high quality morpho-syntactic annotations handling the huge number of inflected forms of Hungarian.
 Further on, it can also produce precise root candidates for both previously seen and unseen tokens due to its improved lemma computing method.
 In that way, Purepos is a suitable tool for morphological tagging of Hungarian and other agglutinative languages.
 %

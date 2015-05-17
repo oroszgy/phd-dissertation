@@ -1,7 +1,7 @@
 
 \section{Motivation}
 
-Do linguists need to spend long hours counting morphemes for measuring morphosyntactic complexity? 
+Do linguists need to spend long hours counting morphemes for measuring morpho-syntactic complexity? 
 Ever since the first studies, \gls{mlu} plays an important role in language development investigations. 
 This metric has been widely used for measuring linguistic productivity of children for almost a hundred years. 
 Utterance lengths are usually calculated in morphemes (\acrshort{mlum}) being a time-consuming task. 
@@ -29,7 +29,7 @@ while combination of such systems with stochastic tools \cite{Bick2012} yields e
 
 These previous studies imply that a proper morphological annotation system aiming to process transcripts must be able to handle the following types of difficulties:
 \begin{enumerate}
- \item existence of new morphosyntactic tags which are missing from the tagset of the training data,
+ \item existence of new morpho-syntactic tags which are missing from the tagset of the training data,
  \item occurrence of tokens with non-standard orthography in texts,
  \item the number of words unknown to a statistical tagger are increased compared to written language corpora,
  \item if probability estimates are derived from a written language training corpus, the model of stochastic taggers can become non-representative (e.g. the distribution of \acrshort{pos} tags may significantly differ in written and spoken language).
@@ -59,7 +59,7 @@ Therefore, we introduce adaptation methods for a general-purpose tagger which is
 
 \section{Resources}
 
-There is no Hungarian speech corpus morphosyntactically annotated, therefore we use a contemporary one as a base of our research. 
+There is no Hungarian speech corpus morpho-syntactically annotated, therefore we use a contemporary one as a base of our research. 
 \gls{hukilc} \cite{Matyus2014} has been compiled predominantly for child language variation studies. 
 It contains 62 interviews with 4.5--5.5 year-old kindergarten children from Budapest, recorded in the spring of 2012. 
 The interviews are 20--30 minutes long consisting different types of story-telling tasks. 
@@ -68,7 +68,7 @@ The corpus has about 39,000 utterances with 140,000 words.
 
 In order to develop a proper tagger tool, a small part of the data has been manually annotated. 
 As a first step, general tagging principles were established. 
-We chose the morphosyntactic labels and lemmata of the Humor analyzer ~\cite{Proszeky1994,Novak2003} to represent morphological analyses. 
+We chose the morpho-syntactic labels and lemmata of the Humor analyzer ~\cite{Proszeky1994,Novak2003} to represent morphological analyses. 
 Next, an annotation manual was developed for human annotators to guide their work during the morphological disambiguation of the corpus. 
 In that way, 6 interviews with about 1,000 utterances were labeled manually. 
 This gold standard corpus was split into two sets of equal sizes: a development and a test set (see Table \ref{tab:corpus_size}).
@@ -90,7 +90,7 @@ Test set & 449 & 2,740 \\
 
 
 
-The tagset of the corpus has been created to allow both the investigation of morphosyntactic relations and the representation of phenomena typical to transcripts. 
+The tagset of the corpus has been created to allow both the investigation of morpho-syntactic relations and the representation of phenomena typical to transcripts. 
 First of all, a new label was introduced to mark filled pauses. 
 Further on, the original annotation scheme of Humor distinguishes interjection and utterance words\footnote{Annotation schemes for Hungarian distinguish utterances and interjection words. An utterance word forms a sentence or an utterance alone by interrupting or managing the communication. In contrast, interjections are either onomatopoeic or used to indicate emotions.},
 but there are cases in speech when a word bears with both properties (such as \textit{fúú} `woow’). 
@@ -142,7 +142,7 @@ The last rule introduced deals with \textit{meg}, which may function as a verbal
 Moreover, it is usually an expletive in spoken language.
 Therefore, the conjunctive label was assigned to the word when there was not any verb in its two token window.
 
-\section{Computing morphosyntactic complexity}
+\section{Computing morpho-syntactic complexity}
 
 As a first step, general principles of counting morphemes were established. 
 In a language with such a rich derivational system as Hungarian, it is often very complicated to identify the lemmata. 
@@ -170,7 +170,7 @@ Therefore, such calculations were carried out counting only the inflection marke
 
 \section{Evaluation}
 
-First of all, morphosyntactic tagging performance of the system was investigated. 
+First of all, morpho-syntactic tagging performance of the system was investigated. 
 %For this, we calculated precision per token not counting punctuation markers (cf. Section \ref{}).
 Full analyses -- containing both the lemmata and the tag -- were compared to the gold standard data, not counting punctuation marks and hesitation fillers.
 
@@ -241,5 +241,5 @@ First, we evaluated the output of the baseline tagger with our morpheme counter.
 Beside this, both the gold standard data and the output of the enhanced tagging tool were used as an input of the estimator. %enabling a detailed comparison of enhancements presented. 
 On the one hand, these results can be interpreted as an in vivo evaluation of the adapted tagger showing significant improvements over the baseline.
 On the other hand, it was found that the overall performance of the estimation methodology is outstandingly high.  
-The high correlation of the automatic chain indicates that our method can properly measure the morphosyntactic complexity of Hungarian spoken language in practice. 
+The high correlation of the automatic chain indicates that our method can properly measure the morpho-syntactic complexity of Hungarian spoken language in practice. 
 Therefore, the time-consuming manual counting procedure can be replaced with the proposed method.

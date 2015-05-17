@@ -15,18 +15,18 @@ As such, it is a field of computer science and linguistics, which involves under
 Concerning text processing, which is a major part of language technology, several structural levels can be identified:
 \begin{description}
 \item[Text segmentation:] basic units of texts are separated, thus token  and sentence boundaries are recognized (referred as tokenization \gls{sbd}).
-\item[Morphological parsing:] structural units of words are identified (morphological analysis), then tokens are unambiguously classified by their morphosyntactic behavior (\acrlong{pos} tagging).
+\item[Morphological parsing:] structural units of words are identified (morphological analysis), then tokens are unambiguously classified by their morpho-syntactic behavior (\acrlong{pos} tagging).
 \item[Syntactic parsing:] sentences are broken down into building blocks regarding their form, function or syntactic relation to each other.
 \item[Semantic analysis] methods deal with the \emph{meaning} of texts.
 \end{description}
 
-Practical applications often build parsing chains pipelining such components one after another. 
+Practical applications often build parsing chains, pipelining such components one after another. 
 %While several modules are not available for numerous languages, t
 Two preprocessing steps are indispensable for most of the cases.
 Since words and sentences are the basic units of text mining applications, segmentation must be performed first.
 Beside this, lemmata and \gls{pos} labels of words are also necessary components of such systems, thus morphological parsing should be carried out next.
 
-Moving on, pipelined architectures may easily result in erroneous output, since error propagation is often a notable phenomenon. 
+Moving on, such pipelined architectures may easily result in erroneous output, since error propagation is often a notable phenomenon. 
 Obviously, the more accurate preprocessing modules are employed, the better analyses are yielded. Therefore, the high precision of such methods is crucial.
 
 \section{A solved problem?}
@@ -52,10 +52,10 @@ As a result, such approaches are restricted by the corpus they model.
 %Therefore, transferring their knowledge to a new domain is often complicated without a satisfactory amount of annotated data.
 Further on, most of the tagging algorithms target English first, thus ignoring serious problems caused by languages with rich morphology.
 For instance, agglutinative languages (such as Hungarian) have rich inflection systems.
-Words are formed joining affixes to the lemma, thus affecting their morphosyntactic behavior.
-In that way, such languages need much larger (morphosyntactic) tagsets compared to English. 
+Words are formed joining affixes to the lemma, thus affecting their morpho-syntactic behavior.
+In that way, such languages need much larger (morpho-syntactic) tagsets compared to English. 
 Furthermore, lemmatization of words cannot be carried out using simple suffix-stripping methods.
-This means, disambiguating between part-of-speech labels becomes insufficient, full morphological tagging algorithms are required that assign complete morphosyntactic tags and compute lemmata as well.
+This means, disambiguating between part-of-speech labels becomes insufficient, full morphological tagging algorithms are required that assign complete morpho-syntactic tags and compute lemmata as well.
 
 All in all, language technology needs preprocessing methods which handle morphologically rich languages efficiently 
 and perform well on less-resourced scenarios at the same time.
@@ -81,13 +81,13 @@ We developed an architecture for combining morphological taggers for agglutinati
 
 
 Beside tagging methods, their applications also played a central role in this study.
-We were interested in \textbf{creating a proper tagger tool for speech transcripts which can help linguists in their research}.
+We were interested in \textbf{creating a tagger tool for speech transcripts which can help linguists in their research}.
 %We were interested in \textbf{how PurePos can help linguistic research in speech}.
 Chapter \ref{chap:mlu} presents adaptation methods resulting in the first morphological tagging chain for spoken Hungarian.
-Following this, an application of this system is described which estimates morphosyntactic complexity of speech transcripts of children automatically.
+Following this, an application of this system is described which estimates morpho-syntactic complexity of speech transcripts of children automatically.
 
 The third part of the dissertation (Chapter \ref{chap:clin}) deals with problems of Hungarian electronic health records.
-In particular, Section \ref{sec:clin_segm} investigates \textbf{how one can develop proper text segmentation algorithm which can handle imperfect sentence and word boundaries in Hungarian medical texts}. 
+In particular, Section \ref{sec:clin_segm} investigates \textbf{how one can develop a text segmentation algorithm which can handle imperfect sentence and word boundaries in Hungarian medical texts}. 
 Our contribution in this field is twofold. 
 First, it was shown that all the available tools fail on segmenting such texts.
 Next, an accurate methodology was proposed identifying sentence and token boundaries precisely.

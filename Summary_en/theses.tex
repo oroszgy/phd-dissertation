@@ -15,9 +15,9 @@
 \label{thes:morf}
 
 Full morphological tagging is a complex task composed of two parts. 
-Beside identifying morphosyntactic tags, lemmata of words must be computed as well.
+Beside identifying morpho-syntactic tags, lemmata of words must be computed as well.
 While the first task is a well-known problem of \acrlong{nlp}, the latter one is often neglected.
-I start summarizing my results by describing the new lemmatization method followed by the full tagging systems. 
+Results are summarized by describing  the new lemmatization method first, followed by the full tagging systems. 
 
 
 \begin{core}
@@ -71,7 +71,7 @@ Experiments confirm its state-of-the-art accuracy for Hungarian.
 The architecture of PurePos (cf. Figure \ref{fig:purepos-arch_en}) is built up to allow multiple models cooperating effectively. 
 The disambiguation is carried out in multiple steps.
 The data flow starts from a \acrshort{ma} providing word analyses as \emph{(lemma, tag)} pairs. 
-Next, trigram-tagging methods (see \cite{Brants2000,Halacsy2007}) are employed for selecting morphosyntactic labels of words. 
+Next, trigram-tagging methods (see \cite{Brants2000,Halacsy2007}) are employed for selecting morpho-syntactic labels of words. 
 %In fact, these algorithms have been adapted to fit agglutinative languages.
 Finally, lemmatization is carried out employing the methods presented in Thesis \ref{thes:morf-lemma}. 
 
@@ -84,7 +84,7 @@ Finally, lemmatization is carried out employing the methods presented in Thesis 
 
 Several experiments were carried out measuring the performance of PurePos on the Szeged Corpus \cite{Csendes2004}.
 Results show that the new method yields 96.26\% full tagging accuracy, which is the highest one amongst available tools.
-Moving on, I also compared existing tagging systems with mine on a less-resourced scenario.
+Moving on, I also compared existing tagging systems with the presented one on a less-resourced scenario.
 These experiments showed (cf. Figure \ref{fig:humor-token_en}) that PurePos can be successfully used even when the training dataset is limited.
 Finally, all the hybrid enhancements of PurePos ware evaluated one-by-one, showing that they can be used to fix several sorts of errors.
 
@@ -128,11 +128,11 @@ The novelty of the presented method is its architecture (cf. Figure \ref{fig:com
 Finally, evaluation experiments were presented indicating that the number errors of the best tagger can be decreased further.
 The new algorithm could reduce the number of errors of PurePos by 28.90\%.
 
-\subsection{Measuring morphosyntactic complexity using morphological annotation algorithms}
+\subsection{Measuring morpho-syntactic complexity using morphological annotation algorithms}
 \label{thes:mlu}
 
 
-Measuring morphosyntactic complexity is usually carried out calculating \acrlong{mlu}s.
+Measuring morpho-syntactic complexity is usually carried out calculating \acrlong{mlu}s.
 This metric is often computed in words for analytical languages, while morphemes (\acrshort{mlum}) are used for morphologically complex ones.
 Although automatic methods and tools exist for e.g English, other less-resourced languages lack such systems.
 Therefore, \acrshort{mlum} could be only computed manually, which is a time-consuming task.
@@ -167,7 +167,7 @@ Additionally, a new tagging scheme was designed representing the characteristics
 %These manually corrected texts enabled us to develop and validate the proposed methods.
 
 The evaluation of the chain resulted in 96\% token-level precision, which is comparable with that of taggers for corpora of written language.
-Therefore, my investigation showed the PurePos is an appropriate base for tagging corpora of transcribed spoken texts.
+Therefore, my investigation showed that PurePos is an appropriate base for tagging corpora of transcribed spoken texts.
 
 \thesisline%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -175,7 +175,7 @@ Therefore, my investigation showed the PurePos is an appropriate base for taggin
 \begin{core}
 \begin{thesis}
 \label{thes:mlu-estimation}
-I proposed a new algorithm for estimating morphosyntactic complexity (calculating \acrlong{mlum}) in Hungarian child language transcripts.
+I proposed a new algorithm for estimating morpho-syntactic complexity (calculating \acrlong{mlum}) in Hungarian child language transcripts.
 The method uses the morphological tagging chain of Thesis \ref{thes:spoken-morf-tagging} as a base.
 %In doing so, it computes lengths of utterances in its output.
 Evaluation of the system indicates that my methodology can properly replace the time-consuming manual computation of human annotators.
@@ -200,7 +200,7 @@ Thus, the proposed algorithm can properly replace the labor-intensive human comp
 
 More and more electronic health records are produced in hospitals containing valuable but hidden knowledge.
 Since doctors cannot spend enough time on writing their reports properly, notes often contain numerous errors.
-Because of such mistakes, processing of these reports cannot be carried out using general-purpose tools.
+Because of such mistakes, processing of such texts cannot be carried out using general-purpose tools.
 Moreover, while several algorithms are becoming available for English, Hungarian and other morphologically rich languages are still neglected.
 
 \begin{core}
@@ -237,7 +237,7 @@ Moreover, existing Hungarian approaches were also compared with the proposed one
 
 Results show other available systems can only produce low quality segmentation.
 Most of them result in F-scores less than 50\% in sentence boundary identification.
-On the contrary, my method can detect both token and sentence boundaries accurately, producing F-values over 90\%.
+On the contrary, the method proposed can detect both token and sentence boundaries accurately, producing F-values over 90\%.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
