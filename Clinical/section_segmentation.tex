@@ -7,7 +7,7 @@ These originate in special properties of such texts involving
  \item typing errors (i.e. mistyped tokens, nonexistent strings of falsely concatenated words) and
  \item nonstandard usage of the language.
 \end{enumerate}
-While errors of the first type can generally be corrected with a rule-based tool, others need advanced methods. 
+While errors of the first type can be corrected easily with a rule-based tool, others need advanced methods. 
 
 In this section, a hybrid approach to segmentation of noisy clinical records is presented. 
 The method consists of two phases: first, tokens are partially segmented; then, sentence boundaries are identified.
@@ -222,7 +222,7 @@ Next, lengths of words ($len$) was also used in Punkt to indicate abbreviations 
 They could help in our case, since shorter tokens tend to be abbreviations, while longer ones do not. 
 Therefore, we reformulated the original function to penalize short words and reward longer ones. 
 Having a medical abbreviation list of almost 200 \label{sec:abbrev} elements\footnote{The list is gathered with an automatic algorithm on the development corpus using word shape properties and frequencies. The most frequent elements are manually verified and corrected.} 
-we found that that more than 90\% of the abbreviations are shorter than three characters. 
+we found that more than 90\% of the abbreviations are shorter than three characters. 
 This fact led us to formulate the scaling factor as in \eqref{eq:s_l}. 
 In doing so, this enhancement can also decrease the score of a bad candidate, which distinguishes it from the original formula of Kiss and Strunk.
 
@@ -278,7 +278,7 @@ To further improve the method, capitalization properties of words were also util
 We developed a rule-based component to decide whether a capitalized words can start a sentence or not.
 Good \acrshort{sb} candidates of such tokens are the ones not following a non sentence terminating\footnote{Sentence terminating punctuation marks are the period and the exclamation mark for this task.} punctuation, and are not part of a named entity. 
 Therefore, sequences of capitalized words are considered to be named entities and omitted as a first step. 
-Then, the rest of the candidates are processed Humor.
+Then, the rest of the candidates are processed by Humor.
 We employed a simple heuristic for detecting sentence boundaries:
 if a word does not have a proper noun analysis but is capitalized, it is marked as the beginning of a sentence.  
 Our results on the development set show that this component also enhances the BSBD: it increases recall to 65.46\% while keeps precision high (96.37\%). 
