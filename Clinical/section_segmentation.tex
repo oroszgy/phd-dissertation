@@ -204,11 +204,10 @@ H_A: P(\bullet|w) = p_1 \neq p_2 = P(\bullet|\neg w)
 \end{equation}
 
 
-In these formulae $H_0$ expresses the independence of a \emph{(word, $\bullet$)} pair, while $H_1$ formulates that their co-occurrence is not just by chance. 
-Their ratio is measured by the $\log \lambda$ score \eqref{eq:loglambda}, which is found to be asymptotical to $\chi^2$. %, thus  can be applied as a statistical test \cite{dunning1993accurate}. 
-Kiss and Strunk recovered that this algorithm performs poorly (in terms of precision) for identifying abbreviation, thus they introduced several scaling factors \cite{kiss2006unsupervised}. 
-In doing so, their method %lost the asymptotic relation to $\chi^2$ and 
-became a simple filtering algorithm.
+In these formulae, $H_0$ expresses the independence of a \emph{(word, $\bullet$)} pair, $H_1$ formulates that their co-occurrence is not just by chance, while $L$ denotes the likelihood function. 
+The log-likelihood ratio of the null and alternative hypothesis is measured by the $\log \lambda$ score \eqref{eq:loglambda}, which is found to be asymptotical to $\chi^2$ \cite{dunning1993accurate}. %, thus  can be applied as a statistical test \cite{dunning1993accurate}. 
+However, Kiss and Strunk recovered that this simple method performs poorly (in terms of precision) for identifying abbreviation.
+Therefore, they adapted the likelihood-ratio test by introducing several factors for scaling its result \cite{kiss2006unsupervised}, and transforming it a heuristic ranking algorithm.
 
 We improved their approach in numerous ways. 
 First of all, the inverse score ($iscore=1/log\lambda$) was used as a base, since it helps to find candidates co-occurring only by chance. 
