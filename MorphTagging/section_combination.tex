@@ -50,17 +50,17 @@ Then, features investigated which fit the best for agglutinative languages.
 
 Evaluating taggers on general Hungarian can show that two of the best performing tools (our new method and HuLaPos) significantly diverge by the errors they made.
 In our evaluation scheme, a detailed analysis of errors was carried out first, aiming to reveal their possible combined performance.
-For this, we relied on the Humor-tagged Szeged Corpus.
-It was split to 3 parts: 80\% of the sentences was utilized for training the systems, 10\% was employed for development purposes while the rest was set apart for final evaluation (cf. Table \ref{tab:comb-data}).
+For this, we utilized the Humor-tagged Szeged Corpus (described in \ref{sec:porepos-gen}).
+We kept the training sentences (80\% of the corpus), but the rest was split into two parts. The first half was employed for development purposes, while the second one was set apart for the final evaluation (cf. Table \ref{tab:comb-data}).
 
 \begin{table}[H]
 \centering
-\caption{Sentences and tokens of the corpus used}\label{tab:comb-data}
+\caption{Number of sentences and tokens used for training, tuning and evaluating combination algorithms}\label{tab:comb-data}
 \begin{tabular}{l r r}
 \hline
 & Tokens & Sentences \\
 \hline
-Training set & 98,225 & 56,792\\
+Training set & 980,225 & 56,792\\
 Development set & 105,779 & 7,099 \\
 Test set & 108,344 & 7,099 \\
 \hline

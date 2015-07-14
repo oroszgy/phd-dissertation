@@ -66,7 +66,7 @@ Beside an adaptation of Brill’s tagger~\cite{Acedanski2010}, C4.5 decision tre
 Moving on, the first successful attempt to analyze Czech was published by Hajič and Hladká~\cite{Hajic1998a}, basing on a discriminative model.
 Their approach uses a morphological analyzer and builds on individual prediction models for ambiguity classes.
 Actually, the best results for Czech are obtained using the combination of numerous systems~\cite{Hajic2007}.
-In their solution, three different stochastic taggers (\acrshort{hmm}, \acrlong{maxent} and averaged perceptron) and symbolic components are utilized as well.
+In their solution, three different data-driven taggers (\acrshort{hmm}, \acrlong{maxent} and averaged perceptron) and further symbolic components are utilized as well.
 A \acrshort{ma} computes the possible analyses, while the rule-based disambiguator tool removes agrammatical tag sequences. 
 
 The flexible architecture of the Stanford tagger \cite{Toutanova2003} also allows the integration of various morphological features enabling its usage for morphologically rich languages.
@@ -298,7 +298,7 @@ Hybridization steps listed below show the differences between PurePos and its pr
 \subsubsection{Tagging general Hungarian}\label{sec:porepos-gen}
 
 First, PurePos is evaluated on Hungarian using the Szeged Corpus\footnote{Version 2.3 is utilized in our experiments, since the \acrshort{ma} employed is only compatible with this corpus variation.}~\cite{Csendes2004} (SZC). 
-It contains general texts from seven genres being annotated with detailed (MSD) morpho-syntactic tags~\cite{Erjavec2012} and lemmata. %TODO: ebben csak hírek vannak??
+It contains general texts from six genres being annotated with detailed (MSD) morpho-syntactic tags~\cite{Erjavec2012} and lemmata. %TODO: ebben csak hírek vannak??
 Beside the original corpus, we used a variant which is tagged with the analyses of Humor ~\cite{Proszeky1994,Novak2003,Proszeky2005}. 
 In our experiments, both corpora were split in 8:2 ratio for training and testing (as in Table \ref{tab:szeged-corpus}) purposes. 
 
@@ -349,7 +349,7 @@ In that way, analyses of the 100,000 most frequent words of Hungarian were provi
 
 \begin{table}[H]
  \centering
- \caption{Tagging accuracies of Hungarian taggers on the transcribed Szeged Corpus (annotated with MSD labels)}
+ \caption{Tagging accuracies of Hungarian taggers on the Szeged Corpus (annotated with MSD labels)}
 \begin{tabular}{l r r r}
   \hline
    & \multirow{2}{*}{PoS tagging} & \multicolumn{2}{c}{Morph. tagging} \\

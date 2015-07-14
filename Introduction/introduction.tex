@@ -38,9 +38,9 @@ Obviously, the more accurate preprocessing modules are employed, the better anal
 	% lem
 
 Text segmentation is composed of two parts: tokenization and sentence boundary identification. 
-The first one splits punctuation marks from words usually utilizing  pattern matching methods.
+The first one brakes texts into meaningful elements (called tokens) usually utilizing pattern matching methods.
 Next, sentence boundaries are often recognized by applying linguistic rules or using machine learning algorithms.
-In most of the cases, these solutions are fine-tuned, hence resulting in accurate tools, i.e. the problem is considered to be solved.
+In most of the cases, these solutions are fine-tuned for a specific task, hence resulting in accurate tools, i.e. the problem is considered to be solved.
 %In addition, such systems usually remain robust amongst domains, hence 
 %In that way the problem is considered to be solved.
 However, these algorithms are often language and domain specific, thus numerous scenarios exist (such as the case of noisy texts) on which current approaches fail.
@@ -55,7 +55,7 @@ For instance, agglutinative languages (such as Hungarian) have rich inflection s
 Words are formed joining affixes to the lemma, thus affecting their morpho-syntactic behavior.
 In that way, such languages need much larger (morpho-syntactic) tagsets compared to English. 
 Furthermore, lemmatization of words cannot be carried out using simple suffix-stripping methods.
-This means, disambiguating between part-of-speech labels becomes insufficient, full morphological tagging algorithms are required that assign complete morpho-syntactic tags and compute lemmata as well.
+This means, disambiguating among part-of-speech labels becomes insufficient, full morphological tagging algorithms are required that assign complete morpho-syntactic tags and compute lemmata as well.
 
 All in all, language technology needs preprocessing methods which handle morphologically rich languages efficiently 
 and perform well on less-resourced scenarios at the same time.
@@ -76,7 +76,7 @@ Our system was tested on a general Hungarian corpus showing its state-of-the-art
 In addition, hybrid components of the tool were also examined through an annotation task showing their conduciveness.
 
 
-Following this, Section \ref{sec:combination} examines \textbf{how one can improve full morphological taggers through combination to raise the overall annotation quality}.
+Following this, Section \ref{sec:combination} examines \textbf{how one can improve full morphological taggers through system combination to raise the overall annotation quality}.
 We developed an architecture for combining morphological taggers for agglutinative languages, which improves tagging quality significantly.
 
 
