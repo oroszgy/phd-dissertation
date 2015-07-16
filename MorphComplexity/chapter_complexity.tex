@@ -176,7 +176,7 @@ Full analyses -- containing both the lemmata and the tag -- were compared to the
 
 \begin{table}[H]
 \centering
-\caption{Evaluation of the improvements on tagging chain}
+\caption{Evaluation of the improvements on the tagging chain}
 \label{tab:eval_tag}
 \begin{tabular}{ l r r} 
 \hline
@@ -222,15 +222,15 @@ In addition, Pearson's correlation coefficient\footnote{The notation is the same
 
 \begin{table}[H]
 \centering
-\caption{Evaluation of the  \acrshort{mlum} estimation algorithm}
+\caption{Evaluation of the  \acrshort{mlum} estimation algorithm using the output of  different morphological taggers}
 \label{tab:eval_est}
 \begin{tabular}{ l r r} 
 \hline
-Tagged utterances & \acrshort{mre} & Correlation \\
+Morphological tagger & \acrshort{mre} & Correlation \\
 \hline
-The output of the baseline tool&  0.1325  &  0.9612 \\
-The output of the enhanced chain & \underline{0.0449} & \underline{0.9901} \\
-Gold standard &  0.0279 &  0.9933 \\
+The baseline tagger &  0.1325  &  0.9612 \\
+The adapted tagger & \underline{0.0449} & \underline{0.9901} \\
+Gold standard annotations &  0.0279 &  0.9933 \\
 \hline
 \end{tabular}
 \end{table}

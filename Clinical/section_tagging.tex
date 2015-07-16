@@ -111,7 +111,7 @@ Therefore, we investigated the most common errors of the chain.
 
 \begin{table}[H]
 \centering
-\caption{Distribution of errors caused by the baseline algorithm -- dev. set}
+\caption{Distribution of errors caused by the baseline algorithm (measured on the development set)}
 \label{tab:error_types}
 \begin{tabular}{ l r } 
 \hline
@@ -183,7 +183,7 @@ Moreover, these values are more expressive if we consider that 10.85\% of the to
 
 \begin{table}[H]
 \centering
-\caption{Morpho-syntactic tag frequencies of abbreviations -- dev. set}
+\caption{Morpho-syntactic tag frequencies of abbreviations on the development set}
 \label{tab:pos_distribution}
 \begin{tabular}{ l r r} 
 \hline
@@ -204,11 +204,11 @@ Although this approach is rather simple, it resulted in a surprisingly high (31.
 
 \begin{table}[H]
 \centering
-\caption{Comparison of the techniques aiming to handle acronyms and abbreviations --  dev. set}
+\caption{Accuracy scores of the abbreviation handling improvements on the development set}
 \label{tab:abbrev_fixes}
 \begin{tabular}{ l l r } 
 \hline
-ID & Method &  Precision \\
+ID & Method &  Accuracy \\
 \hline
 0 & Medical lexicon & 90.11\% \\
 1 & 0 + Filtering & 91.02\% \\
@@ -274,7 +274,7 @@ However, the perplexity scores contradict: sentences from the law domain share t
 
 \begin{table}[H]
 \centering
-\caption{Evaluation of the tagger using the subcorpora as training data -- dev. set}
+\caption{Evaluation of the tagger on the development set trained with domain-specific subcorpora of the Szeged Corpus}
 \label{tab:eval_subcorpora}
 \begin{tabular}{ l r } 
 \hline
@@ -303,7 +303,7 @@ The improved chain (cf. Table \ref{tab:improvements}) was evaluated by investiga
 
 \begin{table}[H]
 \centering
-\caption{Evaluation of the improved tagger -- test set}
+\caption{Accuracy scores of the improved tagger on the test set}
 \label{tab:improvements}
 \begin{tabular}{ l l r r r} 
 \hline

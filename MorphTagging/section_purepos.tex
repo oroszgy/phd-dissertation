@@ -337,12 +337,13 @@ Concerning \gls{pos} taggers, we used
   \item the maximum entropy framework of the OpenNLP~\cite{Baldridge2002} toolkit.
 \end{itemize}
 
-As regards lemmatization tools, CST~\cite{Jongejan} and a baseline (as detailed above) method were employed. 
-%The latter one results on roots for \emph{(word, tag)} pairs being the most frequent in the training data. 
+As regards lemmatization tools, CST~\cite{Jongejan} and a simple baseline method (BL) were employed. 
+The latter one assigns the most frequent lemmata to a known \emph{(word, tag)} pairs, otherwise the root is considered be the word itself.
+
 Beside these components, tag dictionaries were prepared for HunPos, since it can employ such resources.  
 At this point we simulated a setting, where the tagger was only loaded once.
 Therefore, a large lexicon was prepared for the tool.
-In that way, analyses of the 100,000 most frequent words of Hungarian were provided to the tagger.\footnote{Frequencies are calculated relying on the results of the Szószablya project~\cite{Halacsy2004}.}.
+In that way, analyses of the 100,000 most frequent words of Hungarian were provided to the tagger\footnote{Frequencies are calculated relying on the results of the Szószablya project~\cite{Halacsy2004}.}.
 
 %TODO: keresztvalidáció
 %TODO: baseline lemma + purepos
@@ -418,7 +419,7 @@ This component can reduce the number of unknown words, thus enabling the system 
 While HunPos also uses such resources, it can only handle static lexicons, which limits its accuracy.
 %In that way, the huge number of inflected word-forms could be handled accurately.
 
-As regards \texttt{magyarlanc}, it also yields first-class results (95.72\% precision) on the MSD-tagged corpus, however, its language (and annotation scheme) specific components inhibit its application on other corpora. 
+As regards \texttt{magyarlanc}, it also yields first-class results (95.72\% precision) on the MSD-tagged corpus, however, its language (and annotation scheme) specific components inhibit its application on other corpora. %TODO: morfológiai elemző, címke mappelés
 Further on, HuLaPos is an interesting outlier.
 It is based on pure stochastic methods, but it can still achieve high precision. 
 These results can be explained by the larger contexts used by the underlying machine translation framework.
@@ -439,13 +440,13 @@ In that way, Purepos is a suitable tool for morphological tagging of Hungarian a
 \subsubsection{Resource-scarce settings}
 
 Next, PurePos is compared to other taggers on less-resourced scenarios.
-For this we use systems\footnote{Unfortunately, we could not measure the performance of \texttt{magyarlanc}, since the current release of the tool cannot be trained.}  and corpora described in Section \ref{sec:porepos-gen}.
-For this, the amount of the training data was limited (cf. Table \ref{tab:small-szeged}).
-We draw learning curves of systems, evaluating them on both versions of the test set.
+For this, we use systems\footnote{Unfortunately, we could not measure the performance of \texttt{magyarlanc}, since the current release of the tool cannot be trained.}  and corpora described in Section \ref{sec:porepos-gen}.
+To simulate such settings, when just a limited amount of training data is available, we trained all the taggers using a few thousand sentences only (cf. Table \ref{tab:small-szeged}).
+As an evaluation, learning curves of systems are drawn on both versions of the test set.
 
 \begin{table}[H]
 \centering
-\caption{The number of tokens and sentences used for training the taggers}
+\caption{The number of tokens and sentences used for training the taggers for simulating resource-scarce settings}
 \label{tab:small-szeged}
 \begin{tabular}{ r | r r r r r}
 Sentences & 2,000 & 4,000 & 6,000 & 8,000 & 10,000 \\
@@ -503,10 +504,10 @@ In the experiments described here, we used a manually disambiguated portion of t
 
 \begin{table}[H]
 \centering
-\caption{Characteristics of the used corpus}\label{tab:oldhun-corpus}
+\caption{Characteristics of the corpus used}\label{tab:oldhun-corpus}
 \begin{tabular}{l r r r}
 \hline
-& Training & Dev. & Test \\
+& Training & Development & Test \\
 \hline
 Documents & 140 & 20 & 30 \\
 Clauses & 12,355 & 2,731 & 2,484 \\
@@ -532,16 +533,16 @@ First, the \acrshort{ma} and the new lemmatization method is analyzed on the dev
 
 \begin{table}[H]
 \centering
-\caption{Baseline disambiguation accuracies on the development set}\label{tab:oldhun-baselines}
+\caption{Baseline disambiguation accuracies on the development set. BL is the baseline unigram lemmatizer, while CL is đthe proposed one. PPM and PP both denote the PurePos tagger, however the first uses a morphological analyzer.}\label{tab:oldhun-baselines}
 \begin{tabular}{l r r r}
 \hline
  & Tokens & Clauses \\
 \hline
 % PP+BL & 93.20\% & 88.99\% & 55.58\% \\
-PP+BL  & 88.99\% & 55.58\% \\
+PP + BL  & 88.99\% & 55.58\% \\
 % PP+SL & 93.20\% & 89.01\% & 51.78\% \\
 % PPM+BL & 97.77\% & 97.22\% & 84.85\% \\
-PPM+BL  & 97.22\% & 84.85\% \\
+PPM + BL  & 97.22\% & 84.85\% \\
 % PPM+SL & 97.77\% & 97.50\% & 85.98\% \\
 PP + CL & 92.14\% & 65.40\% \\
 PPM + CL & 97.58\% & 86.48\% \\
@@ -587,7 +588,7 @@ While it is not directly comparable with the ones above, this feature could e.g.
 
 \begin{table}[H]
 \centering
-\caption{Disambiguation accuracies of the hybrid tool on the test set}
+\caption{Disambiguation accuracies of the hybrid tool on the test set. TM is the tag mapping approach, while FI denotes the rule-based preprocessing.}
 \label{tab:oldhun-test}
 \begin{tabular}{l r r r}
 \hline
