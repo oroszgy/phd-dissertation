@@ -70,8 +70,15 @@ In order to develop a proper tagger tool, a small part of the data has been manu
 As a first step, general tagging principles were established. 
 We chose the morpho-syntactic labels and lemmata of the Humor analyzer ~\cite{Proszeky1994,Novak2003} to represent morphological analyses. 
 Next, an annotation manual was developed for human annotators to guide their work during the morphological disambiguation of the corpus. 
-In that way, 6 interviews with about 1,000 utterances were labeled manually. 
-This gold standard corpus was split into two sets of equal sizes: a development and a test set (see Table \ref{tab:corpus_size}).
+The whole process was carried out iteratively: 
+\begin{enumerate}
+	\item a portion of the sentences were morphologically disambiguated by the annotators independently,
+	\item discrepancies were discussed and resolved,
+	\item the annotation guide was updated accordingly.
+\end{enumerate}
+
+In that way, 6 interviews with about 1,000 utterances were labeled manually by two experts (involving the author).
+Finally, the gold standard corpus was split randomly into two sets of equal sizes: a development and a test set (see Table \ref{tab:corpus_size}).
 
 
 \begin{table} [H]
