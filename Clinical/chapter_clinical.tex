@@ -3,7 +3,16 @@
 
 Hospitals produce a huge amount of clinical notes that have been solely used for archiving purposes and have generally been inaccessible to researchers. 
 However, application of recent \acrshort{nlp} technology can make accessible the hidden knowledge of archived records, thus boosting medical research. 
-While developing text processing tools for medicians is an emerging field in many developed countries, this is not true for less-resourced languages.
+An example is the English cTAKES system \cite{Savova2010}, which can recognize important medical concepts in clinical free-text documents. 
+Beside extracting diseases, symptoms and treatments, the tool is also able to identify various relations between them.
+This automatically extracted structured knowledge can be e.g. used to 
+\begin{itemize}
+	\item create family histories from medical records,
+	\item find document discrepancies,
+	\item spot similar cases and
+	\item build question answering or semantic search systems.
+\end{itemize}
+While developing text processing tools for medicians is an emerging field in many developed countries, less-resourced languages lack such resources.
 
 To be able to extract information from medical texts, they must be preprocessed properly. 
 Firstly, adequate text segmentation methods 
