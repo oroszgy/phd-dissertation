@@ -121,7 +121,7 @@ We used the Szeged Corpus \cite{Csendes2004} to train the tagger, since it is th
 
 
 In order to apply a \acrlong{ma} prepared for written texts, its analyses had to be adjusted for the transcripts. 
-Thus, adaptation rules -- based on regular expressions and domain-specific word lists -- were developed.
+Thus, adaptation rules -- based on regular expressions and domain-specific word lists -- were constructed using the development set.
 Their formulation could be done with high confidence, since most of the transcripts contained controlled conversation covering only a few topics. 
 
 As a first step, morphological analyses of about 40 words typical of spoken language were created manually. 
@@ -132,7 +132,8 @@ E.g. \textit{kutyus} `doggy’ was also analysed as \textsc{n.dim} with the lemm
 
 Concerning the disambiguation process, PurePos was extended with rules to adapt its knowledge to the target domain. 
 First, the tagger was forced to assign diminutive analyses when it was possible. 
-Then, further enhancements were carried out by investigating the common mistakes of the tool on the development dataset.
+Secondly, rules were developed to assign interjection and utterance annotations for appropriate words.
+Finally, further enhancements were carried out by investigating the common mistakes of the tool on the development dataset.
 
 A frequent error of the chain was the mistagging of \textit{akkor} `when’ and \textit{azért} `in order to’. 
 These words are pronouns and can be categorized as either adverbial, noun phrase level or demonstrative ones, and can also behave as pronomial adjectives. 
@@ -183,7 +184,7 @@ Full analyses -- containing both the lemmata and the tag -- were compared to the
 
 \begin{table}[H]
 \centering
-\caption{Evaluation of the improvements on the tagging chain}
+\caption{Evaluation of the improvements on the tagging chain (test set)}
 \label{tab:eval_tag}
 \begin{tabular}{ l r r} 
 \hline
