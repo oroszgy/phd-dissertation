@@ -329,20 +329,19 @@ The first setting utilized the MSD tagged corpus and an analyzer extracted from 
 
 Evaluation was carried out measuring the overall accuracy of full annotations (i.e \emph{(morpho-syntactic tag, lemma)} pairs). 
 For significance tests, we used the Wilcoxon matched-pairs signed-rank test at the 95\% confidence level dividing the test set into 100 data pairs.
-Further on, sentence-based accuracies were also provided in some cases. 
+Sentence-based accuracies were also provided in some cases. 
 The latter metric was computed by considering a sentence to be correct only when all of its tokens are properly tagged. 
 
-Further on, other morphological tagging tools were also evaluated that are available for Hungarian. 
-Firstly, \texttt{magyarlanc}, HuLaPos and Morfette\footnote{Version 3.5 is used.} were compared with PurePos.  
-%Next, combination of lemmatization and \gls{pos} tagging tools are investigated. 
-Secondly, two-phase architectures were shown to be prosperous (e.g.~\cite{Agic2013,Erjavec2004}), therefore successful modules being commonly applied were also involved in our experiments. 
+We compared our results with other morphological tagging tools available for Hungarian\footnote{Since, our aim was to compare tagger tools available, not to optimize each of them, external tools were employed with their default settings.}. 
+Firstly, taggers providing full morphological annotations such as \texttt{magyarlanc}, HuLaPos and Morfette\footnote{Version 3.5 is used.} were evaluated.  
+Secondly, we assembled full morphological taggers from available components, since two-phase architectures were also shown to be prosperous (e.g.~\cite{Agic2013,Erjavec2004}). 
+
 Concerning \gls{pos} taggers, we used
 \begin{itemize}
   \item the trigram tagging method of HunPos,
   \item averaged perceptron learning and
   \item the maximum entropy framework of the OpenNLP~\cite{Baldridge2002} toolkit.
 \end{itemize}
-
 As regards lemmatization tools, CST~\cite{Jongejan} and a simple baseline method (BL) were employed. 
 The latter one assigns the most frequent lemmata to a known \emph{(word, tag)} pairs, otherwise the root is considered to be the word itself.
 
@@ -351,8 +350,7 @@ At this point we simulated a setting, where the tagger was only loaded once.
 Therefore, a large lexicon was prepared for the tool.
 In that way, analyses of the 100,000 most frequent words of Hungarian were provided to the tagger\footnote{Frequencies are calculated relying on the results of the Szószablya project~\cite{Halacsy2004}.}.
 
-%TODO: keresztvalidáció
-%TODO: baseline lemma + purepos
+
 
 \begin{table}[H]
  \centering
