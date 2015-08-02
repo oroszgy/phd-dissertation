@@ -5,7 +5,7 @@ Do linguists need to spend long hours counting morphemes for measuring morpho-sy
 Ever since the first studies, \gls{mlu} plays an important role in language development investigations. 
 This metric has been widely used for measuring linguistic productivity of children for almost a hundred years. 
 Utterance lengths are usually calculated in morphemes (\acrshort{mlum}) being a time-consuming task. 
-Even though CLAN toolkit \cite{MacWhinney1992} can count morphemes in utterances, this feature is only available just for a few languages not containing any agglutinative ones. %TODO: Kinga szerint az MLUm nem biztos, hogy usually
+Even though CLAN toolkit \cite{childesMit,macwhinney1991childes} can count morphemes in utterances, this feature is only available just for a few languages not containing any agglutinative ones. %TODO: Kinga szerint az MLUm nem biztos, hogy usually
 
 This chapter presents\footnote{This study is a joint work with Kinga Jelencsik-Mátyus. 
 Manual annotation of the data were performed by both of us, while the morpheme counting principles are her work. 
@@ -45,10 +45,10 @@ Crystal also points out \cite{Crystal1974} that computing length in morphemes is
 Hungarian is an agglutinative language, thus this measure can be considered to be a more reliable indicator of language development  than \acrshort{mluw} (similarly to Turkish \cite{saygin2010}). 
 Moreover, previous studies investigating language development in Hungarian \cite{Reger1990,Weber2011} also employed \acrshort{mlum} as a metric.
 
-In the case of corpora which follow the CHAT guidelines \cite{macwhinney1991childes}, lengths of utterances (including morpheme counting) can be calculated with the CLAN \cite{MacWhinney1992} toolkit. 
+In the case of corpora which follow the CHAT guidelines \cite{macwhinney1991childes,childesMit}, lengths of utterances (including morpheme counting) can be calculated \cite{sagae2010childes} with the CLAN \cite{MacWhinney1992} toolkit. 
 This system is widely used, since it has components performing the necessary preprocessing steps. 
-One of its modules is MOR that is a morphological analyzer designed for spoken language corpora. 
-A subsequent component is POST, doing the morphological disambiguation. 
+One of its modules is MOR \cite{childesMit} that is a morphological analyzer designed for spoken language corpora. 
+A subsequent component is POST \cite{parisse2000automatic}, doing the morphological disambiguation. 
 Finally, a morpheme counter tool using their output is also available. 
 In that way, \acrshort{mlum} is usually calculated in a number of languages applying these tools.
 However, they lack rules for Hungarian and many other morphologically complex languages, thus none of them can be used for analyzing such transcripts.
@@ -209,7 +209,8 @@ Finally, the last system presented contains all the enhancements detailed above.
 Measurements in Table \ref{tab:eval_tag} show that the baseline tool tagged erroneously 3 out of 10 sentences. 
 On the contrary, each of the enhancements improved the overall performance significantly.
 For this, we used the Wilcoxon matched-pairs signed-rank test at p<0.05. 
-Furthermore, results indicate that the accuracy of the adapted chain is comparable with that of the tagging methods for written corpora \cite{zsibrata2013magyarlanc}. 
+Results indicate that the accuracy of the adapted chain is comparable with that of the tagging methods for written corpora \cite{zsibrata2013magyarlanc}.
+Furthermore, the performance of the tool presented is similar or better compared to other results obtained by CLAN-based taggers: Parisse and Le Normand \cite{parisse2000automatic} report 5\% error rate on annotating French transcripts, while the morphological disambiguator of Avaid et al. \cite{Avia2013hebrew} results in 90\% accuracy for Hebrew.
 
 As for the \acrshort{mlu} estimation task, two metrics were used for the evaluation. 
 First, \acrlong{mre} was calculated (as in \cite{Witten2011}), comparing the $a_i$ manual morpheme counts with $p_i$ predicted values for the $i$th utterances:
@@ -230,14 +231,14 @@ In addition, Pearson's correlation coefficient\footnote{The notation is the same
 
 \begin{table}[H]
 \centering
-\caption{Evaluation of the  \acrshort{mlum} estimation algorithm using the output of  different morphological taggers}
+\caption{Evaluation of the  \acrshort{mlum} estimation algorithm using different morphological annotations}
 \label{tab:eval_est}
 \begin{tabular}{ l r r} 
 \hline
-Morphological tagger & \acrshort{mre} & Correlation \\
+Morphological annotation & \acrshort{mre} & Correlation \\
 \hline
-The baseline tagger &  0.1325  &  0.9612 \\
-The adapted tagger & \underline{0.0449} & \underline{0.9901} \\
+The output of the baseline tagger &  0.1325  &  0.9612 \\
+The output of the adapted tagger & \underline{0.0449} & \underline{0.9901} \\
 Gold standard annotations &  0.0279 &  0.9933 \\
 \hline
 \end{tabular}
