@@ -68,7 +68,7 @@ The corpus has about 39,000 utterances with 140,000 words.
 
 In order to develop a proper tagger tool, a small part of the data has been manually annotated. 
 As a first step, general tagging principles were established. 
-We chose the morpho-syntactic labels and lemmata of the Humor analyzer ~\cite{Proszeky1994,Novak2003} to represent morphological analyses. 
+We chose the morpho-syntactic labels and lemmata (detailed in \cite{NovakHumor2003}) of the Humor analyzer ~\cite{Proszeky1994,Novak2003} to represent morphological analyses. 
 Next, an annotation manual was developed for human annotators to guide their work during the morphological disambiguation of the corpus. 
 The whole process was carried out iteratively: 
 \begin{enumerate}
@@ -105,7 +105,7 @@ Therefore, a new label was created for annotating such tokens properly.
 Finally, the usage of diminutive is common in child transcripts, thus this property was indicated in labels and corresponding suffixes were omitted from lemmata.
 
 \section{Tagging children transcripts}
-\label{sec:tagging}
+\label{sec:ch-tagging}
 The morphological tagging algorithm employed is a hybrid one. 
 It is composed of a morphological analyzer, a stochastic tagger tool and several domain-specific disambiguation rules as well (cf. Figure \ref{fig:speech-tagger}). 
 Since the tagset of Humor was chosen to be used for the annotation, a plausible solution was to employ this analyzer. 
@@ -202,7 +202,7 @@ The full chain & \underline{96.15\%} & \underline{83.96\%} \\
 
 For measuring the individual advances of the enhancements presented, four different settings were evaluated on the test set. 
 The first was a baseline using raw analyses of Humor disambiguated by PurePos. 
-The second system (DIM) employed the extended vocabulary and handled the diminutive analyses as described in Section \ref{sec:tagging}. 
+The second system (DIM) employed the extended vocabulary and handled the diminutive analyses as described in Section \ref{sec:ch-tagging}. 
 The next one -- marked with CONJ -- utilized further rules aiming to tag \textit{azért} and \textit{amikor} correctly. 
 Finally, the last system presented contains all the enhancements detailed above.
 
