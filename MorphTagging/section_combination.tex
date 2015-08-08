@@ -10,41 +10,41 @@ Finally, we evaluate the proposed method by measuring its improvement over basel
 
 \subsection{Background}
 
-The design process of a combined tagger system involves several steps\footnote{Statements are based on studies of Brill and Wu~\cite{Brill1998} and Halteren et al.~\cite{Halteren2001}.}.
-First, it needs to be examined whether the errors of components are different enough to outperform the best individual system significantly.
-Then an appropriate combining scheme must be found.
-Decisions to be made by a combination algorithm can be of at least two sorts: 
-\begin{enumerate}
-  \item it can either always select the output of one of the bottom-level systems, or 
-  \item it can generate an output of its own that may differ from the output of each individual embedded system. 
-\end{enumerate}
+For reviewing previous attempts on tagger combination approaches we rely on a recent study of Enríquez et al. \cite{Enriquez2013study}.
+Their work not just investigates existing methods in detail, but also evaluates them for various  \acrshort{nlp} tasks (involving \acrshort{pos} tagging). 
+Introducing the problem, the authors seek answers for the following question:
+"What does it take for the combination to be successful?".
+They conclude (referring to Hansen and Salamon \cite{Hansen1990}) that there are two fundamental requirements for the success. 
+Classifiers employed must make different sorts of errors, and at the same time these algorithms should be more accurate than a random classifier.
 
-When applying the former solution, errors of embedded systems determine a theoretical upper limit on the accuracy of the combined system, since it can never generate the expected output whenever neither of the embedded classifiers generate it.
-Thus, the latter solution seems more beneficial in theory.
-However, the complexity of the annotation task to be performed and the available training data may have an influence on which of these options is feasible and how they perform in practice.
-E.g. if the cardinality of the output annotation and features involved in training is high, there may be either data sparseness or performance problems with the second option.
+Kuncheva \cite{Kuncheva2004} and Enríquez et al. \cite{Enriquez2013study} differentiate four levels of combination strategies. 
+Firstly, the meta-classifier is a point of decision, since it greatly effects how categories suggested by the base classifiers are merged. 
+Secondly, one can decide which algorithms to use as base classifiers.
+Thirdly, when feature vectors are utilized to represent examples, their variation can impact the final result.
+Finally, different datasets can be also utilized to produce diverse taggers.
 
-As regards combination strategies, a basic method is majority voting.
-Other, more advanced, schemes involve training a top-level classifier based on the individual embedded systems.
-This class of schemes is commonly referred to as stacking learners.
-The top-level classifier may use various features of both the inputs and the outputs of the bottom-level classifiers when making its decision. 
+Regarding Enríquez et al. \cite{Enriquez2013study} and Xu et al. \cite{Xu1992}, combination algorithms can be also distinguished by their input.
+Such methods can either receive only the \acrshort{pos} labels from the input taggers or it can get a more general output. 
+A ranked list of labels -- where part-of-speech categories are sorted by their confidence level -- contains much more information. 
+Furthermore,  those lists which contain relevancy scores as well give the most background knowledge for combination methods.
 
-One of the first attempts of combining English PoS taggers was presented by Brill and Wu \cite{Brill1998}.
-They propose memory-based learning which employs contextual and lexical clues.
+Several ensemble strategies have been applied to \acrshort{pos} tagging in the literature, including voting, bagging, boosting, stacking (cf. \cite{Brill1998,Halteren2001,Kuba2004,Osterskov2009Italian,Pascal2012polish,Iliadis2012arabic}) or even using rules for aggregating outputs of input taggers \cite{Borin00somethingborrowed}.
+Two of the most influential studies are the ones which presented by Brill and Wu \cite{Brill1998} and Halteren et al. \cite{Halteren2001}.
+The former work presents the first attempts of combining English taggers.
+The authors propose a memory-based meta-learning scheme which employs contextual and lexical clues.
 In their experiments, the solution where the top-level learner always selects the output of one of the embedded taggers outperformed the more general scheme that allowed the output differ from either of the proposed tags.
-Next, a comprehensive study by van Halteren et al. \cite{Halteren2001} details an overview of previous combination attempts.
-Further on, the authors show that cross-validation can be used to train top-level classifiers for an optimal utilization of the corpus.
+The comprehensive study of Halteren et al. \cite{Halteren2001} compares several ensemble methods on three different corpora, showing that stacking methods can be used efficiently to train top-level classifiers for an optimal utilization of the corpus.
 They found a scheme performing best characterized as generalized voting.
-Although it can yield annotation differing from the output of the embedded taggers, it can also be interpreted as a stacking method.
-However, the cardinality of the tag set and the dimensionality of the feature space were modest compared to that of our case.
+%Although it can yield annotation differing from the output of the embedded taggers, it can also be interpreted as a stacking method.
+%However, the cardinality of the tag set and the dimensionality of the feature space were modest compared to that of our case.
 
 A system of different architecture is presented by Hajič et al. \cite{Hajic2001}: in contrast to the parallel and hierarchical architecture of the systems above, it employs a serial combination of annotators starting with a rule-based morphological analyzer, followed by constraint-based filters feeding statistical taggers at the end of the chain. 
 
-We use metalearners with cross-validation, since such schemes \cite{Brill1998,Halteren2001} perform effectively.
-Further on, language-specific symbolic components are utilized as well, as they can help to handle the rich morphology of the target language.
-%In that way, we improve existing methods. 
-First, the underlying architecture of general combination methods is modified to produce lemmata candidates as well.
-Then, features investigated which fit the best for agglutinative languages.
+
+We extend the approach of and Brill and Wu \cite{Brill1998} and Halteren et al \cite{Halteren2001} by adapting their method to the morphological tagging of an agglutinative language. 
+Our ensemble method builds on only the abstract output of input taggers without knowing their rank or score.
+We use stacking with features adapted to Hungarian, furthermore, language-specific symbolic components are also utilized in our system.
+To produce a full morphological tagger, the underlying architecture is modified to generate lemmata candidates as well.
 
 \subsection{Discrepancies of taggers}
 
