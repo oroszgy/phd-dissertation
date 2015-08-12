@@ -334,7 +334,7 @@ The latter metric was computed by considering a sentence to be correct only when
 
 We compared our results with other morphological tagging tools available for Hungarian\footnote{Since, our aim was to compare tagger tools available, not to optimize each of them, external tools were employed with their default settings.}. 
 Firstly, taggers providing full morphological annotations such as \texttt{magyarlanc}, HuLaPos and Morfette\footnote{Version 3.5 is used.} were evaluated.  
-Secondly, we assembled full morphological taggers from available components, since two-phase architectures were also shown to be prosperous (e.g.~\cite{Agic2013,Erjavec2004}). 
+Secondly, we assembled full morphological taggers from available components\footnote{\acrshort{pos} taggers are trained using the full morphosyntactic labels of words.}, since two-phase architectures were also shown to be prosperous (e.g.~\cite{Agic2013,Erjavec2004}). 
 
 Concerning \gls{pos} taggers, we used
 \begin{itemize}
@@ -494,7 +494,11 @@ Further on, the large distance between the precision scores of PurePos and other
 
 
 Additionally, if we compare (cf. Figures \ref{fig:msd-sent} and \ref{fig:humor-sent}) the sentence-based precisions of the taggers, the gap between their performance are much more emphasized. 
-For example, having only 2,000 sentences for training (with MSD tags) the proposed algorithm results in 40.71\% sentence precision compared to the second best of 18.62\%.
+For example, having only 2,000 sentences for training (with MSD tags) the proposed algorithm results in 40.71\% sentence-level precision compared to the second best of 18.62\%.
+
+The increased performance of our method is in a great part due to two things. 
+On the one hand, the system presented extensively use  morphological analyzers, restricting the number of candidate analyses effectively thus providing more accurate analyses for \acrshort{oov} tokens.
+On the other hand, Markov models are known to perform better in the case of resource-scare scenarios compared to discriminative methods.
 
 In brief, we have shown that the architecture of PurePos allows producing accurate annotations when the amount of training data is limited. Therefore, our method could be used for morphological tagging scenarios of agglutinative languages when there is just a few thousand manually annotated sentences are available.
 
