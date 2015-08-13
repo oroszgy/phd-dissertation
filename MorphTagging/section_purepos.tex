@@ -145,17 +145,18 @@ Underlying statistical models are introduced first, then we show how symbolic al
 \end{figure}
 
 PurePos builds on \acrshort{hmm}-based methods \cite{Rabiner1989,Samuelsson1993} introduced in TnT \cite{Brants2000} and HunPos \cite{Halacsy2007}, allowing it to be fast, simple and effective at the same time. 
-As its predecessors, our model (see Figure \ref{fig:pos_arch}) selects the best $t_1 \dots t_m$ label sequence for $w_1 \dots w_n$ words by calculating:
+Our implementation (similarly to HunPos) allows the user to set the tagging order individually for both the contextual ($n_1$) and lexical model ($n_2$).
+The method presented (see Figure \ref{fig:pos_arch}) selects the best $t_1^m$ label sequence for the $m$ long $w_1^m$ sentence using individual contextual and lexical probabilities in the $i$th positions:
 \begin{equation}
-\argmax_{t_1^m} \prod_{i=1}^m P(t_i | t_{i-1}^{i-n}) P(w_i|t_{i-1}^{i-n})
+\argmax_{t_1^m} \prod_{i=1}^m P(t_i | t_{i-1}^{i-n_1}) P(w_i|t_{i-1}^{i-n_2})
 \end{equation}
 
-Its contextual model is computed with $n$-gram modeling (cf. Equation \ref{eq:purepos-contextual}) employing \gls{mle} (see Equations \ref{eq:purepos-contextual2a} and \ref{eq:purepos-contextual2b})\footnote{Where $N$ denotes the size of the tagset, while $c(x)$ marks the number of $x$ elements in the training data.}. 
+Its contextual model is computed with simple $n$-gram language-modeling techniques (cf. Equation \ref{eq:purepos-contextual}) employing \gls{mle} (see Equations \ref{eq:purepos-contextual2a} and \ref{eq:purepos-contextual2b})\footnote{Where $N$ denotes the size of the tagset, while $c(x)$ marks the number of $x$ elements in the training data.}. 
 Uni-, bi- and trigram estimates are combined with deleted interpolation thus calculating $\lambda_k$ weights as suggested by Brants \cite{Brants2000}. Even though the order of the model is usually set to 3, it is adjustable in practice. 
 
 
 \begin{equation}\label{eq:purepos-contextual}
-P(t_i | t_{i-1}^{i-n}) \approx \sum_{k=0}^{n-1} \lambda_k \hat{P}(t_i|t_{i-1}^{i-k})
+P(t_i | t_{i-1}^{i-n_1}) \approx \sum_{k=0}^{n_1-1} \lambda_k \hat{P}(t_i|t_{i-1}^{i-k})
 \end{equation}
 
 \begin{equation}\label{eq:purepos-contextual2a}
@@ -165,13 +166,13 @@ P(t_i | t_{i-1}^{i-n}) \approx \sum_{k=0}^{n-1} \lambda_k \hat{P}(t_i|t_{i-1}^{i
 \hat{P}(t_i) = \frac{c(t_i)}{N} (k=0)
 \end{equation}
 
-Next, the lexical model ($P(w_i|t_{i-1}^{i-n}$) of our method is composed of two components. 
+Next, the lexical model ($P(w_i|t_{i-1}^{i-n_2}$) of our method is composed of two components. 
 The first one handles tokens previously seen in the training data, while the second guesses labels for unknown words. 
 In fact, each subsystem is doubled (as it is in \cite{Brants2000,Halacsy2007}) maintaining separate models for uppercase and lowercase words. 
 
-Handling of previously seen words is carried out approximating $P(w_i | t_{i}^{i-n})$ with word-tag co-occurrences: 
+Handling of previously seen words is carried out approximating $P(w_i | t_{i}^{i-n_2})$ with word-tag co-occurrences: 
 \begin{equation} \label{eq:purepos-lexical}
-P(w_i | t_{i}^{i-n}) \approx  \sum_{k=0}^{n-1} \lambda_k \hat{P}(w_i|t_{i}^{i-k})
+P(w_i | t_{i}^{i-n_2}) \approx  \sum_{k=0}^{n_2-1} \lambda_k \hat{P}(w_i|t_{i}^{i-k})
 \end{equation}
 
 \label{sec:purepos-guesser}
@@ -180,14 +181,29 @@ As in the contextual model, $k$ is set to 2 in applications.
 
 As regards tagging of unknown words, we use -- in accordance with Brants -- the distribution of rare\footnote{Rare words are considered to be those that occur less than 10 times in the training data.}
 tokens’ tags for estimating their \gls{pos} label. 
-Since suffixes are strong predictors for tags in agglutinative languages, we use their ($\{s_{n-l+1} \dots s_n\}$) $l$ long combined frequencies:
+Since suffixes are strong predictors for tags in agglutinative languages, we use the last $l$ letters ($\{s_{n-l+1} \dots s_n\}$) for estimating probabilities. 
+Successive abstraction is utilized in our tool as described in \cite{Samuelsson1993,Brants2000}.
+This method calculates the probability of a $t$ tag recursively using suffixes with decreasing lengths: 
 
 \begin{align}
  P(t|s_{n-l+1}, \dots, l_n) 
- \approx \frac{ \hat{P}(t|s_{n-l+1}, \dots, s_n) + \theta_i \hat{P}(t|s_{n-l}, \dots, s_n)}{1+\theta_i}
+ \approx \frac{ \hat{P}(t|s_{n-l+1}, \dots, s_n) + \theta \hat{P}(t|s_{n-l}, \dots, s_n)}{1+\theta}
 \end{align}
 
-$\theta_i$ parameters are calculated applying successive abstraction, while \gls{mle} is utilized  again for computing $\hat{P}(t|s_{n-l+1}, \dots, s_n)$. 
+$\theta$ parameters are computed utilizing the standard deviation of the maximum likelihood probabilities of all the $k$ tags:
+
+\begin{align}
+	\theta = \frac{1}{k-1}\sum_{j=1}^k(\hat{P}(t_j)-\overline{P})^2
+\end{align}
+
+where
+
+\begin{align}
+	\overline{P} = \frac{1}{k}\sum_{j=1}^{k}\hat{P}(t_j)
+\end{align}
+
+Finally, \gls{mle} is employed for calculating both $\hat{P}(t_j)$ and $\hat{P}(t|s_{n-l+1}, \dots, s_n)$. 
+
 
 Concerning decoding, beam search is utilized, since it can yield multiple tagging sequences at the same time. 
 In that way, the tool is also able to produce tagging scores of sentences \eqref{eq:purepos-score} allowing us to incorporate further components using partly disambiguated word sequences. 
@@ -201,7 +217,7 @@ Score(w_1^m,t_1^m) = \log \prod_{i=1}^m P(w_i|t_i,t_{i-1})P(t_i|t_{i-1},t_{i-2})
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\textwidth]{MorphTagging/lemma_arch.png} 
-  \caption{The data flow of the lemmatization component}
+  \caption{The data flow in the lemmatization component}
   \label{fig:lemma-arch}
 \end{figure}
 
