@@ -87,7 +87,7 @@ Further on, tagging of unknown words is a crucial problem being managed by eithe
 
 \subsubsection{The case of Hungarian}
 
-As regards Hungarian \gls{pos} tagging, the first attempt was performed by Megyesi~\cite{Megyesi1998} adapting Brill’s transformation-based method~\cite{Brill1992}. %TODO: ez így igaz?
+As regards Hungarian \gls{pos} tagging, the first attempt was performed by Megyesi~\cite{Megyesi1998} adapting Brill’s transformation-based method~\cite{Brill1992}. 
 Since she did not use any morphological lexicon, her approach resulted in moderate success.
 Similarly, Horváth et al. investigated \cite{Horvath1999} only pure machine learning algorithms (such as C4.5 or instance based learning) resulting in low accuracy systems.
 Three years later, the first promising approach was presented by Oravecz and Dienes~\cite{Oravecz2002a} utilizing TnT~\cite{Brants2000} with a weighted finite-state lexical model.
@@ -97,22 +97,25 @@ Later, they created the HunPos system~\cite{Halacsy2007}, which reimplements and
 Their results (with a morphological lexicon) has been shown to be as efficient as the one of Oravecz and Dienes~\cite{Oravecz2002a}.
 Next, Kuba et al. applied boosting and bagging techniques for transformation based learning \cite{Kuba2004}.
 Although they managed to reduce the error rate of the baseline tagger, their results lag behind previous approaches.
-Recently, Zsibrita et al. published \texttt{magyarlanc}~\cite{zsibrata2013magyarlanc}, a natural language processing chain for Hungarian.
-They adapted the Stanford tagger by filtering its suggestions with a morphological analyzer. 
+Recently, Zsibrita et al. published \texttt{magyarlanc}~\cite{zsibrata2013magyarlanc}, a natural language processing chain specially designed for Hungarian.
+They adapted the Stanford tagger \cite{Toutanova2003} in two steps. 
+First, to train the underlying discriminative method effectively, a tag-transformation step was applied reducing the number of morpho-syntactic labels.
+Next, the tool utilizes a morphological analyzer to enhance and speed up the disambiguation process.
 
-Concerning full tagging involving lemmatization, there are only two methods available for Hungarian.
-Although \texttt{magyarlanc} is designed for Hungarian, its lemmatization subsystem is rather simple.
-The tool assigns the most common lemmata (depending on the morpho-syntactic label) to known words, and employs a rule-based guesser for unknown words.
-Moving on, HuLaPos has been also applied to Hungarian~\cite{Laki2013}. %, but its performance is dissatisfactory in numerous scenarios. %TODO: ez így nem igaz
+Concerning the full tagging task involving lemmatization, there are only three tools which can be applied to Hungarian:
+\begin{enumerate}
+	\item \texttt{magyarlanc}, which uses discriminative models and a language-specific rule-based lemma guesser system.
+	\item HuLaPos, which applies machine translation methods for the tagging task. 
+	\item Morfette, which uses two \acrlong{maxent} models for jointly decoding both the labels and lemmata.
+\end{enumerate}
+On the one hand, \texttt{magyarlanc} provides accurate annotations, but its built-in guesser component inhibits its applications on corpora having different annotation scheme. 
+On the other hand, machine learning algorithms behind both HuLaPos and Morfette need a large amount of training data, therefore their accuracy is dissatisfactory on less-resourced domains.
+What is more, none of the tools detailed above contains such components which would allow them to be adjusted for new domains without retraining the tool.
 
-This study introduces an accurate morphological tagging method.
-We utilize trigram-based \gls{pos} algorithms, since it has superior performance for Hungarian and other agglutinative languages.
-The presented tool is adapted for morphologically rich languages and resource-scarce scenarios.
-It involves a lemmatization component differing from previous ones yet being competitive with them.
-Furthermore, our approach is shown to have state-of-the-art performance for Hungarian while utilizing a language independent hybrid architecture.
-In addition, short training time is also guaranteed due to the simple model used.
-
-
+This study introduces a new morphological tagging method built on simple trigram-based \gls{pos} tagging algorithms using a pluggable morphological analyzer component.
+It differs from existing approaches in having a language and tag-set independent architecture yet producing high accuracy, in addition it is easily adaptable for new domains.
+The presented tool is designed to operate on morphologically rich languages and resource-scarce scenarios, providing accurate annotations even when a limited amount of training data is available only.
+Furthermore, our approach is shown to have state-of-the-art performance for Hungarian while also having a short training time.
 
 \subsection{The full morphological tagging model}
 \label{sec:purepos}
@@ -336,13 +339,14 @@ We compared our results with other morphological tagging tools available for Hun
 Firstly, taggers providing full morphological annotations such as \texttt{magyarlanc}, HuLaPos and Morfette\footnote{Version 3.5 is used.} were evaluated.  
 Secondly, we assembled full morphological taggers from available components\footnote{\acrshort{pos} taggers are trained using the full morphosyntactic labels of words.}, since two-phase architectures were also shown to be prosperous (e.g.~\cite{Agic2013,Erjavec2004}). 
 
-Concerning \gls{pos} taggers, we used
+Concerning \gls{pos} taggers, we used three of the most popular algorithms as baselines. These are the following:
 \begin{itemize}
   \item the trigram tagging method of HunPos,
   \item averaged perceptron learning and
   \item the maximum entropy framework of the OpenNLP~\cite{Baldridge2002} toolkit.
 \end{itemize}
-As regards lemmatization tools, CST~\cite{Jongejan} and a simple baseline method (BL) were employed. 
+
+As regards lemmatization, CST~\cite{Jongejan} and a simple baseline method (BL) were employed. 
 The latter one assigns the most frequent lemmata to a known \emph{(word, tag)} pairs, otherwise the root is considered to be the word itself.
 
 Beside these components, tag dictionaries were prepared for HunPos, since it can employ such resources.  
@@ -423,7 +427,8 @@ This component can reduce the number of unknown words, thus enabling the system 
 While HunPos also uses such resources, it can only handle static lexicons, which limits its accuracy.
 %In that way, the huge number of inflected word-forms could be handled accurately.
 
-As regards \texttt{magyarlanc}, it also yields first-class results (95.72\% precision) on the MSD-tagged corpus, however, its language (and annotation scheme) specific components inhibit its application on other corpora. %TODO: morfológiai elemző, címke mappelés
+As regards \texttt{magyarlanc}, it also yields first-class results (95.72\% precision) on the MSD-tagged corpus.
+However, its built-in language (and annotation scheme) specific lemmatization and label-transformation components inhibit its application on other corpora. 
 Further on, HuLaPos is an interesting outlier.
 It is based on pure stochastic methods, but it can still achieve high precision. 
 These results can be explained by the larger contexts used by the underlying machine translation framework.
@@ -495,7 +500,6 @@ Further on, the large distance between the precision scores of PurePos and other
 
 Additionally, if we compare (cf. Figures \ref{fig:msd-sent} and \ref{fig:humor-sent}) the sentence-based precisions of the taggers, the gap between their performance are much more emphasized. 
 For example, having only 2,000 sentences for training (with MSD tags) the proposed algorithm results in 40.71\% sentence-level precision compared to the second best of 18.62\%.
-
 The increased performance of our method is in a great part due to two things. 
 On the one hand, the system presented extensively use  morphological analyzers, restricting the number of candidate analyses effectively thus providing more accurate analyses for \acrshort{oov} tokens.
 On the other hand, Markov models are known to perform better in the case of resource-scare scenarios compared to discriminative methods.
