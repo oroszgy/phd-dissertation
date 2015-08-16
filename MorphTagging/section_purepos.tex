@@ -146,7 +146,7 @@ Underlying statistical models are introduced first, then we show how symbolic al
 
 PurePos builds on \acrshort{hmm}-based methods \cite{Rabiner1989,Samuelsson1993} introduced in TnT \cite{Brants2000} and HunPos \cite{Halacsy2007}, allowing it to be fast, simple and effective at the same time. 
 Our implementation (similarly to HunPos) allows the user to set the tagging order individually for both the contextual ($n_1$) and lexical model ($n_2$).
-The method presented (see Figure \ref{fig:pos_arch}) selects the best $t_1^m$ label sequence for the $m$ long $w_1^m$ sentence using individual contextual and lexical probabilities in the $i$th positions:
+The method presented (see Figure \ref{fig:pos_arch}) selects the best fitting $t_1^m$ morpho-syntactic label sequence for the $m$ long $w_1^m$ sentence using individual contextual and lexical probabilities of tags and words (in the $i$th position):
 \begin{equation}
 \argmax_{t_1^m} \prod_{i=1}^m P(t_i | t_{i-1}^{i-n_1}) P(w_i|t_{i-1}^{i-n_2})
 \end{equation}
