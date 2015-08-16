@@ -445,7 +445,7 @@ On the other hand, the two corpora utilize different annotation schemes:
   \item Further on, date expressions and several named entities are tagged with a single MSD code resulting in lemmata composed of more than one words. (An example is \emph{Golden Eye-oztunk} `we visited the Golden Eye’ being lemmatized as \emph{Golden Eye-ozik} `to visit the Golden Eye’.) 
   Such phenomena could be hard to handle for lemmatizers.
 \end{itemize}
-These differences can have a huge impact on morphological disambiguation algorithms.
+These variations can have a huge impact on morphological disambiguation algorithms.
 In our case, they decrease the accuracy of MSD-based systems, while allow Humor-based ones to produce better annotation  (since the corresponding corpus is free of such phenomena).
 
 In general, results show that the best-performing systems are PurePos, HuLapos, \texttt{magyarlanc} and Morfette.
@@ -453,6 +453,7 @@ Besides, HunPos also achieves high \acrshort{pos} tagging scores, while the othe
 As regards learning methods of the OpenNLP toolkit, their precision indicate that they cannot handle such labeling problems precisely.
 Further on, both of the standalone lemmatizers degrade accuracy. 
 This reduced performance can be due to their design: the baseline method was not prepared for handling unknown words, while CST was originally created for inflectional languages. 
+An interesting difference between lemmatization scores is that the baseline (BL) strategy performs better on the original corpus, while the CST tool gives higher accuracy on the Humor-labeled dataset. A reason for this can be that the latter dataset has higher lemma ambiguity (cf. Section \ref{par:lemma-ambiguity}) thus requiring advanced methods.
 
 An explanation for the high morpho-syntactic labeling score of PurePos is that it uses morphological analyzers to get analysis candidates. 
 This component can reduce the number of unknown words, thus enabling the system to provide better annotations.
