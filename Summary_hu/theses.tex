@@ -16,7 +16,7 @@
 
 A morfológiai egyértelműsítés egy olyan összetett feladat, amely a szófaji címkék meghatározásából és a szavak töveinek azonosításából áll. 
 Míg az első részfeladatot a szakirodalom megoldottnak tekinti, addig az utóbbi területen sokkal kevesebb fejleményről számolhatunk be. 
-A téziscsoport először egy szótövező módszert ismertet, majd leírja a teljes morfológiai egyértelműsítés során létrehozott algoritmusokat.
+%A téziscsoport először egy szótövező módszert ismertet, majd leírja a teljes morfológiai egyértelműsítés során létrehozott algoritmusokat.
 
 \begin{core}
 \begin{thesis}\label{thes:morf-lemma}
@@ -37,7 +37,7 @@ Ezt követően a jelölteket ($l$)  rangsorolja a szóalak ($w$) és az előzete
 S(l|w,t) = P(l)^{\lambda_1} P(l,t|w)^{\lambda_2}
 \end{equation}
 Az így kapott algoritmus egy egyszerű szótő gyakorisági eloszlást és egy szóvég-alapú valószínűségi modellt kombinálva határozza meg a legmegfelelőbb lemmát.
-Ehhez a bemutatott eljárás az egyes összetevők javaslatainak helyességét vizsgálva hangolja a  $\lambda_i$ paraméterek értékét.
+A bemutatott eljárás az egyes összetevők javaslatainak helyességét vizsgálva hangolja a  $\lambda_i$ paraméterek értékét.
 
 Méréseimmel megmutattam, hogy az új szótövező algoritmus kiemelkedő pontossággal bír magyar nyelv esetén. 
 
@@ -49,8 +49,8 @@ Méréseimmel megmutattam, hogy az új szótövező algoritmus kiemelkedő ponto
 Létrehoztam egy olyan hibrid morfológiai egyértelműsítő eszközt (PurePos\footnote{A bemutatott rendszer szabadon elérhető a \href{https://github.com/ppke-nlpg/purepos}{https://github.com/ppke-nlpg/purepos} címen.}), mely hatékonyan alkalmazható  morfológiailag komplex és nyelvi erőforrásokban szegény nyelvek esetén. 
 Az algoritmus statisztikai eljárásokra támaszkodva, morfológiai elemző integrált alkalmazásával és szabály alapú komponensek használatával hatékony egyértelműsítést tesz lehetővé. 
 Az eszköz a szavak lemmáinak meghatározását a \ref{thes:morf-lemma} tézisben ismertetett módszerrel végzi.
-Ezen kívül a rendszer architektúrája lehetőséget nyújt még domén specifikus szabályok hatékony alkalmazására is.
-Megmutattam, hogy az eljárás magyar nyelv esetén state-of-the-art pontossággal rendelkezik (akár nagyon kevés tanítóanyag esetén is).
+Megmutattam, hogy az eljárás magyar nyelv esetén state-of-the-art teljesítménnyel rendelkezik.
+Ismertettem, hogy a rendszer architektúrája lehetőséget nyújt domén specifikus szabályok hatékony alkalmazására, illetve méréseimmel alátámasztottam, hogy a létrehozott algoritmus kiemelkedő pontossággal bír kevés tanítóanyag használata esetén is.
 \end{thesis}
 
 \begin{pub}
@@ -109,8 +109,8 @@ Méréseimmel alátámasztottam, hogy az ismertetett módszer jelentős mérték
 Első lépésként, kidolgoztam egy új metrikát (OER), amellyel egyértelműsítő rendszerek hibáinak különbözőségét vizsgáltam. 
 Ezt felhasználva megmutattam, hogy a HuLaPos rendszer tipikus hibái számottevően eltérnek a PurePos-étól. 
 
-Az általános kombinációs algoritmusok eredményességének részletes vizsgálata után, olyan jellemzőhalmazokat hoztam létre, melyek morfológiailag komplex nyelvek esetében magas pontossággal használhatóak.
-Ezt követően kidolgoztam egy olyan eljárást (\ref{fig:comb3_en}. ábra) melyben két külön komponens választja ki a szófaji címkéket, illetve a lemmákat. 
+Ezt követően olyan jellemzőhalmazokat hoztam létre, melyek morfológiailag komplex nyelvek esetében magas pontossággal használhatóak.
+Majd kidolgoztam egy olyan eljárást (\ref{fig:comb3_en}. ábra) melyben két külön komponens választja ki a szófaji címkéket, illetve a lemmákat. 
 A kombinációs rendszer moduljai keresztvalidáció segítségével tanítják az első szintű osztályozókat, amik példány alapú tanulásra épülnek.
 
 \begin{figure}[H]
@@ -131,7 +131,7 @@ Ezt agglutináló nyelvek esetén a megnyilatkozások átlagos morfémában mér
 Míg angolra és más morfológiailag nem összetett nyelvre léteznek automatikus algoritmusok a feladat megoldására, addig magyarra (és egyéb agglutináló nyelvekre) ezek közvetlenül nem alkalmazhatóak. 
 Ezekben az esetekben a megnyilatkozások hosszának mérése csak időigényes manuális számolással végezhető el.
 
-Dolgozatomban megmutattam\footnote{A morfológiai komplexitás becslésének feladatát Mátyus Kingával együtt végeztem. A korpusz manuális címkézése, az annotálás útmutató kidolgozása közös munka eredménye. Az MLUm becslés nyelvészeti alapvetései a társzerző érdeme, míg a folyamat algoritmizálása önálló eredmény.}, hogy a PurePos rendszer egy megfelelő morfológiai elemzővel kiegészülve adekvát alapja egy automatikus morfémaszám-becslő eljárásnak. %, és így kiváltja a fáradtságos emberi munkát. 
+Dolgozatomban megmutattam\footnote{A morfológiai komplexitás becslésének feladatát Jelencsik-Mátyus Kingával együtt végeztem. A korpusz manuális címkézése, az annotálás útmutató kidolgozása közös munka eredménye. Az MLUm becslés nyelvészeti alapvetései a társzerző érdeme, míg a folyamat algoritmizálása önálló eredmény.}, hogy a PurePos rendszer egy megfelelő morfológiai elemzővel kiegészülve adekvát alapja egy automatikus morfémaszám-becslő eljárásnak. %, és így kiváltja a fáradtságos emberi munkát. 
 
 \begin{core}
 \begin{thesis}
@@ -186,7 +186,7 @@ Méréseimmel bebizonyítottam, hogy az eljárás alkalmas az időigényes manu�
 \label{thes:clin}
 
 Napjainkban egyre több elektronikusan rögzített dokumentum keletkezik klinikai környezetben, melyek nagy mennyiségű eddig el nem érhető közvetett tudást reprezentálnak. 
-Mivel létrehozásuk során nem fordítottak kellő figyelmet a szövegek struktúrájának kialakítására és a helyesírási normák betartására, így azok feldolgozása gyakran nem lehetséges létező eszközök közvetlen alkalmazásával. 
+Mivel létrehozásuk során nem fordítanak kellő figyelmet a szövegek struktúrájának kialakítására és a helyesírási normák betartására, így azok feldolgozása gyakran nem lehetséges létező eszközök közvetlen alkalmazásával. 
 Bár angol nyelvre számtalan megoldás született az évek során, a magyar (és más morfológiailag összetett) nyelvű orvosbiológiai szövegek elemzése egy alig vizsgált terület.
 
 % \begin{core}
@@ -249,7 +249,7 @@ magyar nyelvű klinikai dokumentumok szegmentálására.
 \begin{thesis}%{II.2}
 \label{thes:clin-pos}
 Megmutattam, hogy az \ref{thes:morf-tagging} tézisben ismertetett rendszer, megfelelő adaptációs technikákkal kombinálva alkalmas orvosbiológiai szövegek elfogadható minőségű morfológiai egyértelműsítésére. 
-Méréseimmel kimutattam, hogy az ismertetett szabály-alapú és statisztikai doménadaptációs módszerek jelentős mértékben javítanak az elemzési lánc pontosságán.
+Méréseimmel kimutattam, hogy az ismertetett szabály-alapú és statisztikai doménadaptációs módszerek jelentős mértékben javítanak a teljes elemzési lánc pontosságán.
 \end{thesis}
 
 \begin{pub}
