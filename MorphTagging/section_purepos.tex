@@ -81,6 +81,21 @@ As regards Turkish, Daybelge and Cicelki describe a system~\cite{Daybelge2007} e
 However, most taggers for agglutinative languages use hybrid architectures incorporating morphological analyzers into stochastic learning methods.
 Examples are the perceptron-based application of Sak et al.~\cite{Sak2007} and the trigram tagging approach of Dilek et al.~\cite{Hakkani-Tur2002}.
 
+Recent approaches include the results of the Statistical Parsing of Morphologically Rich Languages workshop \cite{SPMRL:2010,SPMRL:2011,SPMRL:2012,SPMRL:2013}.
+First, Le Roux et al. \cite{leroux2012} presented an accurate parser for Spanish relying on the morphological annotations of Morfette \cite{Chrupaa2008}.
+Further on, Bengoetxea et al. \cite{bengoetxea2011testing} showed that tagging quality greatly influences the accuracy of parsing Basque. 
+For this, they used a tagger based on \acrlong{hmm}s combined with a symbolic component.
+Next, Maier et al. \cite{maier2014} investigated the effect of the tag-set granularity on processing German. 
+They concluded, that \acrshort{pos} tagging can be performed more accurately using less granular tags, while both the coarse-grained and too fine-grained morpho-syntactic labels decrease the parsing performance.
+
+Most recently, Bohnet et al. have introduced methods \cite{bohnet2013joint} for the joint morphological and syntactic analysis  of richly inflected languages.
+Their best solutions involve the usage of morphological analyzers and word clusters, resulting in significant improvements on parsing of all the tested languages.
+However, their method requires syntactically annotated texts restricting the applicability of the algorithm for less-resourced domains.
+Further on, Müller et al. \cite{mueller2013} improved on \acrshort{crf}-based methods in order to apply them effectively on the morpho-syntactic tagging of morphologically rich languages.
+The proposed system uses a coarse-to-fine mapping on tags for speeding-up the training of the underlying discriminative method.
+In this way, their solution can go beyond general 1\textsuperscript{st}-order models resulting in increased accuracy.
+Their best systems utilize complex morpho-syntactic features and outputs of morphological analyzers as well.
+
 To summarize, effective methods for morphologically complex languages rely on either a discriminative or a generative model.
 Such taggers generally use morphological lexicons or analyzers to handle the large vocabulary of the target language.
 Further on, tagging of unknown words is a crucial problem being managed by either guessing modules or rich morphological features. 
@@ -363,7 +378,7 @@ Concerning \gls{pos} taggers, we used three of the most popular algorithms as ba
 \end{itemize}
 
 As regards lemmatization, CST~\cite{Jongejan} and a simple baseline method (BL) were employed. 
-The latter one assigns the most frequent lemmata to a known \emph{(word, tag)} pairs, otherwise the root is considered to be the word itself.
+The latter one assigns the most frequent lemmata to a previously seen \emph{(word, tag)} pairs, otherwise the root is considered to be the word itself.
 
 Beside these components, tag dictionaries were prepared for HunPos, since it can employ such resources.  
 At this point we simulated a setting, where the tagger was only loaded once.
