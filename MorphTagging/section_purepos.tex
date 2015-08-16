@@ -114,23 +114,24 @@ Next, Kuba et al. applied boosting and bagging techniques for transformation bas
 Although they managed to reduce the error rate of the baseline tagger, their results lag behind previous approaches.
 Recently, Zsibrita et al. published \texttt{magyarlanc}~\cite{zsibrata2013magyarlanc}, a natural language processing chain specially designed for Hungarian.
 They adapted the Stanford tagger \cite{Toutanova2003} in two steps. 
-First, to train the underlying discriminative method effectively, a tag-transformation step was applied reducing the number of morpho-syntactic labels.
-Next, the tool utilizes a morphological analyzer to enhance and speed up the disambiguation process.
+First, to train the underlying discriminative method effectively, a tag-transformation step is applied reducing the number of morpho-syntactic labels.
+Next, the tool utilizes a morphological analyzer as well to enhance and speed up the disambiguation process.
 
-Concerning the full tagging task involving lemmatization, there are only three tools which can be applied to Hungarian:
+Most of the previous approaches concentrated on the morpho-syntactic tagging task, thus there are only three tools which performs lemmatization as well and can be applied to Hungarian.
 \begin{enumerate}
-	\item \texttt{magyarlanc}, which uses discriminative models and a language-specific rule-based lemma guesser system.
+	\item \texttt{magyarlanc}, which builds on a \acrshort{maxent} model and employs a rule-based lemma guesser system.
 	\item HuLaPos, which applies machine translation methods for the tagging task. 
 	\item Morfette, which uses two \acrlong{maxent} models for jointly decoding both the labels and lemmata.
 \end{enumerate}
-On the one hand, \texttt{magyarlanc} provides accurate annotations, but its built-in guesser component inhibits its applications on corpora having different annotation scheme. 
-On the other hand, machine learning algorithms behind both HuLaPos and Morfette need a large amount of training data, therefore their accuracy is dissatisfactory on less-resourced domains.
-What is more, none of the tools detailed above contains such components which would allow them to be adjusted for new domains without retraining the tool.
+Although, \texttt{magyarlanc} provides accurate annotations, the tool has two weaknesses which inhibit its applications on corpora having different annotation schemata. 
+It does not provide a straightforward way to train and contains a built-in annotation-specific guesser component.
+Next, machine learning algorithms behind HuLaPos and Morfette need a large amount of training data to produce high accuracy, therefore it can be troublesome to apply them on less-resourced domains.
+Finally, none of these tools contain components that would allow them to be adjusted for new domains without retraining.
 
-This study introduces a new morphological tagging method built on simple trigram-based \gls{pos} tagging algorithms using a pluggable morphological analyzer component.
-It differs from existing approaches in having a language and tag-set independent architecture yet producing high accuracy, in addition it is easily adaptable for new domains.
-The presented tool is designed to operate on morphologically rich languages and resource-scarce scenarios, providing accurate annotations even when a limited amount of training data is available only.
-Furthermore, our approach is shown to have state-of-the-art performance for Hungarian while also having a short training time.
+This chapter introduces a new morphological tagging tool, which uses simple trigram methods and employs a pluggable morphological analyzer component.
+It differs from existing approaches in having a language and tag-set independent architecture yet producing high accuracy and also being flexible enough to be used in rule-based domain-adaptation scenarios.
+PurePos is designed to operate on morphologically rich languages and resource-scarce scenarios, providing accurate annotations even when a limited amount of training data is available only.
+Furthermore, our approach is shown to have very high accuracy on general Hungarian, while also having a short training time.
 
 \subsection{The full morphological tagging model}
 \label{sec:purepos}
@@ -366,11 +367,11 @@ For significance tests, we used the Wilcoxon matched-pairs signed-rank test at t
 Sentence-based accuracies were also provided in some cases. 
 The latter metric was computed by considering a sentence to be correct only when all of its tokens are properly tagged. 
 
-We compared our results with other morphological tagging tools available for Hungarian\footnote{Since, our aim was to compare tagger tools available, not to optimize each of them, external tools were employed with their default settings.}. 
+We compared our results with other morphological tagging tools available for Hungarian\footnote{Since, our aim was only to compare available tagger methods, not to optimize each of them, external tools were employed with their default settings.}. 
 Firstly, taggers providing full morphological annotations such as \texttt{magyarlanc}, HuLaPos and Morfette\footnote{Version 3.5 is used.} were evaluated.  
-Secondly, we assembled full morphological taggers from available components\footnote{\acrshort{pos} taggers are trained using the full morphosyntactic labels of words.}, since two-phase architectures were also shown to be prosperous (e.g.~\cite{Agic2013,Erjavec2004}). 
+Secondly, we assembled full morphological taggers from available components\footnote{\acrshort{pos} taggers are trained using the full morpho-syntactic labels of words.}, since two-phase architectures were also shown to be prosperous (e.g.~\cite{Agic2013,Erjavec2004}). 
 
-Concerning \gls{pos} taggers, we used three of the most popular algorithms as baselines. These are the following:
+Concerning \gls{pos} tagging, we used three of the most popular algorithms as baselines. These are the following:
 \begin{itemize}
   \item the trigram tagging method of HunPos,
   \item averaged perceptron learning and
