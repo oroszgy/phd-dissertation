@@ -16,17 +16,17 @@ Thus, the problem is threefold:
 \end{enumerate}
 
 Another issue for morphologically rich languages is that labeling words with only their part-of-speech tag is usually insufficient. 
-Firstly, complex morpho-syntactic features carried by the inflectional morphemes can not be represented by tagsets having only a hundred different labels. 
+Firstly, complex morpho-syntactic features carried by the inflectional morphemes can not be represented by tag-sets having only a hundred different labels. 
 Secondly, morpho-syntactic tagging is still just a subtask of full morphological disambiguation. 
 In addition to a full morpho-syntactic tag, lemmata of words also need to be identified. Although several studies have revealed that dictionary- or rule-based lemmatization methods yield acceptable results for morphologically not very rich languages like English~\cite{Porter1980,Plisson2004}, ambiguity is present in the task for highly inflectional and agglutinative languages~\cite{Jursic2007,Sak2007,Chrupaa2008}. 
 Yet, most of the taggers available only concentrate on the tag but not the lemma, thus doing just half of the job.
 
-Looking into the details, there are annotation schemes (e.g. MSD codes of the Szeged Corpus~\cite{Csendes2004}) which eliminate the ambiguity of the lemmatization task by the tagset they use.
-This means that roots of words should be computed undoubtedly from the morphological categories assigned.
-Nevertheless, lemma computing still can be important for tools that relies on such corpora.
-Tagger tools operating without any prior morphological knowledges till  have to figure out how to derive lemmata from morphological labels.
+Looking into the details, there are annotation schemes (e.g. MSD codes of the Szeged Corpus~\cite{Csendes2004}) which eliminate the ambiguity of the lemmatization task by the tag-set they use.
+This means that roots of words should be calculated undoubtedly from the morphological categories assigned.
+Nevertheless, lemma computing still can be important problem in these cases.
+Tagger tools operating without any prior morphological knowledge still have to figure out how to derive lemmata from morphological labels.
 This means that they have to infer knowledge about the inner structures of words.
-What is more, the same issue also holds when a \acrshort{ma} is used, but the word is unknown to that analyzer system and is not seen in the training data..
+What is more, the same issue also holds when a \acrshort{ma} is used, but the word is unknown to that analyzer system and is not seen in the training data.
 For handling these cases, morphological disambiguator tools should employ guessing methods dealing effectively with such \acrlong{oov} words.
 
 Moving on, lemmatization is a more important problem when the annotation scheme does not restrict the lemmatization task as seen above. \label{par:lemma-ambiguity}
@@ -45,8 +45,8 @@ Therefore, pure stochastic methods that are trained on this corpus and target ot
 
 In this chapter, we present an effective morphological tagging algorithm that has a language independent architecture being capable of annotating sentences with full morpho-syntactic labels and lemmata. 
 The presented method has state-of-the-art performance for tagging Hungarian.
-Most importantly, it is shown that our tool can be used effectively in resource-scare scenarios, since it yields high accuracy annotations even when a limited mount of training data is available only. 
-Finally, tagger combination experiments are presented raising the ceiling of morphological tagging accuracy further. 
+Most importantly, it is shown that our tool can be used effectively in resource-scare scenarios, since it yields high quality annotations even when a limited amount of training data is available only. 
+Finally, tagger combination experiments are presented raising further the accuracy of Hungarian morphological tagging. 
 %Finally, new scientific results are summed up.
 
 \section{Hybrid morphological tagging methods}\label{sec:tagging}

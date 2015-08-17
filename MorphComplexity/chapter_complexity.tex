@@ -4,8 +4,8 @@
 Do linguists need to spend long hours counting morphemes for measuring morpho-syntactic complexity? 
 Ever since the first studies, \gls{mlu} plays an important role in language development investigations. 
 This metric has been widely used for measuring linguistic productivity of children for almost a hundred years. 
-Utterance lengths are usually calculated in morphemes (\acrshort{mlum}) being a time-consuming task. 
-Even though CLAN toolkit \cite{childesMit,macwhinney1991childes} can count morphemes in utterances, this feature is only available just for a few languages not containing any agglutinative ones. %TODO: Kinga szerint az MLUm nem biztos, hogy usually
+Utterance lengths are usually calculated in morphemes (\acrshort{mlum}) that is rather a time-consuming task. 
+Even though CLAN toolkit \cite{childesMit,macwhinney1991childes} can compute \acrshort{mlum}, this feature is only available just for a few languages not containing any agglutinative ones. %TODO: Kinga szerint az MLUm nem biztos, hogy usually
 
 This chapter presents\footnote{This study is a joint work with Kinga Jelencsik-Mátyus. 
 Manual annotation of the data were performed by both of us, while the morpheme counting principles are her work. 
@@ -13,9 +13,9 @@ My contribution is the construction of the tagging chain, its adaptation and the
 an automatic method for estimating \acrshort{mlum} for Hungarian transcripts. 
 We show that PurePos can be used effectively for aiding linguists in this scenario. 
 Our approach adapts this tagging tool (cf. Section \ref{sec:purepos}) yielding the first Hungarian tagger for spoken texts. 
-Further on, we describe an \acrshort{mlum} estimation method, which is based on the latter tagger, resulting in a high quality output. 
+Further on, we describe an \acrshort{mlum} estimation method, which is based on the adapted tagger, resulting in a high quality output. 
 
-First related studies are summarized, then we present resources used for the research. 
+First, related studies are summarized, then we present the resources used for the research. 
 Next, the adaptation steps of PurePos are described and the framework designed is introduced. 
 Finally, we show that both the tagger and the estimator methods are accurate enough to replace the labor-intensive manual calculation.
 
@@ -27,27 +27,27 @@ In contrast, there are others employing and adapting statistics of written langu
 Besides, building domain-specific rules also lead to satisfactory taggers (e.g. \cite{Moreno2003}),
 while combination of such systems with stochastic tools \cite{Bick2012} yields effective algorithms as well. 
 
-These previous studies imply that a proper morphological annotation system aiming to process transcripts must be able to handle the following types of difficulties:
+These previous studies imply that a proper morphological annotation system, which aims to process speech transcripts, must be able to handle the following types of difficulties:
 \begin{enumerate}
- \item existence of new morpho-syntactic tags which are missing from the tagset of the training data,
+ \item existence of new morpho-syntactic tags which are missing from the tag-set of the training data,
  \item occurrence of tokens with non-standard orthography in texts,
  \item the number of words unknown to a statistical tagger are increased compared to written language corpora,
- \item if probability estimates are derived from a written language training corpus, the model of stochastic taggers can become non-representative (e.g. the distribution of \acrshort{pos} tags may significantly differ in written and spoken language).
+ \item if probability estimates are derived from a written language training corpus, models of stochastic taggers can become non-representative (e.g. the distribution of \acrshort{pos} tags may significantly differ in written and spoken language).
 \end{enumerate}
 
 Ever since the complexity of child language was measured, several methods have been developed. While manual counting prevailed for decades, automatic counting tools have been sought for in the past years.
 
 Several studies (e.g. \cite{Brown1973}) showed that \acrshort{mlum} indicates language development for children, especially at very early stages. 
-In contrast, \gls{mluw} was shown to be highly correlating \cite{Hickey1991,Parker2005} with the latter in the case of analytical languages such as English or Irish. 
+In contrast, \gls{mluw} was shown to correlate highly \cite{Hickey1991,Parker2005} with the latter in the case of analytical languages such as English or Irish. 
 Therefore, some studies concur that \acrshort{mluw} is a reliable measure as opposed to \acrshort{mlum}, where researchers often need to make ad hoc decisions on what (not) to count (see \cite{Crystal1974}). 
 
 Crystal also points out \cite{Crystal1974} that computing length in morphemes is a good way to measure morphologically complex languages (see e.g. \cite{Bowerman1973}). 
 Hungarian is an agglutinative language, thus this measure can be considered to be a more reliable indicator of language development  than \acrshort{mluw} (similarly to Turkish \cite{saygin2010}). 
 Moreover, previous studies investigating language development in Hungarian \cite{Reger1990,Weber2011} also employed \acrshort{mlum} as a metric.
 
-In the case of corpora which follow the CHAT guidelines \cite{macwhinney1991childes,childesMit}, lengths of utterances (including morpheme counting) can be calculated \cite{sagae2010childes} with the CLAN \cite{MacWhinney1992} toolkit. 
+In the case of corpora which follow the CHAT guidelines \cite{macwhinney1991childes,childesMit}, lengths of utterances (including morpheme counting) can be calculated \cite{sagae2010childes} with the CLAN \cite{childesMit} toolkit. 
 This system is widely used, since it has components performing the necessary preprocessing steps. 
-One of its modules is MOR \cite{childesMit} that is a morphological analyzer designed for spoken language corpora. 
+One of its modules, MOR \cite{childesMit} is a morphological analyzer designed for spoken language corpora. 
 A subsequent component is POST \cite{parisse2000automatic}, doing the morphological disambiguation. 
 Finally, a morpheme counter tool using their output is also available. 
 In that way, \acrshort{mlum} is usually calculated in a number of languages applying these tools.
@@ -83,7 +83,7 @@ Finally, the gold standard corpus was split randomly into two sets of equal size
 
 \begin{table} [H]
 \centering
-\caption{Size of the gold standard corpus}
+\caption{Number of tokens and utterances in the gold standard corpus}
 \label{tab:corpus_size}
 \begin{tabular}{ l @{\hspace{0.3cm}} r @{\hspace{0.3cm}} r } 
 \hline
@@ -97,7 +97,7 @@ Test set & 449 & 2,740 \\
 
 
 
-The tagset of the corpus has been created to allow both the investigation of morpho-syntactic relations and the representation of phenomena typical to transcripts. 
+The tag-set of the corpus has been created to allow both the investigation of morpho-syntactic relations and the representation of phenomena typical to transcripts. 
 First of all, a new label was introduced to mark filled pauses. 
 Further on, the original annotation scheme of Humor distinguishes interjection and utterance words\footnote{Annotation schemes for Hungarian distinguish utterances and interjection words. An utterance word forms a sentence or an utterance alone by interrupting or managing the communication. In contrast, interjections are either onomatopoeic or used to indicate emotions.},
 but there are cases in speech when a word bears with both properties (such as \textit{fúú} `woow’). 
@@ -108,9 +108,9 @@ Finally, the usage of diminutive is common in child transcripts, thus this prope
 \label{sec:ch-tagging}
 The morphological tagging algorithm employed is a hybrid one. 
 It is composed of a morphological analyzer, a stochastic tagger tool and several domain-specific disambiguation rules as well (cf. Figure \ref{fig:speech-tagger}). 
-Since the tagset of Humor was chosen to be used for the annotation, a plausible solution was to employ this analyzer. 
+Since the tag-set of Humor was chosen to be used for the annotation, a plausible solution was to employ this analyzer. 
 Further on, PurePos was utilized to disambiguate between the morphological annotation candidates. 
-We used the Szeged Corpus \cite{Csendes2004} to train the tagger, since it is the only manually annotated resource available for Hungarian. 
+We used the Szeged Corpus \cite{Csendes2004} with Humor annotations to train the tagger. 
 
 \begin{figure}[H]
   \centering
@@ -171,8 +171,8 @@ For this, the method relies on capitalized token sequences and a domain-specific
 
 As for the automatization of rules, they were implemented using the morphological annotation of the corpus. 
 First, each item on the list of fillers was eliminated.
-Afterwards, tagged words known to the \acrshort{ma} were split into morphemes by the Humor analyzer. 
-If more than one analysis was created for a word, the least complex one was chosen, since analyses only differed in the number of derivative tags and compound markers (which we previously decided not to count) in the majority of the cases.
+Afterwards, tagged words known to the \acrshort{ma} were split into morphemes by the Humor analyzer regarding their computed morpho-syntactic annotation. 
+If more than one analysis was available for a word in this phase, the least complex one was chosen, since analyses only differed in the number of derivative tags and compound markers (which we previously decided not to count) in the majority of the cases.
 As the labels of the annotation scheme were composed of morphemic properties, the estimation of unknown words could be based on their tags. 
 Therefore, such calculations were carried out counting only the inflection markers in the guessed tags (as it is listed in principles above). 
 
@@ -182,29 +182,29 @@ First of all, morpho-syntactic tagging performance of the system was investigate
 %For this, we calculated precision per token not counting punctuation markers (cf. Section \ref{}).
 Full analyses -- containing both the lemmata and the tag -- were compared to the gold standard data, not counting punctuation marks and hesitation fillers.
 
-\begin{table}[H]
-\centering
-\caption{Evaluation of the improvements on the tagging chain (test set)}
-\label{tab:eval_tag}
-\begin{tabular}{ l r r} 
-\hline
-\multicolumn{1}{l}{\multirow{2}{*}{Morph. tagger}} & \multicolumn{2}{c}{\hspace{0.8cm} Tagging accuracy} \\
-& Token &  Sentence \\
-\hline
-Baseline &  \hspace{0.8cm} 91.97\%  & \hspace{0.8cm} 68.37\% \\
-\hspace{0.2cm} + DIM &  94.92\% & 79.96\% \\
-\hspace{0.2cm} + CONJ & 95.53\% & 81.74\% \\
-The full chain & \underline{96.15\%} & \underline{83.96\%} \\
-
-\hline
-\end{tabular}
-\end{table}
-
 For measuring the individual advances of the enhancements presented, four different settings were evaluated on the test set. 
 The first was a baseline using raw analyses of Humor disambiguated by PurePos. 
 The second system (DIM) employed the extended vocabulary and handled the diminutive analyses as described in Section \ref{sec:ch-tagging}. 
 The next one -- marked with CONJ -- utilized further rules aiming to tag \textit{azért} and \textit{amikor} correctly. 
 Finally, the last system presented contains all the enhancements detailed above.
+
+\begin{table}[H]
+	\centering
+	\caption{Evaluation of the improvements on the tagging chain (test set)}
+	\label{tab:eval_tag}
+	\begin{tabular}{ l r r} 
+		\hline
+		\multicolumn{1}{l}{\multirow{2}{*}{Morph. tagger}} & \multicolumn{2}{c}{\hspace{0.8cm} Tagging accuracy} \\
+		& Token &  Sentence \\
+		\hline
+		Baseline &  \hspace{0.8cm} 91.97\%  & \hspace{0.8cm} 68.37\% \\
+		\hspace{0.2cm} + DIM &  94.92\% & 79.96\% \\
+		\hspace{0.2cm} + CONJ & 95.53\% & 81.74\% \\
+		The full chain & \underline{96.15\%} & \underline{83.96\%} \\
+		
+		\hline
+	\end{tabular}
+\end{table}
 
 Measurements in Table \ref{tab:eval_tag} show that the baseline tool tagged erroneously 3 out of 10 sentences. 
 On the contrary, each of the enhancements improved the overall performance significantly.
@@ -219,14 +219,13 @@ MRE = \sum_{i=1}^n \frac{|a_i-p_i|/a_i}{n}
 \end{equation}
 This measurement shows the average relative deviation of the estimated morpheme counts from the one of human annotators. 
 
-In addition, Pearson's correlation coefficient\footnote{The notation is the same above, except $\overline{x}$ is the average of $x_i$ values and $n$ denotes the total number of observation.}
- \eqref{eq:corr} (cf. \cite{Witten2011}) was employed as well:
+In addition, Pearson's correlation coefficient\footnote{The notation is the same above, except $\overline{x}$ is the average of $x_i$ values and $n$ denotes the total number of observation.} \eqref{eq:corr} (cf. \cite{Witten2011}) was employed as well:
   \begin{gather}\label{eq:corr}
   \frac{S_{PA}}{\sqrt{S_P S_A}} \text{, where } \\
   S_{PA} = \frac{\sum_i{(p_i-\overline{p})(a_i-\overline{a})}}{n-1} \text{, } \nonumber \\
   S_{P} = \frac{\sum_i{(p_i-\overline{p})^2}}{n-1} \text{ and } S_{A} = \frac{\sum_i{(a_i-\overline{a})^2}}{n-1}  \nonumber
   \end{gather}
-  indicating the correspondence between the output of the processing chain and the counts of human annotators.
+This metric is used to measure the correspondence between the output of the processing chain and the counts of human annotators.
 
 
 \begin{table}[H]

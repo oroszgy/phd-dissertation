@@ -38,9 +38,9 @@ Besides, other \acrshort{hmm}-based solutions were also shown to perform well \c
 
 Moving on, a number of experiments have revealed \cite{ferraro2013improving,ruch2000minimal,Smith2006} that domain-specific \acrshort{oov} words are behind the reduced performance of taggers. 
 Therefore, successful methods employ either guessing algorithms \cite{barrett2011token,divita2006dtagger,rost2008lessons,ruch2000minimal,Smith2006} or broad-coverage lexicons (as detailed above). 
-Beyond supervised algorithms, other approaches were also shown to be effective: Miller et al. \cite{miller2007building} use semi-supervised methods;
+Beyond supervised algorithms, other approaches were also shown to be effective: Miller et al. \cite{miller2007building} used semi-supervised methods;
 %\footnote{This algorithm needs raw data from the target domain, while an annotated general corpus is still used.}; 
-Dwinedi and Sukhadeve build a tagger based only on rules \cite{dwivedi8rule}; while Ruch et al. propose a hybrid system \cite{ruch2000minimal}. 
+Dwinedi and Sukhadeve built a tagger based only on rules \cite{dwivedi8rule}; while Ruch et al. proposed a hybrid system \cite{ruch2000minimal}. 
 Further on, automatic domain adaptation methods (such as EasyAdapt \cite{daume2007frustratingly}, ClinAdapt \cite{ferraro2013improving} 
 or reference distribution modelling  \cite{tateisi2006subdomain}) also perform well. As a drawback, they need an appropriate amount of manually annotated data from the target domain limiting their applicability. 
 
@@ -63,7 +63,7 @@ As regards morphological annotation of texts, clinical notes have special proper
 These texts contain numerous \textit{x} tokens denoting multiplication, thus they are labeled as numerals. 
 Latin words and abbreviations dominate sentences, which we decided to analyze regarding their meaning. 
 For instance, \textit{o.} denotes \textit{szem} `eye’ thus it is tagged as a noun (\textsc{n.nom}). 
-Further on, medicines brand names are common as well, which were almost always found to be singular nouns. 
+Further on, medicine brand names are common as well, which were almost always found to be singular nouns. 
 Finally, numerous sentences lack final punctuation marks that are not recovered in the test corpus. 
 
 The manually annotated corpus was split into two parts (cf. Table \ref{tab:clin_corpus}) for our experiments. 
@@ -72,7 +72,7 @@ The first one was employed for development purposes, while new methods were eval
 
 \begin{table}[H]
 \centering
-\caption{Size of the clinical corpus created}
+\caption{Number of tokens ans sentences of the clinical corpus created}
 \label{tab:clin_corpus}
 \begin{tabular}{ l  r  r } 
 \hline
@@ -104,8 +104,8 @@ It uses the Humor analyzer, which produces \emph{(morpho-syntactic tag, lemma)} 
 (The output of the \acrshort{ma} is extended with the new analysis of the \textit{x} token to fit the corpus to be tagged.)
 Further on, analysis candidates are disambiguated by PurePos that is trained on the transcribed Szeged Corpus (as described in \ref{sec:porepos-gen}). 
 
-This baseline tagger produces 86.61\% token accuracy\footnote{Precision is calculated considering correct full analyses of tokens, not counting punctuation marks.} on the development set, which is remarkably lower than tagging results for general Hungarian using the same components (96--98\% as in \cite{Orosz2013b,zsibrata2013magyarlanc}). 
-Further on, sentence-based precision shows that less than the third (28.33\%) of the sentences were tagged correctly. 
+This baseline tagger produces 86.61\% token accuracy\footnote{Accuracy is calculated considering correct full analyses of tokens, not counting punctuation marks.} on the development set, which is remarkably lower than tagging results for general Hungarian using the same components (96--98\% as in \cite{Orosz2013b,zsibrata2013magyarlanc}). 
+Further on, sentence-based accuracy scores shows that less than the third (28.33\%) of the sentences were tagged correctly. 
 This fact indicates that the models of the baseline algorithm alone are weak for this task. 
 Therefore, we investigated the most common errors of the chain.
 
@@ -115,7 +115,7 @@ Therefore, we investigated the most common errors of the chain.
 \label{tab:error_types}
 \begin{tabular}{ l r r } 
 \hline
-Class & Frequency & Ratio \\
+Source of errors & Frequency & Ratio \\
 \hline
 Abbreviations and acronyms & 119 & 49.17\% \\
 Out-of-vocabulary words & 66 & 27.27\% \\
@@ -237,7 +237,7 @@ Several properties (cf. Table \ref{tab:subcorpora_attrib}) were examined\footnot
 
 \begin{table}[H]
 \centering
-\caption{Comparing Szeged Corpus with clinical texts}
+\caption{Comparing Szeged Corpus with clinical texts calculating average lengths of sentences, ratio of abbreviations and unknown words and perplexity regarding words and tags}
 \label{tab:subcorpora_attrib}
 \begin{tabular}{ l r r r r r } 
 \hline
@@ -267,7 +267,7 @@ For this, we measured the ratio of \acrshort{oov} words on the development set.
 Perplexity was also computed, since it can measure similarities of texts \cite{kilgarriff1998measures}. 
 The calculation was carried out as follows: trigram models of word and tag sequences were trained on each corpus using Kneser-Ney smoothing, then all of them were evaluated on the development set\footnote{We used the SRILM toolkit \cite{stolcke2002srilm} for training models and measuring perplexity.}.
 
-Our examination shows that neither none of the parts of the Szeged Corpus contains as much abbreviated terms as clinical texts have. 
+Our examination shows that neither part of the Szeged Corpus contains as much abbreviated terms as clinical texts have. 
 Likewise, sentences written by clinicians are significantly shorter than those of the Szeged Corpus. 
 Neither the calculations above, nor the ratio of unknown words suggests using any of the  subcorpora for training. 
 However, the perplexity scores contradict: sentences from the law domain share the most phrases with clinical notes, while news texts have the most similar grammatical structures. 
@@ -303,7 +303,7 @@ The improved chain (cf. Table \ref{tab:improvements}) was evaluated by investiga
 
 \begin{table}[H]
 \centering
-\caption{Accuracy scores of the improved tagger on the test set}
+\caption{Accuracy of the improved tagger on the test set}
 \label{tab:improvements}
 \begin{tabular}{ l l r r r} 
 \hline
@@ -319,7 +319,7 @@ ID & Method & PoS tagging & Lemmatization & Morph. disambig. \\
 
 First of all, results show that the baseline method annotated almost 12\% of the tokens erroneously, while our enhancements raised the ceiling of the full morphological tagging accuracy to 93.73\%.
 Therefore, we managed to eliminate almost half (47.36\%) of the errors. 
-Next, precision scores also indicate that the error rate reduction is mainly due to the extended lexicon.
+Next, accuracy scores also indicate that the error rate reduction is mainly due to the extended lexicon.
 However, the better handling of abbreviations also increased the performance significantly (Wilcoxon test of paired samples, p < 0.05).
 Therefore, our improvements yielded a system having satisfactory performance for morphologically parsing clinical texts.
 
