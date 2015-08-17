@@ -12,7 +12,7 @@
 Natural language technology is present in our everyday life helping interactions between humans and computers.
 As such, it is a field of computer science and linguistics, which involves understanding and generating of human (natural) languages.
 %Beside this categorization, another one can be created considering the target of tasks: applications can handle either text or speech.
-Concerning text processing, which is a major part of language technology, several structural levels can be identified:
+Concerning text processing, which is a major part of language technology, several structural levels can be identified \cite{manning1999foundations}:
 \begin{description}
 \item[Text segmentation:] basic units of texts are separated, thus token  and sentence boundaries are recognized (referred as tokenization \gls{sbd}).
 \item[Morphological parsing:] structural units of words are identified (morphological analysis), then tokens are unambiguously classified by their morpho-syntactic behavior (\acrlong{pos} tagging).
@@ -39,11 +39,11 @@ Obviously, the more accurate preprocessing modules are employed, the better anal
 
 Text segmentation is composed of two parts: tokenization and sentence boundary identification. 
 The first one brakes texts into meaningful elements (called tokens) usually utilizing pattern matching methods.
-Next, sentence boundaries are often recognized by applying linguistic rules or using machine learning algorithms.
+Next, sentence boundaries are often recognized by applying linguistic rules or using machine learning algorithms (cf. \cite{read2012sentence}).
 In most of the cases, these solutions are fine-tuned for a specific task, hence resulting in accurate tools, i.e. the problem is considered to be solved.
 %In addition, such systems usually remain robust amongst domains, hence 
 %In that way the problem is considered to be solved.
-However, these algorithms are often language and domain specific, thus numerous scenarios exist (such as the case of noisy texts) on which current approaches fail.
+However, these algorithms are often language and domain specific, thus numerous scenarios exist (such as the case of noisy texts) on which current approaches fail (see \cite{Savova2010}).
 
 Having identified the tokens themselves, the \gls{pos} tags of words are assigned.
 %Next, \acrshort{pos} tagging is another well-researched field of \gls{nlp}, as there are diverse methods for numerous languages. 
@@ -53,9 +53,9 @@ As a result, such approaches are restricted by the corpus they model.
 Further on, most of the tagging algorithms target English first, thus ignoring serious problems caused by languages with rich morphology.
 For instance, agglutinative languages (such as Hungarian) have rich inflection systems.
 Words are formed joining affixes to the lemma, thus affecting their morpho-syntactic behavior.
-In that way, such languages need much larger (morpho-syntactic) tagsets compared to English. 
+In that way, such languages need much larger (morpho-syntactic) tag-sets compared to English \cite{Erjavec2012}. 
 Furthermore, lemmatization of words cannot be carried out using simple suffix-stripping methods.
-This means, disambiguating among part-of-speech labels becomes insufficient, full morphological tagging algorithms are required that assign complete morpho-syntactic tags and compute lemmata as well.
+This means, disambiguating among part-of-speech labels becomes insufficient (see e.g. \cite{Jongejan}), full morphological tagging algorithms are required that assign complete morpho-syntactic tags and compute lemmata as well.
 
 All in all, language technology needs preprocessing methods which handle morphologically rich languages efficiently 
 and perform well on less-resourced scenarios at the same time.
