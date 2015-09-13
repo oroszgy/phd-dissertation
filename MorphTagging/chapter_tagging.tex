@@ -3,7 +3,7 @@
 Is morphological tagging really a solved task? 
 Although several attempts have been made to develop tagging algorithms since the 1960’s (e.g.~\cite{Stolz1965,Klein1963}), those were focusing mainly on English word classes. 
 Further on, such approaches usually concentrated only on increasing \gls{pos} taggers’ accuracy on news text, while e.g. problems of other domain are still barely touched. 
-In addition, recently there has been an increasing interest on processing texts in less-resourced languages, which are morphologically rich. 
+In addition, recently there has been an increasing interest on processing texts in less-resourced languages, which are morphologically rich (cf. \cite{SPMRL:2010,SPMRL:2011,SPMRL:2012,SPMRL:2013}). 
 Most of them are highly inflectional or agglutinative, posing new challenges to researchers. This study gives an account of the morphological tagging of agglutinating languages by investigating the case of Hungarian. 
 
 First of all, a remarkable difficulty for tagging agglutinative languages is data sparseness. If we compare (cf.~\cite{Oravecz2002a}) languages like Hungarian or Finnish with English in terms of the coverage of vocabularies by a corpus of a given size, we find that although there are a lot more different word forms in the corpus, these still cover a much smaller percentage of possible word forms of the lemmata in the corpus than in the case of English. 
@@ -16,31 +16,37 @@ Thus, the problem is threefold:
 \end{enumerate}
 
 Another issue for morphologically rich languages is that labeling words with only their part-of-speech tag is usually insufficient. 
-Firstly, complex morpho-syntactic features carried by the inflectional morphemes can not be represented by tagsets having only a hundred different labels. 
+Firstly, complex morpho-syntactic features carried by the inflectional morphemes can not be represented by tag-sets having only a hundred different labels. 
 Secondly, morpho-syntactic tagging is still just a subtask of full morphological disambiguation. 
 In addition to a full morpho-syntactic tag, lemmata of words also need to be identified. Although several studies have revealed that dictionary- or rule-based lemmatization methods yield acceptable results for morphologically not very rich languages like English~\cite{Porter1980,Plisson2004}, ambiguity is present in the task for highly inflectional and agglutinative languages~\cite{Jursic2007,Sak2007,Chrupaa2008}. 
 Yet, most of the taggers available only concentrate on the tag but not the lemma, thus doing just half of the job.
 
-As regards Hungarian, one can show that more than 16\% of words are ambiguous by their lemmata\footnote{Measurements are carried out using the  Szeged Corpus~\cite{Csendes2004} and the Humor analyzer ~\cite{Proszeky1994,Novak2003,Proszeky2005}.}. 
-Furthermore, if we aggregate morphological analyses by their morpho-syntactic label, 4\% of the tokens still have more than one roots. 
-On the one hand, this problem is momentous for tools not using morphological lexicons (since lemmata must be computed without any prior linguistic knowledge). 
-In addition, the same issue occurs when a \acrshort{ma} is used, but the word to be analyzed is unknown to that system.
-Ambiguity still can be a notable problem even when the word is recognized by the analyzer.
+Looking into the details, there are annotation schemes (e.g. MSD codes of the Szeged Corpus~\cite{Csendes2004}) which eliminate the ambiguity of the lemmatization task by the tag-set they use.
+This means that roots of words should be calculated undoubtedly from the morphological categories assigned.
+Nevertheless, lemma computing still can be important problem in these cases.
+Tagger tools operating without any prior morphological knowledge still have to figure out how to derive lemmata from morphological labels.
+This means that they have to infer knowledge about the inner structures of words.
+What is more, the same issue also holds when a \acrshort{ma} is used, but the word is unknown to that analyzer system and is not seen in the training data.
+For handling these cases, morphological disambiguator tools should employ guessing methods dealing effectively with such \acrlong{oov} words.
+
+Moving on, lemmatization is a more important problem when the annotation scheme does not restrict the lemmatization task as seen above. \label{par:lemma-ambiguity}
+As regards Hungarian, one can reveal notable ambiguity investigating the Szeged Corpus~\cite{Csendes2004} with the Humor analyzer ~\cite{Proszeky1994,Novak2003,Proszeky2005}. 
+First of all, more than 16\% of words are ambiguous by their lemmata, furthermore, if we aggregate morphological analyses by their morpho-syntactic label, 4\% of the tokens still have more than one roots. 
 An example is a class of verbs that end in -\emph{ik} in their third person singular present tense indicative, which is the customary lexical form (i.e. the lemma) of verbs in Hungarian. Further on, another class of verbs has no suffix in their lemma. 
 The two paradigms differ only in the form of the lemma, so inflected forms can belong to the paradigm of either an \emph{-ik} final or an non\emph{-ik} final verb and many verbs. 
 E.g. \emph{internetezem} `I am using the internet' can have two roots for the same morpho-syntactic tag: \emph{internetez} and \emph{internetezik} `to use the internet'.
 Another example is the class of verbs which third person singular past causative case overlap with the singular third person past form. 
-For example \emph{festette} `he painted it/he made it to be painted' has two possible roots for the same tag: \emph{festet} `he makes someone to paint` and \emph{fest} `he paints'.  %TODO: guesselt szótövek
-%These necessitate a sufficient lemmatization method for Hungarian.
+For example \emph{festette} `he painted it/he made it to be painted' has two possible roots for the same tag: \emph{festet} `he makes someone to paint` and \emph{fest} `he paints'. 
 
 Besides, a further issue is that most of the tagging approaches perform well only when a satisfactory amount of training data is available. 
 In addition, several agglutinative languages and especially their subdomains lack annotated corpora. 
-Concerning Hungarian, even though the Szeged Corpus contains well over 80,000 sentences, these are mainly from general news. 
+Concerning Hungarian, even though the Szeged Corpus contains well over 80,000 sentences, there are several important domains (such as the case of biomedical texts) which miss manually annotated documents. 
 Therefore, pure stochastic methods that are trained on this corpus and target other genres may result in low quality annotation. 
 
 In this chapter, we present an effective morphological tagging algorithm that has a language independent architecture being capable of annotating sentences with full morpho-syntactic labels and lemmata. 
-In addition, the method has state-of-the-art performance for tagging Hungarian and yields high accuracy even when limited training data is available. 
-Further on, tagger combination experiments are presented raising the ceiling of morphological tagging accuracy further. 
+The presented method has state-of-the-art performance for tagging Hungarian.
+Most importantly, it is shown that our tool can be used effectively in resource-scare scenarios, since it yields high quality annotations even when a limited amount of training data is available only. 
+Finally, tagger combination experiments are presented raising further the accuracy of Hungarian morphological tagging. 
 %Finally, new scientific results are summed up.
 
 \section{Hybrid morphological tagging methods}\label{sec:tagging}

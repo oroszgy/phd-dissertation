@@ -7,8 +7,8 @@ A szövegfeldolgozás a nyelvtechnológia azon ága, amelynek célja digitalizá
 Az ilyen feladatokhoz szükséges nyelvi előfeldolgozást legtöbbször több lépésben oldhatjuk meg: először szó- és mondathatárok megállapítása szükséges, majd a szavak morfológiai elemzése és egyértelműsítése következhet, végül pedig a mondatok szintaktikai analízise, illetve a szöveg szemantikai értelmezése végezhető el.
 A gyakorlatban az egyes részfeladatokat végző komponensek egymásra épülnek.
 Bár ezen eszközök nem mindegyike érhető el minden nyelvre, két előfeldolgozó lépés mégis elengedhetetlen a szövegek magasabb szintű kezeléséhez. 
-Először is a tokenek és a mondatok azonosítása létfontosságú, hiszen ezek az entitások az alapegységei a nyelvtechnológiai elemző rendszereknek.
-Ezen túl, gyakorta szükséges még a szavak szófaji címkéinek és szótöveinek meghatározása is.
+Először a tokenek és a mondatok azonosítása szükséges, hiszen ezek az entitások az alapegységei a nyelvtechnológiai elemző rendszereknek.
+Ezen túl, gyakran nélkülözhetetlen még a szavak szófaji címkéinek és szótöveinek meghatározása is.
 
 A legtöbb esetben az első részfeladat megoldottnak tekinthető, mivel a létező alkalmazások nagy pontossággal képesek szövegek részekre bontására.
 Ennek ellenére, számos olyan nyelvterület létezik, amelyekre a jelenleg elérhető eszközök nem nyújtanak kielégítő eredményt.
@@ -17,9 +17,9 @@ Ennek ellenére, számos olyan nyelvterület létezik, amelyekre a jelenleg elé
 Az utóbbi húsz év során számos nagy pontosságú szófaji egyértelműsítő eszköz készült, melyek a legtöbb élő nyelvre elérhetőek.
 A gyakorlatban azonban ezek legtöbbször adatvezérelt módszerekre épülnek, ezért teljesítményük nagyban függ a használt tanítóanyagtól.
 Egy másik probléma, hogy a terület kutatásában az élenjáró eljárások elsődleges célja mindig is az angol nyelv elemzése volt, ezért a létrejött algoritmusok sokszor nem képesek kezelni a morfológiailag komplex nyelvek által okozott nehézségeket.
-Így például az agglutináló nyelvek esetén a szavak szófajainak megállapítása nem elégséges (az angollal szemben).
+Így például az agglutináló nyelvek esetén (az angollal szemben) a szavak szófajainak megállapítása önmagában nem elégséges.
 Az elemzési lánc további komponensei a teljes morfoszintaktikai címke illetve a szótő ismeretét is igénylik.
-Ezért megállapítható, hogy a mai nyelvtechnológia nem rendelkezik olyan algoritmusokkal, amelyek morfológiailag gazdag nyelvek esetén megfelelően működnének, továbbá kevés erőforrással rendelkező doménekre is hatékonyan alkalmazhatóak lennének.
+Így megállapítható, hogy a mai nyelvtechnológia nem rendelkezik olyan algoritmusokkal, amelyek morfológiailag gazdag nyelvek esetén megfelelően működnének, továbbá kevés erőforrással rendelkező doménekre is hatékonyan alkalmazhatóak lennének.
 
 Következésképpen, dolgozatunk célja kettős.
 Először olyan morfológiai egyértelműsítő eljárásokat vizsgáltunk, melyek megfelelően kezelik az agglutináló nyelvek okozta problémákat, mindazonáltal egyszerű domén adaptációs feladatok esetén is alkalmazhatóak.
@@ -31,7 +31,7 @@ Ezt követően megvizsgáltuk még, hogy \textbf{miként lehet morfológiai anno
 Kifejlesztettünk egy olyan morfológiai egyértelműsítő rendszereket kombináló algoritmust, ami agglutináló nyelvekhez illeszkedő jellemzőket használ, így teljesítménye meghaladja más létező eljárásokét magyar nyelvű szövegen esetén.
 
 A teljes egyértelműsítés feladatán túl, a címkéző rendszerek gyakorlati alkalmazása is kiemelkedő jelentőséggel bír.
-Ennélfogva kutatásunkban tanulmányoztuk még, hogy \textbf{miként lehetséges beszélt nyelvi átiratokhoz olyan morfológiai annotáló eszközt létrehozni, mely a szakterületi kutatók munkáját képes segíteni}.
+Ennélfogva kutatásunkban tanulmányoztuk még azt, hogy \textbf{miként lehetséges beszélt nyelvi átiratokhoz olyan morfológiai annotáló eszközt létrehozni, mely a szakterületi kutatók munkáját képes segíteni}.
 Bemutattunk egy olyan eljárást, mely a beszélt nyelvi lejegyzéseket nagy pontossággal képes morfológiai annotációval ellátni, illetve ismertettünk egy olyan módszert is, amely automatikusan képes megbecsülni gyermeknyelvi szövegek morfoszintaktikai komplexitását.
 
 Írásunk harmadik részében elektronikus orvosi feljegyzések előfeldolgozásával foglalkoztunk.
